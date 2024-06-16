@@ -1,5 +1,9 @@
 ﻿# Empiria Payments Management System
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/cade4cc73a5d49b29dc27932724f07bc)](https://app.codacy.com/gh/Ontica/Empiria.Payments/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+&nbsp; &nbsp;
+[![Maintainability](https://api.codeclimate.com/v1/badges/5da29b2284da2f5f848e/maintainability)](https://codeclimate.com/github/Ontica/Empiria.Payments/maintainability)
+
 Este producto de software está siendo desarrollado a la medida para el Banco Nacional de Obras y Servicios Públicos, S.N.C (BANOBRAS).
 
 [BANOBRAS](https://www.gob.mx/banobras) es una institución de banca de desarrollo mexicana cuya labor
