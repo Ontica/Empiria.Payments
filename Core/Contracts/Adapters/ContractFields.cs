@@ -15,6 +15,10 @@ namespace Empiria.Payments.Contracts.Adapters {
   /// <summary>DTO fields structure used for update contracts information.</summary>
   public class ContractFields {
 
+    public string ContractTypeUID {
+      get; set;
+    }
+
     public string ContractNo {
       get; set;
     }

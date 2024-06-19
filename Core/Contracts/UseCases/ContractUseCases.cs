@@ -7,13 +7,13 @@
 *  Summary  : Use cases for contract management.                                                             *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
-using System;
 
 using Empiria.Services;
 
 using Empiria.Payments.Contracts.Adapters;
 
-namespace Empiria.Payments.Contracts.UseCases {
+namespace Empiria.Payments.Contracts.UseCases
+{
 
     /// <summary>Use cases for contract management.</summary>
     public class ContractUseCases : UseCase {
@@ -39,16 +39,40 @@ namespace Empiria.Payments.Contracts.UseCases {
 
       var contract = new Contract(fields);
 
+      contract.SetDates(fields.SignDate, contract.FromDate, fields.ToDate);
+
       contract.Save();
 
-      ContractDto dto = new ContractDto();
+      return ContractMapper.Map(contract);
+    }
 
-      dto.UID = contract.UID;
-      dto.ContractNo = contract.ContractNo;
-      dto.Name = contract.Name;
-      dto.Total = contract.Total;
+    public ContractDto GetContract(string contractUID) {
+      Assertion.Require(contractUID, nameof(contractUID));
 
-      return dto;
+      var contract = Contract.Parse(contractUID);
+
+      return ContractMapper.Map(contract);
+    }
+
+
+    public FixedList<NamedEntityDto> GetContractTypes() {
+      var contractTypes = ContractType.GetList();
+
+      return contractTypes.MapToNamedEntityList();
+    }
+
+
+    public FixedList<ContractDto> SearchContracts(ContractQuery query) {
+      Assertion.Require(query, nameof(query));
+
+      //string condition = query.GetConditionClause();
+      //string orderBy = query.GetOrderByClause();
+
+      //FixedList<Contract> contracts = ContractData.SearchContracts(condition, orderBy);
+
+      var contracts = new FixedList<Contract>();
+
+      return ContractMapper.Map(contracts);
     }
 
     #endregion Use cases

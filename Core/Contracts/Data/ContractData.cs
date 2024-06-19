@@ -15,9 +15,13 @@ namespace Empiria.Payments.Contracts.Data {
   /// <summary>Provides data read and write methods for contract instances.</summary>
   static internal class ContractData {
 
-    static internal void WriteContract(Contract o) {
+    static internal void WriteContract(Contract o, string extensionData) {
       var op = DataOperation.Parse("write_PYM_Contract",
-                     o.Id, o .UID, o.ContractNo, o.Name);
+                     o.Id, o.UID, o.ContractType.Id, o.ContractNo, o.Name,
+                     o.Description, o.FromDate, o.ToDate, o.SignDate,
+                     o.ManagedByOrgUnit.Id, o.Supplier.Id, o.Total,
+                     extensionData, o.Keywords,
+                     o.PostedBy.Id, o.PostingTime, (char) o.Status);
 
       DataWriter.Execute(op);
     }

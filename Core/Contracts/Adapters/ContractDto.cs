@@ -8,6 +8,8 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
+using System;
+
 namespace Empiria.Payments.Contracts.Adapters {
 
   /// <summary>Data transfer object used to return contracts information.</summary>
@@ -25,7 +27,15 @@ namespace Empiria.Payments.Contracts.Adapters {
       get; internal set;
     }
 
+    public DateTime SignDate {
+      get; internal set;
+    }
+
     public decimal Total {
+      get; internal set;
+    }
+
+    public DateTime LastUpdatedTime {
       get; internal set;
     }
 

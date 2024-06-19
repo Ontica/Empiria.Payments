@@ -72,11 +72,13 @@
   <ItemGroup Condition=" '$(Configuration)' != 'Multisolutions' ">
     <PackageReference Include="Empiria.Data.Oracle" Version="7.0.0" />
     <PackageReference Include="Empiria.Tests" Version="1.0.0" />
+    <PackageReference Include="Empiria.OnePoint.Security" Version="4.0.0" />
     <PackageReference Include="Empiria.Payments.Core" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)' == 'Multisolutions' ">
     <ProjectReference Include="..\..\extensions\Data.Oracle\Empiria.Data.Oracle.csproj" />
     <ProjectReference Include="..\..\extensions\Tests\Empiria.Tests.csproj" />
+    <ProjectReference Include="..\..\onepoint\Security\Empiria.OnePoint.Security.csproj" />
     <ProjectReference Include="..\Core\Empiria.Payments.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
