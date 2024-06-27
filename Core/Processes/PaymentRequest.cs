@@ -9,6 +9,7 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 using System;
 
+using Empiria.DataObjects;
 using Empiria.Parties;
 
 using Empiria.Workflow.Requests;
@@ -23,6 +24,12 @@ namespace Empiria.Payments.Processes {
       // Required by Empiria Framework for all partitioned types.
     }
 
+
+    public override FixedList<FieldValue> RequestTypeFields {
+      get {
+        return new FixedList<FieldValue>();
+      }
+    }
 
     protected override void Update(RequestFieldsDto fields) {
       base.Update(fields);
