@@ -92,7 +92,7 @@ namespace Empiria.Payments.Orders {
     // public PaymentActionStatus Status
 
     
-    public Char Status {
+    public EntityStatus Status {
       get;  private set;
     }
 
@@ -113,19 +113,17 @@ namespace Empiria.Payments.Orders {
 
     protected override void OnSave() {
       if (base.IsNew) {
-        //this.Number = "O-" + EmpiriaString.BuildRandomString(10).ToUpperInvariant();
-        //this.PostedBy = ExecutionServer.CurrentContact;
-        //this.PostingTime = DateTime.Now;
+       //to do
       }
 
     }
 
 
     internal void Suspend() {
-      //Assertion.Require(this.Status == EntityStatus.Active,
-      //            $"No se puede suspender una orden de pago que no este activa.");
+      Assertion.Require(this.Status == EntityStatus.Active,
+                  $"No se puede suspender una orden de pago que no este activa.");
 
-      //this.Status = EntityStatus.Suspended;
+      this.Status = EntityStatus.Suspended;
     }
 
     #endregion Methods

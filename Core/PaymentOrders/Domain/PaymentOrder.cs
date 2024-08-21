@@ -183,8 +183,8 @@ namespace Empiria.Payments.Orders {
       this.RequestedDate = fields.RequestedDate;
       this.DueTime = fields.DueTime;
       this.RequestedBy = Party.Parse(fields.RequestedByUID);
-    //  this.PostedBy = Contact.Parse(ExecutionServer.CurrentUserId);
-     // this.PostingTime = DateTime.Now;
+      this.PostedBy = Contact.Parse(ExecutionServer.CurrentUserId);
+      this.PostingTime = DateTime.Now;
       this.Status = EntityStatus.Active;
 
     }
