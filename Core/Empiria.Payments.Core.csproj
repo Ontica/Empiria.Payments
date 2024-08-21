@@ -68,4 +68,10 @@
     <ProjectReference Include="..\..\extensions\Services\Empiria.Services.csproj" />
     <ProjectReference Include="..\..\onepoint\Workflow\Empiria.OnePoint.Workflow.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Contracts\Domain\ContractItem.cs~RF586737c.TMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Suppliers\" />
+  </ItemGroup>
 </Project>

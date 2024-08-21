@@ -12,24 +12,29 @@ using Xunit;
 
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.UseCases;
+using Empiria.DataTypes;
+using System.Security.Cryptography;
 
 namespace Empiria.Tests.Payments.Contracts {
 
   /// <summary>Test cases for retrieving accounts from the accounts chart.</summary>
   public class ContractUseCasesTests {
 
-    #region Use cases initialization
+     #region Use cases initialization
 
     private readonly ContractUseCases _usecases;
+    private readonly ContractItemUseCases _itemusecases;
 
     public ContractUseCasesTests() {
       TestsCommonMethods.Authenticate();
 
       _usecases = ContractUseCases.UseCaseInteractor();
+      _itemusecases = ContractItemUseCases.UseCaseInteractor();
     }
 
     ~ContractUseCasesTests() {
       _usecases.Dispose();
+      _itemusecases.Dispose();
     }
 
     #endregion Use cases initialization
@@ -59,6 +64,31 @@ namespace Empiria.Tests.Payments.Contracts {
       Assert.Equal(fields.Total, sut.Total);
     }
 
+    [Fact]
+    public void Should_Add_A_Contract_Item() {
+      var fields = new ContractItemFields {
+
+        ContractUID = "0bab4264-723d-434f-af8a-40e35e8eb2dc",
+        ProductUID = "5e9d6abe-1dd7-42e8-b643-f5a44483ccca",
+        Description = "Prueba",
+        UnitMeasureUID = "7504ebc6-dd2e-440c-8d94-008007a8c711",
+        FromQuantity = 5,
+        ToQuantity = 2,
+        UnitPrice = 20,
+        ProjectUID = "Empty",
+        PaymentsPeriodicityUID = "Empty",
+        BudgetAccountUID = "Empty", 
+        DocumentTypesListUID = "Empty",
+        SignDate = DateTime.Now,
+        
+      };
+
+      ContractItemDto sut = _itemusecases.AddContractItem(fields);
+
+      Assert.NotNull(sut);
+      Assert.NotNull(sut.UID);
+    }
+
 
     [Fact]
     public void Should_Read_A_Contract() {
@@ -71,6 +101,17 @@ namespace Empiria.Tests.Payments.Contracts {
       Assert.NotNull(sut.ContractNo);
       Assert.True(sut.Total > 0);
     }
+
+
+    [Fact]
+    public void Should_Read_A_Contract_Unit() {
+
+      var sut = _usecases.GetContractUnit();
+
+      Assert.NotNull(sut);
+
+    }
+
 
     #endregion Facts
 

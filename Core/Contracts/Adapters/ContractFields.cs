@@ -15,17 +15,41 @@ namespace Empiria.Payments.Contracts.Adapters {
   /// <summary>DTO fields structure used for update contracts information.</summary>
   public class ContractFields {
 
+
+    public string ID {
+      get; set;
+    }
+
+
+    public string UID {
+      get; set;
+    }
+
+
     public string ContractTypeUID {
       get; set;
     }
+
 
     public string ContractNo {
       get; set;
     }
 
+
     public string Name {
       get; set;
     }
+
+
+    public string Description {
+      get; set;
+    }
+
+
+    public string Notes {
+      get; set;
+    }
+
 
     public DateTime FromDate {
       get; set;
@@ -50,9 +74,35 @@ namespace Empiria.Payments.Contracts.Adapters {
       get; set;
     }
 
+    public string CurrencyUID {
+      get; set;
+    }
+
+
+    public string BudgetTypeUID {
+      get; set;
+    }
+
+
+    public string DocumentUID {
+      get; set;
+    }
+
+
+    public string ContractUID {
+      get; set;
+    }
+
+
+    public int ParentContractId {
+      get; set;
+    }
+
+
     public decimal Total {
       get; set;
     }
+
 
     internal void EnsureValid() {
       Assertion.Require(ContractNo, "Se requiere el número de contrato.");
