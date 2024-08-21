@@ -46,6 +46,7 @@ namespace Empiria.Payments.Contracts.UseCases
       return ContractMapper.Map(contract);
     }
 
+
     public ContractDto GetContract(string contractUID) {
       Assertion.Require(contractUID, nameof(contractUID));
 
@@ -59,6 +60,13 @@ namespace Empiria.Payments.Contracts.UseCases
       var contractTypes = ContractType.GetList();
 
       return contractTypes.MapToNamedEntityList();
+    }
+
+
+    public FixedList<NamedEntityDto> GetContractUnit() {
+      var contractUnit = ContractUnit.GetList();
+
+      return contractUnit.MapToNamedEntityList();
     }
 
 

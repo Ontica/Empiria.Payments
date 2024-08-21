@@ -21,7 +21,7 @@ using Empiria.Payments.Contracts.Data;
 namespace Empiria.Payments.Contracts {
 
   /// <summary>Represents a contract or a service order.</summary>
-  internal class Contract : BaseObject {
+  public class Contract : BaseObject {
 
     #region Constructors and parsers
 
@@ -40,12 +40,16 @@ namespace Empiria.Payments.Contracts {
       return BaseObject.ParseKey<Contract>(contractUID);
     }
 
+
+    static internal Contract Empty => BaseObject.ParseEmpty<Contract>();
+
+
     #endregion Constructors and parsers
 
     #region Properties
 
     [DataField("CONTRACT_TYPE_ID")]
-    public ContractType ContractType {
+    public string ContractTypeUID {
       get; private set;
     }
 
@@ -75,6 +79,7 @@ namespace Empiria.Payments.Contracts {
       get; private set;
     }
 
+
     [DataField("SIGN_DATE")]
     public DateTime SignDate {
       get; private set;
@@ -86,11 +91,18 @@ namespace Empiria.Payments.Contracts {
       get; private set;
     }
 
-
-    [DataField("SUPPLIER_ID")]
+    /*
+    [DataField("SUPPLIER_UID")]
     public Parties.Organization Supplier {
       get; private set;
     }
+    */
+
+    [DataField("SUPPLIER_UID")]
+    public string SupplierUID {
+      get; private set;
+    }
+
 
     [DataField("CONTRACT_EXT_DATA")]
     private JsonObject ExtData {
@@ -115,6 +127,7 @@ namespace Empiria.Payments.Contracts {
       }
     }
 
+   
     internal DateTime LastUpdatedTime {
       get {
         return ExtData.Get<DateTime>("lastUpdatedTime", this.PostingTime);
@@ -133,7 +146,7 @@ namespace Empiria.Payments.Contracts {
     public string Keywords {
       get {
         return EmpiriaString.BuildKeywords(this.ContractNo, this.Name, this.Description,
-                                           this.Supplier.Name, ManagedByOrgUnit.Name, ManagedByOrgUnit.Code);
+                                           ManagedByOrgUnit.Name, ManagedByOrgUnit.Code);
       }
     }
 
@@ -218,7 +231,7 @@ namespace Empiria.Payments.Contracts {
     #region Helpers
 
     private void Load(ContractFields fields) {
-      ContractType = ContractType.Parse(fields.ContractTypeUID);
+      ContractTypeUID = fields.ContractTypeUID;
       ContractNo = fields.ContractNo;
       Name = fields.Name;
       Description = string.Empty;
@@ -227,7 +240,7 @@ namespace Empiria.Payments.Contracts {
       SignDate = fields.SignDate;
       Total = fields.Total;
       ManagedByOrgUnit = OrganizationalUnit.Parse(fields.ManagedByOrgUnitUID);
-      Supplier = Parties.Organization.Parse(fields.SupplierUID);
+      SupplierUID = fields.SupplierUID;
       ExtData = new JsonObject();
     }
 

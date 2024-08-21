@@ -44,6 +44,18 @@ namespace Empiria.Budgeting.WebApi {
       }
     }
 
+    [HttpGet]
+    [Route("v2/contracts/contract-unit-types")]
+    public CollectionModel GetContracUnitTypes() {
+
+      using (var usecases = ContractUseCases.UseCaseInteractor()) {
+        FixedList<NamedEntityDto> contractUnitTypes = usecases.GetContractUnit();
+
+        return new CollectionModel(base.Request, contractUnitTypes);
+      }
+    }
+
+
 
     [HttpPost]
     [Route("v2/contracts/search")]
