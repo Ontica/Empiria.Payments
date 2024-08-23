@@ -24,6 +24,7 @@ namespace Empiria.Tests.Payments.Contracts {
 
     private readonly ContractUseCases _usecases;
     private readonly ContractItemUseCases _itemusecases;
+    
 
     public ContractUseCasesTests() {
       TestsCommonMethods.Authenticate();
@@ -68,17 +69,17 @@ namespace Empiria.Tests.Payments.Contracts {
     public void Should_Add_A_Contract_Item() {
       var fields = new ContractItemFields {
 
-        ContractUID = "0bab4264-723d-434f-af8a-40e35e8eb2dc",
-        ProductUID = "5e9d6abe-1dd7-42e8-b643-f5a44483ccca",
+        ContractId = -1,
+        ProductId = -1,
         Description = "Prueba",
-        UnitMeasureUID = "7504ebc6-dd2e-440c-8d94-008007a8c711",
+        UnitMeasureId = -1,
         FromQuantity = 5,
         ToQuantity = 2,
         UnitPrice = 20,
-        ProjectUID = "Empty",
-        PaymentsPeriodicityUID = "Empty",
-        BudgetAccountUID = "Empty", 
-        DocumentTypesListUID = "Empty",
+        ProjectId = -1,
+        PaymentsPeriodicityId = -1,
+        BudgetAccountId = -1, 
+        DocumentTypesListId = -1,
         SignDate = DateTime.Now,
         
       };
@@ -107,6 +108,16 @@ namespace Empiria.Tests.Payments.Contracts {
     public void Should_Read_A_Contract_Unit() {
 
       var sut = _usecases.GetContractUnit();
+
+      Assert.NotNull(sut);
+
+    }
+
+
+    [Fact]
+    public void Should_Read_A_Contract_Cucop() {
+
+      var sut = _usecases.GetContractCucop();
 
       Assert.NotNull(sut);
 
