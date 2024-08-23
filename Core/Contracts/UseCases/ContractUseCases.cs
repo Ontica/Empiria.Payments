@@ -70,6 +70,13 @@ namespace Empiria.Payments.Contracts.UseCases
     }
 
 
+    public FixedList<NamedEntityDto> GetContractCucop() {
+      var contractCucop = ContractCucop.GetList();
+
+      return contractCucop.MapToNamedEntityList();
+    }
+
+
     public FixedList<ContractDto> SearchContracts(ContractQuery query) {
       Assertion.Require(query, nameof(query));
 
