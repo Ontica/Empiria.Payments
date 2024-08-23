@@ -45,14 +45,14 @@ namespace Empiria.Payments.Contracts {
     #region Properties
 
 
-    [DataField("CONTRACT_UID")]
-    public string ContractUID {
+    [DataField("CONTRACT_ID")]
+    public int ContractId {
       get; private set;
     }
 
 
-    [DataField("CONTRACT_ITEM_PRODUCTUID")]
-    public string ProductUID {
+    [DataField("CONTRACT_ITEM_PRODUCTID")]
+    public int ProductId {
       get; private set;
     }
 
@@ -63,8 +63,8 @@ namespace Empiria.Payments.Contracts {
     }
 
 
-    [DataField("CONTRACT_ITEM_UNITUID")]
-    public string UnitMeasureUID {
+    [DataField("CONTRACT_ITEM_UNITID")]
+    public int UnitMeasureId {
       get; private set;
     }
 
@@ -84,26 +84,27 @@ namespace Empiria.Payments.Contracts {
     }
 
 
-    [DataField("CONTRACT_ITEM_PROJECTUID")]
-    public string ProjectUID {
+    [DataField("CONTRACT_ITEM_PROJECTID")]
+    public int ProjectId
+    {
       get; private set;
     }
 
 
     [DataField("CONTRACT_ITEM_PAYMENTPERID")]
-    public string PaymentsPeriodicityUID {
+    public int PaymentsPeriodicityId {
       get; private set;
     }
 
 
-    [DataField("CONTRACT_ITEM_BDGACCOUNTUID")]
-    public string BudgetAccountUID {
+    [DataField("CONTRACT_ITEM_BDGACCOUNTID")]
+    public int BudgetAccountId {
       get; private set;
     }
 
 
-    [DataField("CONTRACT_ITEM_DOCTYPESLISTUID")]
-    public string DocumentTypesListUID {
+    [DataField("CONTRACT_ITEM_DOCTYPESLISTID")]
+    public int DocumentTypesListId {
       get; private set;
     }
 
@@ -119,13 +120,13 @@ namespace Empiria.Payments.Contracts {
       get; set;
     }
 
-    [DataField("POSTED_BY_UID")]
-    internal Contact LastUpdatedByUID {
+    [DataField("POSTED_BY_ID")]
+    internal Contact LastUpdatedById {
       get {
-        return ExtData.Get<Contact>("lastUpdatedByUID", Contact.Empty);
+        return ExtData.Get<Contact>("lastUpdatedById", Contact.Empty);
       }
       set {
-        ExtData.Set("lastUpdatedByUID", value.UID);
+        ExtData.Set("lastUpdatedById", value.Id);
       }
     }
 
@@ -183,11 +184,11 @@ namespace Empiria.Payments.Contracts {
 
     protected override void OnSave() {
       if (base.IsNew) {
-        this.LastUpdatedByUID = ExecutionServer.CurrentContact;
+        this.LastUpdatedById = ExecutionServer.CurrentContact;
         this.LastUpdatedTime = DateTime.Now;
       }
 
-      LastUpdatedByUID = ExecutionServer.CurrentContact;
+      LastUpdatedById = ExecutionServer.CurrentContact;
       LastUpdatedTime = DateTime.Now;
 
       ContractIemData.WriteContractItem(this, this.ExtData.ToString());
@@ -198,19 +199,18 @@ namespace Empiria.Payments.Contracts {
     #region Helpers
 
     private void Load(ContractItemFields fields) {
-      this.ProductUID = fields.ProductUID;
-      this.ContractUID = fields.ContractUID;
+      this.ContractId = fields.ContractId;
+      this.ProductId = fields.ProductId;
       this.Description = fields.Description;
-      this.ContractUID = fields.ContractUID;
-      this.UnitMeasureUID = fields.UnitMeasureUID;
+      this.UnitMeasureId = fields.UnitMeasureId;
       this.FromQuantity = fields.FromQuantity;
       this.ToQuantity = fields.ToQuantity;
       this.UnitPrice = fields.UnitPrice;
-      this.PaymentsPeriodicityUID = fields.PaymentsPeriodicityUID;
-      this.BudgetAccountUID = fields.BudgetAccountUID;
-      this.DocumentTypesListUID = fields.DocumentTypesListUID;
+      this.PaymentsPeriodicityId = fields.PaymentsPeriodicityId;
+      this.BudgetAccountId = fields.BudgetAccountId;
+      this.DocumentTypesListId = fields.DocumentTypesListId;
       this.SignDate = fields.SignDate;
-      this.LastUpdatedByUID = Contact.Parse(ExecutionServer.CurrentUserId.ToString());
+      this.LastUpdatedById = Contact.Parse(ExecutionServer.CurrentUserId.ToString());
       this.PostingTime = DateTime.Now;
       this.Status = EntityStatus.Active;
 }

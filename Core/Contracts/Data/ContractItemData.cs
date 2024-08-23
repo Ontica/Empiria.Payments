@@ -17,11 +17,11 @@ namespace Empiria.Payments.Contracts.Data {
 
     static public void WriteContractItem(ContractItem o, string extensionData) {
       var op = DataOperation.Parse("write_Contract_Item",
-                     o.Id, o.UID, o.ContractUID, o.ProductUID, o.Description,
-                     o.UnitMeasureUID, o.FromQuantity, o.ToQuantity,
-                     o.UnitPrice, o.ProjectUID, o.PaymentsPeriodicityUID,
-                     o.BudgetAccountUID, o.DocumentTypesListUID, o.SignDate,
-                     extensionData, o.Keywords, o.LastUpdatedByUID, o.LastUpdatedTime,
+                     o.Id, o.UID, o.ContractId, o.ProductId, o.Description,
+                     o.UnitMeasureId, o.FromQuantity, o.ToQuantity,
+                     o.UnitPrice, o.ProjectId, o.PaymentsPeriodicityId,
+                     o.BudgetAccountId, o.DocumentTypesListId, o.SignDate,
+                     extensionData, o.Keywords, o.LastUpdatedById, o.LastUpdatedTime,
                      (char) o.Status);
 
 

@@ -23,11 +23,11 @@ namespace Empiria.Payments.Contracts.Adapters {
       get; set;
     }
 
-    public string ContractUID {
+    public int ContractId {
       get; set;
     }
 
-    public string ProductUID {
+    public int ProductId {
       get; set;
     }
 
@@ -36,7 +36,7 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public string UnitMeasureUID {
+    public int UnitMeasureId {
       get; set;
     }
 
@@ -56,22 +56,22 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public string ProjectUID {
+    public int ProjectId {
       get; set;
     }
 
 
-    public string PaymentsPeriodicityUID {
+    public int PaymentsPeriodicityId {
       get; set;
     }
 
 
-    public string BudgetAccountUID {
+    public int BudgetAccountId {
       get; set;
     }
 
 
-    public string DocumentTypesListUID {
+    public int DocumentTypesListId {
       get; set;
     }
 
