@@ -11,7 +11,7 @@ using System;
 
 namespace Empiria.Payments.Contracts {
 
-  /// <summary>Represents a contract unit.</summary>
+  /// <summary>Represents a contract CUCOP.</summary>
   public class ContractCucop : GeneralObject {
 
     #region Constructors and parsers

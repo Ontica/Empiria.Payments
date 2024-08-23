@@ -55,6 +55,17 @@ namespace Empiria.Budgeting.WebApi {
       }
     }
 
+    [HttpGet]
+    [Route("v2/contracts/contract-cucop-types")]
+    public CollectionModel GetContracCucopTypes() {
+
+      using (var usecases = ContractUseCases.UseCaseInteractor()) {
+        FixedList<NamedEntityDto> contractCucopTypes = usecases.GetContractCucop();
+
+        return new CollectionModel(base.Request, contractCucopTypes);
+      }
+    }
+
 
 
     [HttpPost]
