@@ -1,13 +1,14 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
-*  Module   : Contracts Management                       Component : Use cases Layer                         *
+*  Module   : Payments  Management                       Component : Use cases Layer                         *
 *  Assembly : Empiria.Payments.Core.dll                  Pattern   : Use case interactor class               *
-*  Type     : ContractUseCases                           License   : Please read LICENSE.txt file            *
+*  Type     : PaymentsUseCases                           License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : Use cases for contract management.                                                             *
+*  Summary  : Use cases for payments management.                                                             *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
+using Empiria.Aspects;
 using Empiria.Payments.Orders.Adapters;
 using Empiria.Services;
 
@@ -16,7 +17,7 @@ using Empiria.Services;
 namespace Empiria.Payments.Orders.UseCases
 {
 
-    /// <summary>Use cases for contract management.</summary>
+    /// <summary>Use cases for payments management.</summary>
     public class PaymentOrderUseCases : UseCase {
 
     #region Constructors and parsers
@@ -72,25 +73,17 @@ namespace Empiria.Payments.Orders.UseCases
     }
 
 
-    
-    
+    public FixedList<NamedEntityDto> GetPaymentMethods() {
+      var paymentMethods = PaymentMethod.GetList();
+
+      return paymentMethods.MapToNamedEntityList();
+    }
 
 
-    //public FixedList<ContractDto> SearchContracts(ContractQuery query) {
-    //  Assertion.Require(query, nameof(query));
 
-    //  string condition = query.GetConditionClause();
-    //  string orderBy = query.GetOrderByClause();
-
-    //  FixedList<Contract> contracts = ContractData.SearchContracts(condition, orderBy);
-
-    //  var contracts = new FixedList<PaymentOrder>();
-
-    //  return ContractMapper.Map(contracts);
-    //}
 
     #endregion Use cases
 
-  }  // class ContractUseCases
+  }  // class PaymentOrderUseCases
 
-}  // namespace Empiria.Payments.Contracts.UseCases
+}  // namespace Empiria.Payments.Orders.UseCases

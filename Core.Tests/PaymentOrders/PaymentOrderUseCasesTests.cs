@@ -56,16 +56,14 @@ namespace Empiria.Tests.Payments.Orders {
 
 
     [Fact]
-    public void Should_Read_A_Contract() {
+    public void Should_GetPaymentMethods() {
 
-      //ContractDto sut = _usecases.GetContract(TestingConstants.CONTRACT_UID);
+      var sut = _usecases.GetPaymentMethods();
 
-      //Assert.NotNull(sut);
-      //Assert.NotNull(sut.UID);
-      //Assert.Equal(TestingConstants.CONTRACT_UID, sut.UID);
-      //Assert.NotNull(sut.ContractNo);
-      //Assert.True(sut.Total > 0);
+      Assert.NotNull(sut);
+
     }
+
 
     #endregion Facts
 
