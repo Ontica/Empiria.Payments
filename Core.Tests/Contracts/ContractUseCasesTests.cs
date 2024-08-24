@@ -124,6 +124,15 @@ namespace Empiria.Tests.Payments.Contracts {
     }
 
 
+    [Fact]
+    public void Should_Read_A_Contract_Pap() {
+
+      var sut = _usecases.GetContractPap();
+
+      Assert.NotNull(sut);
+
+    }
+
     #endregion Facts
 
   }  // class ContractUseCasesTests

@@ -12,11 +12,10 @@ using Empiria.Services;
 
 using Empiria.Payments.Contracts.Adapters;
 
-namespace Empiria.Payments.Contracts.UseCases
-{
+namespace Empiria.Payments.Contracts.UseCases {
 
-    /// <summary>Use cases for contract management.</summary>
-    public class ContractUseCases : UseCase {
+  /// <summary>Use cases for contract management.</summary>
+  public class ContractUseCases : UseCase {
 
     #region Constructors and parsers
 
@@ -74,6 +73,13 @@ namespace Empiria.Payments.Contracts.UseCases
       var contractCucop = ContractCucop.GetList();
 
       return contractCucop.MapToNamedEntityList();
+    }
+
+
+    public FixedList<NamedEntityDto> GetContractPap() {
+      var contractPap = ContractPap.GetList();
+
+      return contractPap.MapToNamedEntityList();
     }
 
 

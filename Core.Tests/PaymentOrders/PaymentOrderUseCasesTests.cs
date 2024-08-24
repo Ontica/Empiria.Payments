@@ -67,6 +67,7 @@ namespace Empiria.Tests.Payments.Orders {
       //Assert.True(sut.Total > 0);
     }
 
+
     #endregion Facts
 
   }  // class PaymentOrderUseCasesTests

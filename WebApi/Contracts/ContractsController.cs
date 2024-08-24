@@ -56,8 +56,20 @@ namespace Empiria.Budgeting.WebApi {
     }
 
     [HttpGet]
+    [Route("v2/contracts/contract-pap-types")]
+    public CollectionModel GetContracPapTypes() {
+
+      using (var usecases = ContractUseCases.UseCaseInteractor()) {
+        FixedList<NamedEntityDto> contractPapTypes = usecases.GetContractPap();
+
+        return new CollectionModel(base.Request, contractPapTypes);
+      }
+    }
+
+
+    [HttpGet]
     [Route("v2/contracts/contract-cucop-types")]
-    public CollectionModel GetContracCucopTypes() {
+    public CollectionModel GetContraCucopTypes() {
 
       using (var usecases = ContractUseCases.UseCaseInteractor()) {
         FixedList<NamedEntityDto> contractCucopTypes = usecases.GetContractCucop();
@@ -65,7 +77,6 @@ namespace Empiria.Budgeting.WebApi {
         return new CollectionModel(base.Request, contractCucopTypes);
       }
     }
-
 
 
     [HttpPost]
