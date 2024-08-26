@@ -27,7 +27,7 @@ namespace Empiria.Payments.WebApi.PaymentOrders
         
         [HttpGet]
         [Route("v2/payments/payment-methods")]
-        public CollectionModel GetContractTypes()
+        public CollectionModel GetPaymentMethods()
         {
 
             using (var usecases = PaymentOrderUseCases.UseCaseInteractor())
@@ -38,14 +38,26 @@ namespace Empiria.Payments.WebApi.PaymentOrders
             }
         }
 
-        
-
-        #endregion Query web apis
-
-        #region Command web apis
 
 
-        #endregion Command web apis
+        [HttpGet]
+        [Route("v2/payments/payment-order-types")]
+        public CollectionModel GetPaymentOrderTypes() {
+
+          using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+            FixedList<NamedEntityDto> paymentMethods = usecases.GetPaymentOrderTypes();
+
+            return new CollectionModel(Request, paymentMethods);
+          }
+        }
+
+
+    #endregion Query web apis
+
+    #region Command web apis
+
+
+    #endregion Command web apis
 
   }  // class PaymentOrderController
 

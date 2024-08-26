@@ -64,6 +64,15 @@ namespace Empiria.Tests.Payments.Orders {
 
     }
 
+    [Fact]
+    public void Should_GetPaymentOrderTypes() {
+
+      var sut = _usecases.GetPaymentOrderTypes();
+
+      Assert.NotNull(sut);
+
+    }
+
 
     #endregion Facts
 
