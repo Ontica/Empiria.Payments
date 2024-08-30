@@ -22,13 +22,24 @@ namespace Empiria.Payments.WebApi.PaymentOrders
     public class PaymentOrderController : WebApiController
     {
 
-        #region Query web apis
+    #region Query web apis
 
-        
+
+        [HttpGet]
+        [Route("v2/payments/currencies")]
+        public CollectionModel GetCurrencies() {
+
+          using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+            FixedList<NamedEntityDto> currencies = usecases.GetCurrencies();
+
+            return new CollectionModel(Request, currencies);
+          }
+        }
+
+
         [HttpGet]
         [Route("v2/payments/payment-methods")]
-        public CollectionModel GetPaymentMethods()
-        {
+        public CollectionModel GetPaymentMethods() {
 
             using (var usecases = PaymentOrderUseCases.UseCaseInteractor())
             {

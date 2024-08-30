@@ -9,6 +9,7 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using Empiria.Aspects;
+using Empiria.Financial.Core;
 using Empiria.Payments.Orders.Adapters;
 using Empiria.Services;
 
@@ -65,6 +66,12 @@ namespace Empiria.Payments.Orders.UseCases
       return PaymentOrderMapper.Map(order);
     }
 
+
+    public FixedList<NamedEntityDto> GetCurrencies() {
+      var currencies  = Currency.GetList();
+
+      return currencies.MapToNamedEntityList();
+    }
 
     public FixedList<NamedEntityDto> GetPaymentOrderTypes() {
       var paymentOrderTypes = PaymentOrderType.GetList();
