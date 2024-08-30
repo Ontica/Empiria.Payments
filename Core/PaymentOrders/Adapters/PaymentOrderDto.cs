@@ -2,25 +2,26 @@
 *                                                                                                            *
 *  Module   : Payments Management                        Component : Adapters Layer                          *
 *  Assembly : Empiria.Payments.Core.dll                  Pattern   : Data Transfer Object                    *
-*  Type     : PaymentOrderDto                            License   : Please read LICENSE.txt file            *
+*  Type     : PaymentOrderDto, PaymentOrderDescriptor    License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : Data transfer object used to return payment order information.                                 *
+*  Summary  : Data transfer objects used to return payment orders.                                           *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
+
 using Empiria.StateEnums;
 
 namespace Empiria.Payments.Orders.Adapters {
 
-  /// <summary>Data transfer object used to return contracts information.</summary>
+  /// <summary>Output DTO used to return full payment orders.</summary>
   public class PaymentOrderDto {
 
     public string UID {
       get; internal set;
     }
 
-    
+
     public string OrderNo {
       get; internal set;
     }
@@ -60,7 +61,7 @@ namespace Empiria.Payments.Orders.Adapters {
       get; internal set;
     }
 
-    
+
     public decimal Total {
       get; internal set;
     }
@@ -70,8 +71,13 @@ namespace Empiria.Payments.Orders.Adapters {
       get; internal set;
     }
 
-
-
   }  // class PaymentOrderDto
+
+
+
+  /// <summary>Output DTO used to return minimal payment order's data for use in lists.</summary>
+  public class PaymentOrderDescriptor {
+
+  }  // class PaymentOrderDescriptor
 
 }  // namespace Empiria.Payments.Orders.Adapters
