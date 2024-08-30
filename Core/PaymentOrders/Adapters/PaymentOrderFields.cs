@@ -41,7 +41,7 @@ namespace Empiria.Payments.Orders.Adapters {
     }
 
 
-    public string PaymentAccounUID {
+    public string PaymentAccountUID {
       get; set;
     }
 
@@ -70,6 +70,15 @@ namespace Empiria.Payments.Orders.Adapters {
       get; set;
     } = ExecutionServer.DateMinValue;
 
+
+    internal void EnsureValid() {
+      Assertion.Require(PaymentOrderTypeUID, "Necesito el tipo de orden del contrato");
+      Assertion.Require(PayableUID, "Necesito el objeto payable.");
+      Assertion.Require(PaymentMethodUID, "Necesito el método de pago");
+      Assertion.Require(CurrencyUID, "Necesito la moneda");
+      Assertion.Require(PaymentAccountUID, "Necesito el número de cuenta ");
+      Assertion.Require(Total > 0, "Necesito que el importe a pagar sea mayor a cero.");
+    }
 
   }  // class PaymentOrderFields
 

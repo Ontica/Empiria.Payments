@@ -48,7 +48,7 @@ namespace Empiria.Payments.Orders.UseCases
     public PaymentOrderDto AddPaymentOrder(PaymentOrderFields fields) {
       Assertion.Require(fields, nameof(fields));
 
-      //fields.EnsureValid();
+      fields.EnsureValid();
 
       var order = new PaymentOrder(fields);
 

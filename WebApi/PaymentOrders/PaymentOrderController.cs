@@ -14,6 +14,7 @@ using Empiria.WebApi;
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.UseCases;
 using Empiria.Payments.Orders.UseCases;
+using Empiria.Payments.Orders.Adapters;
 
 namespace Empiria.Payments.WebApi.PaymentOrders
 {
@@ -66,6 +67,23 @@ namespace Empiria.Payments.WebApi.PaymentOrders
     #endregion Query web apis
 
     #region Command web apis
+
+
+    [HttpPost]
+    [Route("v2/payments/payment-order")]
+    public SingleObjectModel AddPaymentOrder([FromBody] PaymentOrderFields fields) {
+
+      base.RequireBody(fields);
+
+      using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+        var paymentOrderDto = usecases.AddPaymentOrder(fields);
+
+        return new SingleObjectModel(base.Request, paymentOrderDto);
+      }
+    }
+
+
+
 
 
     #endregion Command web apis
