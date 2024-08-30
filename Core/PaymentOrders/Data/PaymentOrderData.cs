@@ -10,7 +10,7 @@
 
 using Empiria.Data;
 
-namespace Empiria.Payments.Orders {
+namespace Empiria.Payments.Orders.Data {
 
   /// <summary>Provides data read and write methods for contract instances.</summary>
   static internal class PaymentOrderData {

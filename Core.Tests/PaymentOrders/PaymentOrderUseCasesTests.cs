@@ -38,7 +38,7 @@ namespace Empiria.Tests.Payments.Orders {
 
     #region Facts
 
-   
+
     [Fact]
     public void Should_Add_Payment_Order() {
       var fields = new PaymentOrderFields {
@@ -53,21 +53,20 @@ namespace Empiria.Tests.Payments.Orders {
         DueTime = DateTime.Today,
         RequestedByUID  = "6bebca32-c14f-4996-8300-77ac86513a59",
         RequestedDate = DateTime.Now
-      
+
     };
 
-      var sut = _usecases.AddPaymentOrder(fields);
+      var sut = _usecases.CreatePaymentOrder(fields);
 
       Assert.NotNull(sut);
     }
 
 
     [Fact]
-    public void Should_Cancel_Payment_Order() {
+    public void Should_Delete_Payment_Order() {
 
-      var sut = _usecases.CancelPaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9");
+      _usecases.DeletePaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9");
 
-      Assert.NotNull(sut);
     }
 
 

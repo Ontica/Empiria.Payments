@@ -11,13 +11,15 @@
 using System;
 
 using Empiria.Contacts;
+using Empiria.Json;
 using Empiria.Parties;
 using Empiria.StateEnums;
 
-using Empiria.Payments.Orders.Adapters;
 using Empiria.Financial.Core;
-using Empiria.Json;
 
+using Empiria.Payments.Orders.Adapters;
+
+using Empiria.Payments.Orders.Data;
 
 namespace Empiria.Payments.Orders {
 
@@ -127,7 +129,7 @@ namespace Empiria.Payments.Orders {
       get; private set;
     }
 
-   
+
     public string Keywords {
       get {
         return EmpiriaString.BuildKeywords(this.PayTo.Name, this.RequestedBy.Name);
@@ -154,16 +156,14 @@ namespace Empiria.Payments.Orders {
     #endregion Properties
 
     #region Methods
-        
 
-    internal void Cancel() {
+
+    internal void Delete() {
 
       Assertion.Require(this.Status == EntityStatus.Active || this.Status == EntityStatus.Suspended,
                   $"No se puede eliminar una orden de pago que está en estado {this.Status.GetName()}.");
 
       this.Status = EntityStatus.Deleted;
-
-      this.Save();
     }
 
 
@@ -176,7 +176,7 @@ namespace Empiria.Payments.Orders {
 
       PaymentOrderData.WritePaymentOrder(this, this.ExtData.ToString());
     }
-       
+
 
     internal void Suspend() {
       Assertion.Require(this.Status == EntityStatus.Active,
@@ -212,5 +212,5 @@ namespace Empiria.Payments.Orders {
 
   }  // class Contract
 
-  
+
 }  // namespace Empiria.Payments.Contracts
