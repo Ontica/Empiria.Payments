@@ -63,6 +63,15 @@ namespace Empiria.Tests.Payments.Orders {
 
 
     [Fact]
+    public void Should_Cancel_Payment_Order() {
+
+      var sut = _usecases.CancelPaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9");
+
+      Assert.NotNull(sut);
+    }
+
+
+    [Fact]
     public void Should_Update_Payment_Order() {
       var fields = new PaymentOrderFields {
         PaymentOrderTypeUID = "32e1b307-676b-4488-b26f-1cbc03878875",

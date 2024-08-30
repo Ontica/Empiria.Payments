@@ -39,7 +39,7 @@ namespace Empiria.Payments.Orders.UseCases
       Assertion.Require(paymentOrderUID, nameof(paymentOrderUID));
 
       var order = PaymentOrder.Parse(paymentOrderUID);
-      order.Delete();
+      order.Cancel();
 
       return PaymentOrderMapper.Map(order);
     }

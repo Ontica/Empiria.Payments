@@ -99,6 +99,23 @@ namespace Empiria.Payments.WebApi.PaymentOrders
     }
 
 
+    [HttpDelete]
+    [Route("v2/payments/payment-order/{paymentOrderUID:guid}/cancel")]
+    public SingleObjectModel CancelPaymentOrder([FromUri] string paymentOrderUID) {
+
+      base.RequireResource(paymentOrderUID, "paymentOrderUID");
+
+      using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+
+        var paymentOrderDto = usecases.CancelPaymentOrder(paymentOrderUID);
+
+        return new SingleObjectModel(this.Request, paymentOrderDto);
+      }
+
+    }
+
+
+
     #endregion Command web apis
 
   }  // class PaymentOrderController

@@ -156,12 +156,14 @@ namespace Empiria.Payments.Orders {
     #region Methods
         
 
-    internal void Delete() {
+    internal void Cancel() {
 
       Assertion.Require(this.Status == EntityStatus.Active || this.Status == EntityStatus.Suspended,
                   $"No se puede eliminar una orden de pago que está en estado {this.Status.GetName()}.");
 
       this.Status = EntityStatus.Deleted;
+
+      this.Save();
     }
 
 
