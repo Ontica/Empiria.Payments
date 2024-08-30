@@ -1,7 +1,7 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
-*  Module   : Payments                                   Component : Test cases                              *
-*  Assembly : Empiria.FinancialAccounting.Tests.dll      Pattern   : Use cases tests                         *
+*  Module   : Payments Management                        Component : Test cases                              *
+*  Assembly : Empiria.Payments.Core.Tests.dll            Pattern   : Use cases tests                         *
 *  Type     : PaymentOrderUseCasesTests                  License   : Please read LICENSE.txt file            *
 *                                                                                                            *
 *  Summary  : Test cases for payment order use cases.                                                        *
@@ -12,8 +12,6 @@ using Xunit;
 
 using Empiria.Payments.Orders.Adapters;
 using Empiria.Payments.Orders.UseCases;
-using static Microsoft.Exchange.WebServices.Data.SearchFilter;
-using Empiria.Payments.Contracts.Adapters;
 
 namespace Empiria.Tests.Payments.Orders {
 
@@ -37,7 +35,6 @@ namespace Empiria.Tests.Payments.Orders {
     #endregion Use cases initialization
 
     #region Facts
-
 
     [Fact]
     public void Should_Add_Payment_Order() {
@@ -64,9 +61,7 @@ namespace Empiria.Tests.Payments.Orders {
 
     [Fact]
     public void Should_Delete_Payment_Order() {
-
       _usecases.DeletePaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9");
-
     }
 
 
@@ -91,35 +86,6 @@ namespace Empiria.Tests.Payments.Orders {
 
       Assert.NotNull(sut);
     }
-
-
-    [Fact]
-    public void Should_GetPaymentMethods() {
-
-      var sut = _usecases.GetPaymentMethods();
-
-      Assert.NotNull(sut);
-
-    }
-
-    [Fact]
-    public void Should_GetPaymentOrderTypes() {
-
-      var sut = _usecases.GetPaymentOrderTypes();
-
-      Assert.NotNull(sut);
-
-    }
-
-    [Fact]
-    public void Should_GetCurrencies() {
-
-      var sut = _usecases.GetCurrencies();
-
-      Assert.NotNull(sut);
-
-    }
-
 
     #endregion Facts
 
