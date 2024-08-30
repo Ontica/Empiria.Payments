@@ -1,92 +1,88 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
-*  Module   : Contracts Management                         Component : Web Api                               *
+*  Module   : Payments Management                          Component : Web Api                               *
 *  Assembly : Empiria.Payments.WebApi.dll                  Pattern   : Web api Controller                    *
 *  Type     : PaymentOrderController                       License   : Please read LICENSE.txt file          *
 *                                                                                                            *
-*  Summary  : Web API used to retrive and update payments.                                                   *
+*  Summary  : Web API used to retrive and update payment orders.                                             *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 using System.Web.Http;
 
 using Empiria.WebApi;
 
-using Empiria.Payments.Contracts.Adapters;
-using Empiria.Payments.Contracts.UseCases;
 using Empiria.Payments.Orders.UseCases;
 using Empiria.Payments.Orders.Adapters;
 
-namespace Empiria.Payments.WebApi.PaymentOrders
-{
+namespace Empiria.Payments.Orders.WebApi {
 
-    /// <summary>Web API used to retrive and update contracts</summary>
-    public class PaymentOrderController : WebApiController
-    {
+  /// <summary>Web API used to retrive and update payment orders.</summary>
+  public class PaymentOrderController : WebApiController {
 
     #region Query web apis
 
+    [HttpGet]
+    [Route("v2/payments-management/payment-orders/{paymentOrderUID:guid}")]
+    public SingleObjectModel GetPaymentOrder([FromUri] string paymentOrderUID) {
 
-        [HttpGet]
-        [Route("v2/payments/currencies")]
-        public CollectionModel GetCurrencies() {
+      using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+        PaymentOrderDto paymentOrder = usecases.GetPaymentOrder(paymentOrderUID);
 
-          using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
-            FixedList<NamedEntityDto> currencies = usecases.GetCurrencies();
-
-            return new CollectionModel(Request, currencies);
-          }
-        }
-
-
-        [HttpGet]
-        [Route("v2/payments/payment-methods")]
-        public CollectionModel GetPaymentMethods() {
-
-            using (var usecases = PaymentOrderUseCases.UseCaseInteractor())
-            {
-                FixedList<NamedEntityDto> paymentMethods = usecases.GetPaymentMethods();
-
-                return new CollectionModel(Request, paymentMethods);
-            }
-        }
+        return new SingleObjectModel(base.Request, paymentOrder);
+      }
+    }
 
 
-        [HttpGet]
-        [Route("v2/payments/payment-order-types")]
-        public CollectionModel GetPaymentOrderTypes() {
+    [HttpPost]
+    [Route("v2/payments-management/payment-orders/search")]
+    public CollectionModel GetPaymentOrders([FromBody] PaymentOrdersQuery query) {
 
-          using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
-            FixedList<NamedEntityDto> paymentMethods = usecases.GetPaymentOrderTypes();
+      using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+        FixedList<PaymentOrderDescriptor> paymentOrders = usecases.GetPaymentOrders(query);
 
-            return new CollectionModel(Request, paymentMethods);
-          }
-        }
-
+        return new CollectionModel(base.Request, paymentOrders);
+      }
+    }
 
     #endregion Query web apis
 
     #region Command web apis
 
-
     [HttpPost]
-    [Route("v2/payments/payment-order")]
-    public SingleObjectModel AddPaymentOrder([FromBody] PaymentOrderFields fields) {
+    [Route("v2/payments-management/payment-orders")]
+    public SingleObjectModel CreatePaymentOrder([FromBody] PaymentOrderFields fields) {
 
       base.RequireBody(fields);
 
       using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
-        var paymentOrderDto = usecases.AddPaymentOrder(fields);
+        var paymentOrderDto = usecases.CreatePaymentOrder(fields);
 
         return new SingleObjectModel(base.Request, paymentOrderDto);
       }
     }
 
 
-    [HttpPut]
-    [Route("v2/payments/payment-order/{paymentOrderUID:guid}")]
-    public SingleObjectModel UpdatePaymentOrder([FromUri] string paymentOrderUID, [FromBody] PaymentOrderFields fields) {
+    [HttpDelete]
+    [Route("v2/payments-management/payment-orders/{paymentOrderUID:guid}/items/{itemUID}")]
+    public NoDataModel DeletePaymentOrder([FromUri] string paymentOrderUID) {
 
-      base.RequireResource(paymentOrderUID, "paymentOrderUID");
+      base.RequireResource(paymentOrderUID, nameof(paymentOrderUID));
+
+      using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+
+        usecases.DeletePaymentOrder(paymentOrderUID);
+
+        return new NoDataModel(this.Request);
+      }
+    }
+
+
+    [HttpPut]
+    [Route("v2/payments-management/payment-orders/{paymentOrderUID:guid}")]
+    public SingleObjectModel UpdatePaymentOrder([FromUri] string paymentOrderUID,
+                                                [FromBody] PaymentOrderFields fields) {
+
+      base.RequireResource(paymentOrderUID, nameof(paymentOrderUID));
       base.RequireBody(fields);
 
       using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
@@ -95,26 +91,7 @@ namespace Empiria.Payments.WebApi.PaymentOrders
 
         return new SingleObjectModel(this.Request, paymentOrderDto);
       }
-
     }
-
-
-    [HttpDelete]
-    [Route("v2/payments/payment-order/{paymentOrderUID:guid}/cancel")]
-    public SingleObjectModel CancelPaymentOrder([FromUri] string paymentOrderUID) {
-
-      base.RequireResource(paymentOrderUID, "paymentOrderUID");
-
-      using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
-
-        var paymentOrderDto = usecases.CancelPaymentOrder(paymentOrderUID);
-
-        return new SingleObjectModel(this.Request, paymentOrderDto);
-      }
-
-    }
-
-
 
     #endregion Command web apis
 

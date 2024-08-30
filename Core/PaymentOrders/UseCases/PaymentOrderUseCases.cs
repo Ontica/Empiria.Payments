@@ -1,25 +1,21 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
-*  Module   : Payments  Management                       Component : Use cases Layer                         *
+*  Module   : Payments Management                        Component : Use cases Layer                         *
 *  Assembly : Empiria.Payments.Core.dll                  Pattern   : Use case interactor class               *
-*  Type     : PaymentsUseCases                           License   : Please read LICENSE.txt file            *
+*  Type     : PaymentOrderUseCases                       License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : Use cases for payments management.                                                             *
+*  Summary  : Use cases for payment orders management.                                                       *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
-using Empiria.Aspects;
-using Empiria.Financial.Core;
-using Empiria.Payments.Orders.Adapters;
 using Empiria.Services;
 
+using Empiria.Payments.Orders.Adapters;
 
+namespace Empiria.Payments.Orders.UseCases {
 
-namespace Empiria.Payments.Orders.UseCases
-{
-
-    /// <summary>Use cases for payments management.</summary>
-    public class PaymentOrderUseCases : UseCase {
+  /// <summary>Use cases for payment orders management.</summary>
+  public class PaymentOrderUseCases : UseCase {
 
     #region Constructors and parsers
 
@@ -35,17 +31,7 @@ namespace Empiria.Payments.Orders.UseCases
 
     #region Use cases
 
-    public PaymentOrderDto CancelPaymentOrder(string paymentOrderUID) {
-      Assertion.Require(paymentOrderUID, nameof(paymentOrderUID));
-
-      var order = PaymentOrder.Parse(paymentOrderUID);
-      order.Cancel();
-
-      return PaymentOrderMapper.Map(order);
-    }
-
-
-    public PaymentOrderDto AddPaymentOrder(PaymentOrderFields fields) {
+    public PaymentOrderDto CreatePaymentOrder(PaymentOrderFields fields) {
       Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
@@ -58,12 +44,28 @@ namespace Empiria.Payments.Orders.UseCases
     }
 
 
+    public void DeletePaymentOrder(string paymentOrderUID) {
+      Assertion.Require(paymentOrderUID, nameof(paymentOrderUID));
+
+      var order = PaymentOrder.Parse(paymentOrderUID);
+
+      order.Delete();
+
+      order.Save();
+    }
+
+
     public PaymentOrderDto GetPaymentOrder(string paymentOrderUID) {
       Assertion.Require(paymentOrderUID, nameof(paymentOrderUID));
 
       var order = PaymentOrder.Parse(paymentOrderUID);
 
       return PaymentOrderMapper.Map(order);
+    }
+
+
+    public FixedList<PaymentOrderDescriptor> GetPaymentOrders(PaymentOrdersQuery query) {
+      throw new System.NotImplementedException();
     }
 
 
@@ -79,28 +81,6 @@ namespace Empiria.Payments.Orders.UseCases
 
       return PaymentOrderMapper.Map(order);
     }
-
-
-    public FixedList<NamedEntityDto> GetCurrencies() {
-      var currencies  = Currency.GetList();
-
-      return currencies.MapToNamedEntityList();
-    }
-
-
-    public FixedList<NamedEntityDto> GetPaymentOrderTypes() {
-      var paymentOrderTypes = PaymentOrderType.GetList();
-
-      return paymentOrderTypes.MapToNamedEntityList();
-    }
-
-
-    public FixedList<NamedEntityDto> GetPaymentMethods() {
-      var paymentMethods = PaymentMethod.GetList();
-
-      return paymentMethods.MapToNamedEntityList();
-    }
-
 
     #endregion Use cases
 
