@@ -67,11 +67,26 @@ namespace Empiria.Payments.Orders.UseCases
     }
 
 
+    public PaymentOrderDto UpdatePaymentOrder(string uid, PaymentOrderFields fields) {
+      Assertion.Require(fields, "fields");
+
+      fields.EnsureValid();
+
+      var order = PaymentOrder.Parse(uid);
+
+      order.Update(fields);
+      order.Save();
+
+      return PaymentOrderMapper.Map(order);
+    }
+
+
     public FixedList<NamedEntityDto> GetCurrencies() {
       var currencies  = Currency.GetList();
 
       return currencies.MapToNamedEntityList();
     }
+
 
     public FixedList<NamedEntityDto> GetPaymentOrderTypes() {
       var paymentOrderTypes = PaymentOrderType.GetList();
@@ -85,8 +100,6 @@ namespace Empiria.Payments.Orders.UseCases
 
       return paymentMethods.MapToNamedEntityList();
     }
-
-
 
 
     #endregion Use cases

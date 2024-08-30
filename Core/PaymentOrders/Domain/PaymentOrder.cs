@@ -31,7 +31,7 @@ namespace Empiria.Payments.Orders {
     }
 
     public PaymentOrder(PaymentOrderFields fields) {
-      //Assertion.Require(fields, nameof(fields));
+      Assertion.Require(fields, nameof(fields));
 
       Update(fields);
     }
@@ -187,7 +187,7 @@ namespace Empiria.Payments.Orders {
 
     #region Helpers
 
-    private void Update(PaymentOrderFields fields) {
+    public void Update(PaymentOrderFields fields) {
 
       this.PaymentOrderType = PaymentOrderType.Parse(fields.PaymentOrderTypeUID);
       this.PayTo = Party.Parse(fields.PayToUID);

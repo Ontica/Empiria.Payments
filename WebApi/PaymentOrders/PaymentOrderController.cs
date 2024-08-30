@@ -51,7 +51,6 @@ namespace Empiria.Payments.WebApi.PaymentOrders
         }
 
 
-
         [HttpGet]
         [Route("v2/payments/payment-order-types")]
         public CollectionModel GetPaymentOrderTypes() {
@@ -83,7 +82,21 @@ namespace Empiria.Payments.WebApi.PaymentOrders
     }
 
 
+    [HttpPut]
+    [Route("v2/payments/payment-order/{paymentOrderUID:guid}")]
+    public SingleObjectModel UpdatePaymentOrder([FromUri] string paymentOrderUID, [FromBody] PaymentOrderFields fields) {
 
+      base.RequireResource(paymentOrderUID, "paymentOrderUID");
+      base.RequireBody(fields);
+
+      using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+
+        var paymentOrderDto = usecases.UpdatePaymentOrder(paymentOrderUID, fields);
+
+        return new SingleObjectModel(this.Request, paymentOrderDto);
+      }
+
+    }
 
 
     #endregion Command web apis
