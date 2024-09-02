@@ -18,6 +18,25 @@ namespace Empiria.Payments.Orders.Data {
 
     #region Methods
 
+
+    static internal FixedList<PaymentOrder> GetPaymentOrders(PaymentOrdersQuery query) {
+
+      string keywordsFilter = string.Empty;
+
+      char status = 'A';
+
+      if (query.Keywords != string.Empty) {
+        keywordsFilter = $" {SearchExpression.ParseAndLikeKeywords("PYM_ORDER_KEYWORDS", query.Keywords)} ";
+      }
+
+      var sql = $"SELECT * FROM PYM_ORDERS WHERE {keywordsFilter} AND (PYM_ORDER_STATUS = '{status}') ";
+
+      var dataOperation = DataOperation.Parse(sql);
+
+      return DataReader.GetFixedList<PaymentOrder>(dataOperation);
+    }
+
+
     static internal void WritePaymentOrder(PaymentOrder o, string extensionData) {
       var op = DataOperation.Parse("write_PYM_Order",
                      o.Id, o.UID, o.PaymentOrderType.Id, o.PaymentOrderNo, o.PayTo.Id,
@@ -28,19 +47,6 @@ namespace Empiria.Payments.Orders.Data {
       DataWriter.Execute(op);
     }
 
-
-     static internal FixedList<PaymentOrder> GetPaymentOrders(PaymentOrdersQuery query) {
-    
-      string keywordsFilter = string.Empty;
-
-      char status = 'A';
-
-      var sql = $"SELECT * FROM PYM_ORDERS WHERE (PYM_ORDER_STATUS = '{status}') ";
-
-      var dataOperation = DataOperation.Parse(sql);
-
-      return DataReader.GetFixedList<PaymentOrder>(dataOperation);
-    }
 
     #endregion Methods
 
