@@ -9,11 +9,14 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using Empiria.Data;
+using Empiria.Payments.Orders.Adapters;
 
 namespace Empiria.Payments.Orders.Data {
 
   /// <summary>Provides data read and write methods for contract instances.</summary>
   static internal class PaymentOrderData {
+
+    #region Methods
 
     static internal void WritePaymentOrder(PaymentOrder o, string extensionData) {
       var op = DataOperation.Parse("write_PYM_Order",
@@ -24,6 +27,22 @@ namespace Empiria.Payments.Orders.Data {
 
       DataWriter.Execute(op);
     }
+
+
+     static internal FixedList<PaymentOrder> GetPaymentOrders(PaymentOrdersQuery query) {
+    
+      string keywordsFilter = string.Empty;
+
+      char status = 'A';
+
+      var sql = $"SELECT * FROM PYM_ORDERS WHERE (PYM_ORDER_STATUS = '{status}') ";
+
+      var dataOperation = DataOperation.Parse(sql);
+
+      return DataReader.GetFixedList<PaymentOrder>(dataOperation);
+    }
+
+    #endregion Methods
 
   }  // class ContractData
 

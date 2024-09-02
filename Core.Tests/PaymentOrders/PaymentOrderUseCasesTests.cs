@@ -12,6 +12,7 @@ using Xunit;
 
 using Empiria.Payments.Orders.Adapters;
 using Empiria.Payments.Orders.UseCases;
+using Empiria.DataTypes;
 
 namespace Empiria.Tests.Payments.Orders {
 
@@ -86,6 +87,22 @@ namespace Empiria.Tests.Payments.Orders {
 
       Assert.NotNull(sut);
     }
+
+
+
+    [Fact]
+    public void Should_Search_Payment_Order() {
+      var query = new PaymentOrdersQuery {
+        Keywords = "",
+        FromDate = new DateTime(2024, 01, 01),
+        ToDate = new DateTime(2024, 01, 01)
+      };
+
+      var sut = _usecases.GetPaymentOrders(query);
+
+      Assert.NotNull(sut);
+    }
+
 
     #endregion Facts
 

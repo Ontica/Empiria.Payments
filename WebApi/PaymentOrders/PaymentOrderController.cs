@@ -20,7 +20,7 @@ namespace Empiria.Payments.Orders.WebApi {
   public class PaymentOrderController : WebApiController {
 
     #region Query web apis
-
+     
     [HttpGet]
     [Route("v2/payments-management/payment-orders/{paymentOrderUID:guid}")]
     public SingleObjectModel GetPaymentOrder([FromUri] string paymentOrderUID) {
@@ -35,12 +35,12 @@ namespace Empiria.Payments.Orders.WebApi {
 
     [HttpPost]
     [Route("v2/payments-management/payment-orders/search")]
-    public CollectionModel GetPaymentOrders([FromBody] PaymentOrdersQuery query) {
+    public SingleObjectModel GetPaymentOrders([FromBody] PaymentOrdersQuery query) {
 
       using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
-        FixedList<PaymentOrderDescriptor> paymentOrders = usecases.GetPaymentOrders(query);
+        PaymentOrderDescriptor paymentOrders = usecases.GetPaymentOrders(query);
 
-        return new CollectionModel(base.Request, paymentOrders);
+        return new SingleObjectModel(base.Request, paymentOrders);
       }
     }
 

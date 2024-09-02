@@ -4,7 +4,7 @@
 *  Assembly : Empiria.Payments.Core.dll                  Pattern   : Information Holder                      *
 *  Type     : PaymentOrder                               License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : Represents a payment order.                                                      *
+*  Summary  : Represents a payment order.                                                                    *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 

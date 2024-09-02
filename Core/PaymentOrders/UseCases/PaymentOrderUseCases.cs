@@ -11,6 +11,7 @@
 using Empiria.Services;
 
 using Empiria.Payments.Orders.Adapters;
+using System;
 
 namespace Empiria.Payments.Orders.UseCases {
 
@@ -64,8 +65,13 @@ namespace Empiria.Payments.Orders.UseCases {
     }
 
 
-    public FixedList<PaymentOrderDescriptor> GetPaymentOrders(PaymentOrdersQuery query) {
-      throw new System.NotImplementedException();
+    public PaymentOrderDescriptor GetPaymentOrders(PaymentOrdersQuery query) {
+
+      PaymentOrderSearcher search = new PaymentOrderSearcher();
+
+      var orders = search.GetOrders(query);
+
+      return PaymentOrderSearcherMapper.Map(query,orders);
     }
 
 
@@ -81,6 +87,7 @@ namespace Empiria.Payments.Orders.UseCases {
 
       return PaymentOrderMapper.Map(order);
     }
+
 
     #endregion Use cases
 
