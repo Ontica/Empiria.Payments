@@ -22,14 +22,18 @@ namespace Empiria.Payments.Orders.Data {
     static internal FixedList<PaymentOrder> GetPaymentOrders(PaymentOrdersQuery query) {
 
       string keywordsFilter = string.Empty;
+      var toDate = query.ToDate.ToString("dd-MM-yyyy");
+      var fromDate = query.FromDate.ToString("dd-MM-yyyy");
 
       char status = 'A';
 
       if (query.Keywords != string.Empty) {
-        keywordsFilter = $" {SearchExpression.ParseAndLikeKeywords("PYM_ORDER_KEYWORDS", query.Keywords)} ";
+        keywordsFilter = $" {SearchExpression.ParseAndLikeKeywords("PYM_ORDER_KEYWORDS", query.Keywords)} AND ";
       }
 
-      var sql = $"SELECT * FROM PYM_ORDERS WHERE {keywordsFilter} AND (PYM_ORDER_STATUS = '{status}') ";
+      var sql = $"SELECT * FROM PYM_ORDERS WHERE {keywordsFilter} (PYM_ORDER_DUETIME >={DataCommonMethods.FormatSqlDbDateTime(query.FromDate)}) AND " +
+        $" (PYM_ORDER_DUETIME < {DataCommonMethods.FormatSqlDbDateTime(query.ToDate.AddDays(1))} ) AND " +
+        $" (PYM_ORDER_STATUS = '{status}') ";
 
       var dataOperation = DataOperation.Parse(sql);
 
