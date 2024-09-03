@@ -21,7 +21,7 @@ using Empiria.Payments.Contracts.Data;
 namespace Empiria.Payments.Contracts {
 
   /// <summary>Represents a contract or a service order.</summary>
-  public class Contract : BaseObject {
+  public class Contract : BaseObject, INamedEntity {
 
     #region Constructors and parsers
 
@@ -36,10 +36,14 @@ namespace Empiria.Payments.Contracts {
     }
 
 
+    static internal Contract Parse(int contractId) {
+      return BaseObject.ParseId<Contract>(contractId);
+    }
+
+
     static internal Contract Parse(string contractUID) {
       return BaseObject.ParseKey<Contract>(contractUID);
     }
-
 
     static internal Contract Empty => BaseObject.ParseEmpty<Contract>();
 
@@ -91,12 +95,6 @@ namespace Empiria.Payments.Contracts {
       get; private set;
     }
 
-    /*
-    [DataField("SUPPLIER_UID")]
-    public Parties.Organization Supplier {
-      get; private set;
-    }
-    */
 
     [DataField("SUPPLIER_UID")]
     public string SupplierUID {

@@ -10,11 +10,13 @@
 
 using System;
 using System.Security.Cryptography;
+using Empiria.Budgeting;
 using Empiria.Contacts;
 using Empiria.DataTypes;
 using Empiria.Json;
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.Data;
+using Empiria.Projects;
 using Empiria.StateEnums;
 using Newtonsoft.Json.Linq;
 
@@ -46,13 +48,13 @@ namespace Empiria.Payments.Contracts {
 
 
     [DataField("CONTRACT_ID")]
-    public int ContractId {
+    public Contract Contract {
       get; private set;
     }
 
 
     [DataField("CONTRACT_ITEM_PRODUCTID")]
-    public int ProductId {
+    public ContractCucop Product {
       get; private set;
     }
 
@@ -64,7 +66,7 @@ namespace Empiria.Payments.Contracts {
 
 
     [DataField("CONTRACT_ITEM_UNITID")]
-    public int UnitMeasureId {
+    public ContractUnit UnitMeasure {
       get; private set;
     }
 
@@ -85,20 +87,20 @@ namespace Empiria.Payments.Contracts {
 
 
     [DataField("CONTRACT_ITEM_PROJECTID")]
-    public int ProjectId
+    public Project Project
     {
       get; private set;
     }
 
 
     [DataField("CONTRACT_ITEM_PAYMENTPERID")]
-    public int PaymentsPeriodicityId {
+    public Payments.Contracts.Contract PaymentsPeriodicity {
       get; private set;
     }
 
 
     [DataField("CONTRACT_ITEM_BDGACCOUNTID")]
-    public int BudgetAccountId {
+    public BudgetAccount BudgetAccount {
       get; private set;
     }
 
@@ -120,18 +122,18 @@ namespace Empiria.Payments.Contracts {
       get; set;
     }
 
-    [DataField("POSTED_BY_ID")]
-    internal Contact LastUpdatedById {
+    [DataField("CONTRACT_ITEM_POSTED_BY_ID")]
+    internal Contact LastUpdatedBy {
       get {
-        return ExtData.Get<Contact>("lastUpdatedById", Contact.Empty);
+        return ExtData.Get<Contact>("lastUpdatedBy", Contact.Empty);
       }
       set {
-        ExtData.Set("lastUpdatedById", value.Id);
+        ExtData.Set("lastUpdatedBy", value.Id);
       }
     }
 
     
-    [DataField("POSTING_TIME")]
+    [DataField("CONTRACT_ITEM_POSTING_TIME")]
     internal DateTime LastUpdatedTime {
       get {
         return ExtData.Get<DateTime>("lastUpdatedTime", this.PostingTime);
@@ -184,11 +186,11 @@ namespace Empiria.Payments.Contracts {
 
     protected override void OnSave() {
       if (base.IsNew) {
-        this.LastUpdatedById = ExecutionServer.CurrentContact;
+        this.LastUpdatedBy = ExecutionServer.CurrentContact;
         this.LastUpdatedTime = DateTime.Now;
       }
 
-      LastUpdatedById = ExecutionServer.CurrentContact;
+      LastUpdatedBy = ExecutionServer.CurrentContact;
       LastUpdatedTime = DateTime.Now;
 
       ContractIemData.WriteContractItem(this, this.ExtData.ToString());
@@ -199,18 +201,18 @@ namespace Empiria.Payments.Contracts {
     #region Helpers
 
     private void Load(ContractItemFields fields) {
-      this.ContractId = fields.ContractId;
-      this.ProductId = fields.ProductId;
+      this.Contract = Contract.Parse(fields.ContractUID);
+      this.Product = ContractCucop.Parse(fields.ProductUID);
       this.Description = fields.Description;
-      this.UnitMeasureId = fields.UnitMeasureId;
+      this.UnitMeasure = ContractUnit.Parse(fields.UnitMeasureUID);
       this.FromQuantity = fields.FromQuantity;
       this.ToQuantity = fields.ToQuantity;
       this.UnitPrice = fields.UnitPrice;
-      this.PaymentsPeriodicityId = fields.PaymentsPeriodicityId;
-      this.BudgetAccountId = fields.BudgetAccountId;
-      this.DocumentTypesListId = fields.DocumentTypesListId;
+      this.PaymentsPeriodicity = Contract.Parse(fields.PaymentsPeriodicityUID);
+      this.BudgetAccount = BudgetAccount.Parse(fields.BudgetAccountUID);
+      this.DocumentTypesListId = fields.DocumentTypesListID;
       this.SignDate = fields.SignDate;
-      this.LastUpdatedById = Contact.Parse(ExecutionServer.CurrentUserId.ToString());
+      this.LastUpdatedBy = Contact.Parse(ExecutionServer.CurrentUserId);
       this.PostingTime = DateTime.Now;
       this.Status = EntityStatus.Active;
 }

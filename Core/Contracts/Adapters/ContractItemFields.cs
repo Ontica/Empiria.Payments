@@ -15,23 +15,12 @@ namespace Empiria.Payments.Contracts.Adapters {
   /// <summary>DTO fields structure used for update contracts item information.</summary>
   public class ContractItemFields {
 
-
-    public int ID {
+    public string ContractUID {
       get; set;
     }
 
 
-    public string UID {
-      get; set;
-    }
-
-
-    public int ContractId {
-      get; set;
-    }
-
-
-    public int ProductId {
+    public string ProductUID {
       get; set;
     }
 
@@ -41,7 +30,7 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public int UnitMeasureId {
+    public string UnitMeasureUID {
       get; set;
     }
 
@@ -61,22 +50,22 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public int ProjectId {
+     public string ProjectUID {
       get; set;
     }
 
 
-    public int PaymentsPeriodicityId {
+    public string PaymentsPeriodicityUID {
       get; set;
     }
 
 
-    public int BudgetAccountId {
+    public string BudgetAccountUID {
       get; set;
     }
 
 
-    public int DocumentTypesListId {
+    public int DocumentTypesListID {
       get; set;
     }
 
@@ -92,10 +81,10 @@ namespace Empiria.Payments.Contracts.Adapters {
 
 
     internal void EnsureValid() {
-      Assertion.Require(ContractId, "Se requiere el número de contrato.");
-      Assertion.Require(ProductId, "Se requiere el UID número de contrato.");
+      Assertion.Require(ContractUID, "Se requiere el número de contrato.");
+      Assertion.Require(ProductUID, "Se requiere el ID del úmero de contrato.");
       Assertion.Require(Description, "Necesito el nombre del contrato.");
-      Assertion.Require(UnitMeasureId, "Necesito la unidad de medida.");
+      Assertion.Require(UnitMeasureUID, "Necesito la unidad de medida.");
       Assertion.Require(UnitPrice, "Necesito el precio unitario.");
       Assertion.Require(FromQuantity, "Necesito la cantidad de medida inicial.");
       Assertion.Require(ToQuantity, "Necesito la cantidad de medida final.");
