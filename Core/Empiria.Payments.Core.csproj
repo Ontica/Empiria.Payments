@@ -76,4 +76,7 @@
   <ItemGroup>
     <Folder Include="Suppliers\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\financial.budgeting\Core\Empiria.Budgeting.Core.csproj" />
+  </ItemGroup>
 </Project>
