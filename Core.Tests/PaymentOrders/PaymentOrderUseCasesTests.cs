@@ -1,7 +1,7 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
-*  Module   : Payments                                   Component : Test cases                              *
-*  Assembly : Empiria.FinancialAccounting.Tests.dll      Pattern   : Use cases tests                         *
+*  Module   : Payments Management                        Component : Test cases                              *
+*  Assembly : Empiria.Payments.Core.Tests.dll            Pattern   : Use cases tests                         *
 *  Type     : PaymentOrderUseCasesTests                  License   : Please read LICENSE.txt file            *
 *                                                                                                            *
 *  Summary  : Test cases for payment order use cases.                                                        *
@@ -12,7 +12,7 @@ using Xunit;
 
 using Empiria.Payments.Orders.Adapters;
 using Empiria.Payments.Orders.UseCases;
-using static Microsoft.Exchange.WebServices.Data.SearchFilter;
+using Empiria.DataTypes;
 
 namespace Empiria.Tests.Payments.Orders {
 
@@ -40,33 +40,67 @@ namespace Empiria.Tests.Payments.Orders {
     [Fact]
     public void Should_Add_Payment_Order() {
       var fields = new PaymentOrderFields {
-        PayToUID = "asgfsaasgasg",
-        
-        RequestedByUID = "fafadf",
-        Notes = "Orden de Pago especial",
-        RequestedDate = new DateTime(2023, 12, 18),
+        PaymentOrderTypeUID = "32e1b307-676b-4488-b26f-1cbc03878875",
+        PayableUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
+        PayToUID = "c6278424-d1ff-492f-b5fe-410b4258292c",
+        PaymentMethodUID = "b7784ef7-0d58-43df-a128-9b35e2da678e",
+        CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
+        PaymentAccountUID = "-32e1b307-676b-4488-b26f-1cbc03878875",
+        Notes = "Sin notas",
         Total = 1234567.89m,
-      };
+        DueTime = DateTime.Today,
+        RequestedByUID  = "6bebca32-c14f-4996-8300-77ac86513a59",
+        RequestedDate = DateTime.Now
 
-      var sut = _usecases.AddPaymentOrder(fields);
+    };
+
+      var sut = _usecases.CreatePaymentOrder(fields);
 
       Assert.NotNull(sut);
-      
     }
 
 
     [Fact]
-    public void Should_Read_A_Contract() {
-
-      //ContractDto sut = _usecases.GetContract(TestingConstants.CONTRACT_UID);
-
-      //Assert.NotNull(sut);
-      //Assert.NotNull(sut.UID);
-      //Assert.Equal(TestingConstants.CONTRACT_UID, sut.UID);
-      //Assert.NotNull(sut.ContractNo);
-      //Assert.True(sut.Total > 0);
+    public void Should_Delete_Payment_Order() {
+      _usecases.DeletePaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9");
     }
 
+
+    [Fact]
+    public void Should_Update_Payment_Order() {
+      var fields = new PaymentOrderFields {
+        PaymentOrderTypeUID = "32e1b307-676b-4488-b26f-1cbc03878875",
+        PayableUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
+        PayToUID = "c6278424-d1ff-492f-b5fe-410b4258292c",
+        PaymentMethodUID = "b7784ef7-0d58-43df-a128-9b35e2da678e",
+        CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
+        PaymentAccountUID = "-32e1b307-676b-4488-b26f-1cbc03878875",
+        Notes = "updated by test",
+        Total = 21.89m,
+        DueTime = DateTime.Today,
+        RequestedByUID = "6bebca32-c14f-4996-8300-77ac86513a59",
+        RequestedDate = DateTime.Now
+
+      };
+
+      var sut = _usecases.UpdatePaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9", fields);
+
+      Assert.NotNull(sut);
+    }
+
+
+    [Fact]
+    public void Should_Search_Payment_Order() {
+      var query = new PaymentOrdersQuery {
+        Keywords = "",
+        FromDate = new DateTime(2024, 01, 01),
+        ToDate = new DateTime(2024, 01, 01)
+      };
+
+      var sut = _usecases.GetPaymentOrders(query);
+
+      Assert.NotNull(sut);
+    }
 
     #endregion Facts
 
