@@ -1,23 +1,22 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
-*  Module   : Contracts Management                       Component : Use cases Layer                         *
+*  Module   : Payments Management                        Component : Use cases Layer                         *
 *  Assembly : Empiria.Payments.Core.dll                  Pattern   : Use case interactor class               *
-*  Type     : ContractUseCases                           License   : Please read LICENSE.txt file            *
+*  Type     : PaymentOrderUseCases                       License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : Use cases for contract management.                                                             *
+*  Summary  : Use cases for payment orders management.                                                       *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
-using Empiria.Payments.Orders.Adapters;
 using Empiria.Services;
 
+using Empiria.Payments.Orders.Adapters;
+using System;
 
+namespace Empiria.Payments.Orders.UseCases {
 
-namespace Empiria.Payments.Orders.UseCases
-{
-
-    /// <summary>Use cases for contract management.</summary>
-    public class PaymentOrderUseCases : UseCase {
+  /// <summary>Use cases for payment orders management.</summary>
+  public class PaymentOrderUseCases : UseCase {
 
     #region Constructors and parsers
 
@@ -33,26 +32,27 @@ namespace Empiria.Payments.Orders.UseCases
 
     #region Use cases
 
-    public PaymentOrderDto CancelPaymentOrder(string paymentOrderUID) {
-      Assertion.Require(paymentOrderUID, nameof(paymentOrderUID));
-
-      var order = PaymentOrder.Parse(paymentOrderUID);
-      order.Delete();
-
-      return PaymentOrderMapper.Map(order);
-    }
-
-
-    public PaymentOrderDto AddPaymentOrder(PaymentOrderFields fields) {
+    public PaymentOrderDto CreatePaymentOrder(PaymentOrderFields fields) {
       Assertion.Require(fields, nameof(fields));
 
-      //fields.EnsureValid();
+      fields.EnsureValid();
 
       var order = new PaymentOrder(fields);
 
       order.Save();
 
       return PaymentOrderMapper.Map(order);
+    }
+
+
+    public void DeletePaymentOrder(string paymentOrderUID) {
+      Assertion.Require(paymentOrderUID, nameof(paymentOrderUID));
+
+      var order = PaymentOrder.Parse(paymentOrderUID);
+
+      order.Delete();
+
+      order.Save();
     }
 
 
@@ -65,32 +65,32 @@ namespace Empiria.Payments.Orders.UseCases
     }
 
 
-    public FixedList<NamedEntityDto> GetPaymentOrderTypes() {
-      var paymentOrderTypes = PaymentOrderType.GetList();
+    public PaymentOrderDescriptor GetPaymentOrders(PaymentOrdersQuery query) {
 
-      return paymentOrderTypes.MapToNamedEntityList();
+      PaymentOrderSearcher search = new PaymentOrderSearcher();
+
+      var orders = search.GetOrders(query);
+
+      return PaymentOrderSearcherMapper.Map(query,orders);
     }
 
 
-    
-    
+    public PaymentOrderDto UpdatePaymentOrder(string uid, PaymentOrderFields fields) {
+      Assertion.Require(fields, "fields");
 
+      fields.EnsureValid();
 
-    //public FixedList<ContractDto> SearchContracts(ContractQuery query) {
-    //  Assertion.Require(query, nameof(query));
+      var order = PaymentOrder.Parse(uid);
 
-    //  string condition = query.GetConditionClause();
-    //  string orderBy = query.GetOrderByClause();
+      order.Update(fields);
+      order.Save();
 
-    //  FixedList<Contract> contracts = ContractData.SearchContracts(condition, orderBy);
+      return PaymentOrderMapper.Map(order);
+    }
 
-    //  var contracts = new FixedList<PaymentOrder>();
-
-    //  return ContractMapper.Map(contracts);
-    //}
 
     #endregion Use cases
 
-  }  // class ContractUseCases
+  }  // class PaymentOrderUseCases
 
-}  // namespace Empiria.Payments.Contracts.UseCases
+}  // namespace Empiria.Payments.Orders.UseCases

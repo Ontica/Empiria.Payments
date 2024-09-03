@@ -35,7 +35,7 @@ namespace Empiria.Payments.Contracts.Adapters {
         FromQuantity = contractItem.FromQuantity,
         ToQuantity = contractItem.ToQuantity,
         UnitPrice = contractItem.UnitPrice,
-        Project = contractItem.Project.MapToNamedEntity(),
+       // Project = contractItem.Project.MapToNamedEntity(),
         PaymentsPeriodicity = contractItem.PaymentsPeriodicity.MapToNamedEntity(),
         //BudgetAccount = contractItem.BudgetAccount.,
         DocumentTypesListId = contractItem.DocumentTypesListId,

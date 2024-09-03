@@ -4,20 +4,22 @@
 *  Assembly : Empiria.Payments.Core.dll                  Pattern   : Information Holder                      *
 *  Type     : PaymentOrder                               License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : Represents a payment order.                                                      *
+*  Summary  : Represents a payment order.                                                                    *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
 
 using Empiria.Contacts;
+using Empiria.Json;
 using Empiria.Parties;
 using Empiria.StateEnums;
 
-using Empiria.Payments.Orders.Adapters;
 using Empiria.Financial.Core;
-using Empiria.Json;
 
+using Empiria.Payments.Orders.Adapters;
+
+using Empiria.Payments.Orders.Data;
 
 namespace Empiria.Payments.Orders {
 
@@ -50,88 +52,103 @@ namespace Empiria.Payments.Orders {
 
     #region Properties
 
+    [DataField("PYM_ORDER_TYPE_ID")]
     public PaymentOrderType PaymentOrderType {
       get; private set;
     }
 
 
+    [DataField("PYM_ORDER_NO")]
     public string PaymentOrderNo {
       get; private set;
     }
 
-   
+
+    [DataField("PYM_ORDER_PAY_TO_ID")]
     public Party PayTo {
       get; private set;
     }
 
-         
-    public Payable Payable {
-      get; internal set;
-    }
+
+    //[DataField("PYM_ORDER_PAYABLE_ID")]
+    //public Payable Payable {
+    //  get; internal set;
+    //}
 
 
+    [DataField("PYM_ORDER_PAYMENT_METHOD_ID")]
     public PaymentMethod PaymentMethod {
       get; private set;
     }
 
 
+    [DataField("PYM_ORDER_CURRENCY_ID")]
     public Currency Currency {
       get; private set;
     }
 
 
-    public PaymentAccount PaymentAccount {
-      get; private set;
-    }
+    //[DataField("PYM_ORDER_PAYMENT_ACCOUNT_ID")]
+    //public PaymentAccount PaymentAccount {
+    //  get; private set;
+    //}
 
-    
+
+    [DataField("PYM_ORDER_NOTES")]
     public string Notes {
       get; private set;
     }
 
 
+    [DataField("PYM_ORDER_REQUESTED_DATE")]
     public DateTime RequestedDate {
       get; private set;
     }
 
 
+    [DataField("PYM_ORDER_EXT_DATA")]
     private JsonObject ExtData {
       get; set;
-    } 
-
-
-    public decimal Total {
-      get;
     }
 
 
+    [DataField("PYM_ORDER_TOTAL", ConvertFrom = typeof(decimal))]
+    public decimal Total {
+      get; private set;
+    }
+
+
+    [DataField("PYM_ORDER_DUETIME")]
     public DateTime DueTime {
+      get; private set;
+    }
+
+
+    [DataField("PYM_ORDER_REQUESTED_BY_ID")]
+    public Party RequestedBy {
       get; private set;
     }
 
 
     public string Keywords {
       get {
-        return EmpiriaString.BuildKeywords(this.PayTo.Name,  this.RequestedBy.Name);
+        return EmpiriaString.BuildKeywords(this.PayTo.Name, this.RequestedBy.Name);
       }
     }
 
-
-    public Party RequestedBy {
-      get; private set;
-    }
-
-
+    [DataField("PYM_ORDER_POSTED_BY_ID")]
     public Contact PostedBy {
       get; private set;
     }
 
 
+    [DataField("PYM_ORDER_POSTING_TIME")]
     public DateTime PostingTime {
       get; private set;
     }
 
 
+    [DataField("PYM_ORDER_STATUS", Default = EntityStatus.Pending)]
     public EntityStatus Status {
       get; private set;
     }
@@ -139,7 +156,7 @@ namespace Empiria.Payments.Orders {
     #endregion Properties
 
     #region Methods
-        
+
 
     internal void Delete() {
 
@@ -156,9 +173,10 @@ namespace Empiria.Payments.Orders {
         this.PostedBy = ExecutionServer.CurrentContact;
         this.PostingTime = DateTime.Now;
       }
-          // save
+
+      PaymentOrderData.WritePaymentOrder(this, this.ExtData.ToString());
     }
-       
+
 
     internal void Suspend() {
       Assertion.Require(this.Status == EntityStatus.Active,
@@ -171,20 +189,21 @@ namespace Empiria.Payments.Orders {
 
     #region Helpers
 
-    private void Update(PaymentOrderFields fields) {
+    public void Update(PaymentOrderFields fields) {
 
       this.PaymentOrderType = PaymentOrderType.Parse(fields.PaymentOrderTypeUID);
       this.PayTo = Party.Parse(fields.PayToUID);
-      this.Payable = Payable.Parse(fields.PayableUID);
+      //this.Payable = Payable.Parse(fields.PayableUID);
       this.PaymentMethod = PaymentMethod.Parse(fields.PaymentMethodUID);
       this.Currency = Currency.Parse(fields.CurrencyUID);
-      this.PaymentAccount = PaymentAccount.Parse(fields.PaymentAccounUID);
+      //this.PaymentAccount = PaymentAccount.Parse(fields.PaymentAccountUID);
       this.Notes = fields.Notes;
       this.RequestedDate = fields.RequestedDate;
       this.DueTime = fields.DueTime;
       this.RequestedBy = Party.Parse(fields.RequestedByUID);
       this.PostedBy = Contact.Parse(ExecutionServer.CurrentUserId);
       this.PostingTime = DateTime.Now;
+      this.Total = fields.Total;
       this.Status = EntityStatus.Active;
 
     }
@@ -193,5 +212,5 @@ namespace Empiria.Payments.Orders {
 
   }  // class Contract
 
-  
+
 }  // namespace Empiria.Payments.Contracts

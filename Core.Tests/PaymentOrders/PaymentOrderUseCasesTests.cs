@@ -89,6 +89,7 @@ namespace Empiria.Tests.Payments.Orders {
     }
 
 
+
     [Fact]
     public void Should_Search_Payment_Order() {
       var query = new PaymentOrdersQuery {
@@ -101,6 +102,7 @@ namespace Empiria.Tests.Payments.Orders {
 
       Assert.NotNull(sut);
     }
+
 
     #endregion Facts
 
