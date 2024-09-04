@@ -8,10 +8,9 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
-using System;
 using System.Collections.Generic;
 
-using Empiria.FinancialAccounting.Core;
+using Empiria.DynamicData;
 
 namespace Empiria.Payments.Orders.Adapters {
 
@@ -26,7 +25,7 @@ namespace Empiria.Payments.Orders.Adapters {
         Columns = GetDataColumns(),
         Entries = MapEntries(paymentOrders)
       };
-            
+
     }
 
 
@@ -76,7 +75,6 @@ namespace Empiria.Payments.Orders.Adapters {
 
     #endregion Private methods
 
+  }  // class PaymentOrderSearcherMapper
 
-  }  // class ContractMapper
-
-}  // namespace Empiria.Payments.Contracts.Adapters
+}  // namespace Empiria.Payments.Orders.Adapters
