@@ -35,15 +35,6 @@ namespace Empiria.Tests.Payments.Orders {
     #region Facts
 
     [Fact]
-    public void Should_GetCurrencies() {
-
-      var sut = _usecases.GetCurrencies();
-
-      Assert.NotNull(sut);
-
-    }
-
-    [Fact]
     public void Should_GetPaymentMethods() {
 
       var sut = _usecases.GetPaymentMethods();

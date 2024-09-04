@@ -21,18 +21,6 @@ namespace Empiria.Payments.Orders.WebApi {
     #region Query web apis
 
     [HttpGet]
-    [Route("v2/payments-management/catalogues/currencies")]
-    public CollectionModel GetCurrencies() {
-
-      using (var usecases = CataloguesUseCases.UseCaseInteractor()) {
-        FixedList<NamedEntityDto> currencies = usecases.GetCurrencies();
-
-        return new CollectionModel(Request, currencies);
-      }
-    }
-
-
-    [HttpGet]
     [Route("v2/payments-management/catalogues/payment-methods")]
     public CollectionModel GetPaymentMethods() {
 

@@ -31,13 +31,6 @@ namespace Empiria.Payments.Orders.UseCases {
 
     #region Use cases
 
-    public FixedList<NamedEntityDto> GetCurrencies() {
-      var currencies = Currency.GetList();
-
-      return currencies.MapToNamedEntityList();
-    }
-
-
     public FixedList<NamedEntityDto> GetPaymentOrderTypes() {
       var paymentOrderTypes = PaymentOrderType.GetList();
 
