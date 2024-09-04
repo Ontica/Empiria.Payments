@@ -75,6 +75,20 @@ namespace Empiria.Payments.Orders.UseCases {
     }
 
 
+    public FixedList<NamedEntityDto> GetPaymentOrderTypes() {
+      var paymentOrderTypes = PaymentOrderType.GetList();
+
+      return paymentOrderTypes.MapToNamedEntityList();
+    }
+
+
+    public FixedList<NamedEntityDto> GetPaymentMethods() {
+      var paymentMethods = PaymentMethod.GetList();
+
+      return paymentMethods.MapToNamedEntityList();
+    }
+
+
     public PaymentOrderDto UpdatePaymentOrder(string uid, PaymentOrderFields fields) {
       Assertion.Require(fields, "fields");
 

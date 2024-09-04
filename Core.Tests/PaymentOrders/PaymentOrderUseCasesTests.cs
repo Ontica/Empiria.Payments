@@ -12,7 +12,6 @@ using Xunit;
 
 using Empiria.Payments.Orders.Adapters;
 using Empiria.Payments.Orders.UseCases;
-using Empiria.DataTypes;
 
 namespace Empiria.Tests.Payments.Orders {
 
@@ -63,6 +62,24 @@ namespace Empiria.Tests.Payments.Orders {
     [Fact]
     public void Should_Delete_Payment_Order() {
       _usecases.DeletePaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9");
+    }
+
+
+    [Fact]
+    public void Should_Get_Payment_Methods() {
+
+      var sut = _usecases.GetPaymentMethods();
+
+      Assert.NotNull(sut);
+    }
+
+
+    [Fact]
+    public void Should_Get_Payment_Order_Types() {
+
+      var sut = _usecases.GetPaymentOrderTypes();
+
+      Assert.NotNull(sut);
     }
 
 
