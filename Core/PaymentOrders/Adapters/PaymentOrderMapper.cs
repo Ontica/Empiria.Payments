@@ -24,7 +24,7 @@ namespace Empiria.Payments.Orders.Adapters {
         UID = paymentOrder.UID,
         PayTo = paymentOrder.PayTo.Name,        
         RequestedBy = paymentOrder.RequestedBy.Name,
-        RequestedDate = paymentOrder.RequestedDate,
+        RequestedDate = paymentOrder.RequestedTime,
         Notes = paymentOrder.Notes,
         Total = paymentOrder.Total,
         Status = paymentOrder.Status

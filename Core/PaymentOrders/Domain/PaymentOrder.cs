@@ -101,7 +101,7 @@ namespace Empiria.Payments.Orders {
 
 
     [DataField("PYM_ORDER_REQUESTED_DATE")]
-    public DateTime RequestedDate {
+    public DateTime RequestedTime {
       get; private set;
     }
 
@@ -198,7 +198,7 @@ namespace Empiria.Payments.Orders {
       this.Currency = Currency.Parse(fields.CurrencyUID);
       //this.PaymentAccount = PaymentAccount.Parse(fields.PaymentAccountUID);
       this.Notes = fields.Notes;
-      this.RequestedDate = fields.RequestedDate;
+      this.RequestedTime = fields.RequestedDate;
       this.DueTime = fields.DueTime;
       this.RequestedBy = Party.Parse(fields.RequestedByUID);
       this.PostedBy = Contact.Parse(ExecutionServer.CurrentUserId);
