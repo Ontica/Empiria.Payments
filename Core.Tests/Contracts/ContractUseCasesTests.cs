@@ -79,7 +79,7 @@ namespace Empiria.Tests.Payments.Contracts {
         ProjectUID = "54c1423a-290f-4e09-adf6-23dbe1f0f825",
         PaymentsPeriodicityUID = "2a361db4-6581-447a-b397-7a43dcdb7ae6",
         BudgetAccountUID = "9128df14-32d2-44fe-bac6-6c6384825182", 
-        DocumentTypesListID = -1,
+        //DocumentTypesListID = -1,
         SignDate = DateTime.Now,
         
       };

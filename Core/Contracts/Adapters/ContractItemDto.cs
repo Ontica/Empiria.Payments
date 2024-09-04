@@ -15,21 +15,20 @@ namespace Empiria.Payments.Contracts.Adapters {
   /// <summary>Data transfer object used to return contracts information.</summary>
   public class ContractItemDto {
 
-    public int ID {
-      get; set;
-    }
-
     public string UID {
       get; set;
     }
+
 
     public NamedEntityDto Contract {
       get; set;
     }
 
+
     public NamedEntityDto Product {
       get; set;
     }
+
 
     public string Description {
       get; set;
@@ -65,13 +64,13 @@ namespace Empiria.Payments.Contracts.Adapters {
       get; set;
     }
 
-    /*
+
     public NamedEntityDto BudgetAccount {
       get; set;
     }
-    */
 
-    public int DocumentTypesListId {
+
+    public NamedEntityDto DocumentTypesListId {
       get; set;
     }
 

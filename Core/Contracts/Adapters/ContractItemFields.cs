@@ -65,7 +65,7 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public int DocumentTypesListID {
+    public string DocumentTypesListUID {
       get; set;
     }
 

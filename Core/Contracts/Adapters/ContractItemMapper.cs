@@ -26,19 +26,18 @@ namespace Empiria.Payments.Contracts.Adapters {
 
     static internal ContractItemDto Map(ContractItem contractItem) {
       return new ContractItemDto {
-        ID = contractItem.Id,
         UID = contractItem.UID,
         Contract = contractItem.Contract.MapToNamedEntity(),
-        Product = contractItem.Product.MapToNamedEntity(), 
+        Product = contractItem.Product.MapToNamedEntity(),
         Description = contractItem.Description,
         UnitMeasure = contractItem.UnitMeasure.MapToNamedEntity(),
         FromQuantity = contractItem.FromQuantity,
         ToQuantity = contractItem.ToQuantity,
         UnitPrice = contractItem.UnitPrice,
-       // Project = contractItem.Project.MapToNamedEntity(),
+        Project = contractItem.Project.MapToNamedEntity(),
         PaymentsPeriodicity = contractItem.PaymentsPeriodicity.MapToNamedEntity(),
-        //BudgetAccount = contractItem.BudgetAccount.,
-        DocumentTypesListId = contractItem.DocumentTypesListId,
+        BudgetAccount = new NamedEntityDto(contractItem.BudgetAccount.UID, contractItem.BudgetAccount.Code),
+        //DocumentTypesListUID = contractItem.DocumentTypesListId,
         SignDate = contractItem.SignDate,
         Total = contractItem.Total
       };

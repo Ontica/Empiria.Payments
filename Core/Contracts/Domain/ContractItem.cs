@@ -210,7 +210,7 @@ namespace Empiria.Payments.Contracts {
       this.UnitPrice = fields.UnitPrice;
       this.PaymentsPeriodicity = Contract.Parse(fields.PaymentsPeriodicityUID);
       this.BudgetAccount = BudgetAccount.Parse(fields.BudgetAccountUID);
-      this.DocumentTypesListId = fields.DocumentTypesListID;
+//      this.DocumentTypesListUID = fields.DocumentTypesListUID;
       this.SignDate = fields.SignDate;
       this.LastUpdatedBy = Contact.Parse(ExecutionServer.CurrentUserId);
       this.PostingTime = DateTime.Now;
