@@ -9,9 +9,9 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
-using Empiria.StateEnums;
 
-using Empiria.FinancialAccounting.Core;
+using Empiria.DynamicData;
+using Empiria.StateEnums;
 
 namespace Empiria.Payments.Orders.Adapters {
 
@@ -76,7 +76,7 @@ namespace Empiria.Payments.Orders.Adapters {
 
   public class SearchSalesOrderDto {
 
-    
+
 
   } // class SearchSalesOrderDto
 

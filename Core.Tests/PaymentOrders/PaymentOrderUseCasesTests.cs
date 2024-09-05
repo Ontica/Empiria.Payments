@@ -12,7 +12,6 @@ using Xunit;
 
 using Empiria.Payments.Orders.Adapters;
 using Empiria.Payments.Orders.UseCases;
-using Empiria.DataTypes;
 
 namespace Empiria.Tests.Payments.Orders {
 
@@ -50,7 +49,7 @@ namespace Empiria.Tests.Payments.Orders {
         Total = 1234567.89m,
         DueTime = DateTime.Today,
         RequestedByUID  = "6bebca32-c14f-4996-8300-77ac86513a59",
-        RequestedDate = DateTime.Now
+        RequestedTime = DateTime.Now
 
     };
 
@@ -67,6 +66,24 @@ namespace Empiria.Tests.Payments.Orders {
 
 
     [Fact]
+    public void Should_Get_Payment_Methods() {
+
+      var sut = _usecases.GetPaymentMethods();
+
+      Assert.NotNull(sut);
+    }
+
+
+    [Fact]
+    public void Should_Get_Payment_Order_Types() {
+
+      var sut = _usecases.GetPaymentOrderTypes();
+
+      Assert.NotNull(sut);
+    }
+
+
+    [Fact]
     public void Should_Update_Payment_Order() {
       var fields = new PaymentOrderFields {
         PaymentOrderTypeUID = "32e1b307-676b-4488-b26f-1cbc03878875",
@@ -79,11 +96,11 @@ namespace Empiria.Tests.Payments.Orders {
         Total = 21.89m,
         DueTime = DateTime.Today,
         RequestedByUID = "6bebca32-c14f-4996-8300-77ac86513a59",
-        RequestedDate = DateTime.Now
+        RequestedTime = DateTime.Now
 
       };
 
-      var sut = _usecases.UpdatePaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9", fields);
+      var sut = _usecases.UpdatePaymentOrder("5426f403-2417-49de-b17d-ed18c37cbe06", fields);
 
       Assert.NotNull(sut);
     }

@@ -76,6 +76,11 @@ namespace Empiria.Payments.Orders {
     //}
 
 
+    public int PayableTypeId {
+      get; internal set;
+    }
+
+
     [DataField("PYM_ORDER_PAYMENT_METHOD_ID")]
     public PaymentMethod PaymentMethod {
       get; private set;
@@ -100,7 +105,7 @@ namespace Empiria.Payments.Orders {
     }
 
 
-    [DataField("PYM_ORDER_REQUESTED_DATE")]
+    [DataField("PYM_ORDER_REQUESTED_TIME")]
     public DateTime RequestedTime {
       get; private set;
     }
@@ -194,18 +199,19 @@ namespace Empiria.Payments.Orders {
       this.PaymentOrderType = PaymentOrderType.Parse(fields.PaymentOrderTypeUID);
       this.PayTo = Party.Parse(fields.PayToUID);
       //this.Payable = Payable.Parse(fields.PayableUID);
+      this.PayableTypeId = -1;
       this.PaymentMethod = PaymentMethod.Parse(fields.PaymentMethodUID);
       this.Currency = Currency.Parse(fields.CurrencyUID);
       //this.PaymentAccount = PaymentAccount.Parse(fields.PaymentAccountUID);
       this.Notes = fields.Notes;
-      this.RequestedTime = fields.RequestedDate;
+      this.RequestedTime = fields.RequestedTime;
       this.DueTime = fields.DueTime;
       this.RequestedBy = Party.Parse(fields.RequestedByUID);
       this.PostedBy = Contact.Parse(ExecutionServer.CurrentUserId);
       this.PostingTime = DateTime.Now;
       this.Total = fields.Total;
       this.Status = EntityStatus.Active;
-
+      
     }
 
     #endregion Helpers

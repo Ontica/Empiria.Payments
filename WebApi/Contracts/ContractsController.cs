@@ -55,17 +55,6 @@ namespace Empiria.Budgeting.WebApi {
       }
     }
 
-    [HttpGet]
-    [Route("v2/contracts/contract-pap-types")]
-    public CollectionModel GetContracPapTypes() {
-
-      using (var usecases = ContractUseCases.UseCaseInteractor()) {
-        FixedList<NamedEntityDto> contractPapTypes = usecases.GetContractPap();
-
-        return new CollectionModel(base.Request, contractPapTypes);
-      }
-    }
-
 
     [HttpGet]
     [Route("v2/contracts/contract-cucop-types")]
