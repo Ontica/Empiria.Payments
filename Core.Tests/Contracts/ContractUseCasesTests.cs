@@ -67,19 +67,20 @@ namespace Empiria.Tests.Payments.Contracts {
 
     [Fact]
     public void Should_Add_A_Contract_Item() {
-      var fields = new ContractItemFields {
+       
+        var fields = new ContractItemFields {
 
         ContractUID = "0bab4264-723d-434f-af8a-40e35e8eb2dc",
         ProductUID = "120a4170-203c-4b54-a29a-72474765211e",
         Description = "Prueba contract items",
         UnitMeasureUID = "3a99bb8a-113f-4e0c-846c-9c0bf8ec1ded",
-        FromQuantity = 5,
-        ToQuantity = 2,
+        ToQuantity = 5,
+        FromQuantity = 2,
         UnitPrice = 20,
         ProjectUID = "54c1423a-290f-4e09-adf6-23dbe1f0f825",
         PaymentsPeriodicityUID = "2a361db4-6581-447a-b397-7a43dcdb7ae6",
         BudgetAccountUID = "9128df14-32d2-44fe-bac6-6c6384825182", 
-        //DocumentTypesListID = -1,
+        // DocumentTypesListUID = -1,
         SignDate = DateTime.Now,
         
       };
