@@ -22,9 +22,6 @@ namespace Empiria.Payments.Orders.Data {
     static internal FixedList<PaymentOrder> GetPaymentOrders(PaymentOrdersQuery query) {
 
       string keywordsFilter = string.Empty;
-      var toDate = query.ToDate.ToString("dd-MM-yyyy");
-      var fromDate = query.FromDate.ToString("dd-MM-yyyy");
-
       char status = 'A';
 
       if (query.Keywords != string.Empty) {
