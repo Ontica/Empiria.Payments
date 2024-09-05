@@ -15,73 +15,79 @@ namespace Empiria.Payments.Contracts.Adapters {
   /// <summary>Data transfer object used to return contracts information.</summary>
   public class ContractItemDto {
 
+    internal ContractItemDto()
+    { 
+        // no op
+    }
+
+
     public string UID {
-      get; set;
+      get; internal set;
     }
 
 
     public NamedEntityDto Contract {
-      get; set;
+      get; internal set;
     }
 
 
     public NamedEntityDto Product {
-      get; set;
+      get; internal set;
     }
 
 
     public string Description {
-      get; set;
+      get; internal set;
     }
 
 
     public NamedEntityDto UnitMeasure {
-      get; set;
+      get; internal set;
     }
 
 
     public decimal FromQuantity {
-      get; set;
+      get; internal set;
     }
 
 
     public decimal ToQuantity {
-      get; set;
+      get; internal set;
     }
 
 
     public decimal UnitPrice {
-      get; set;
+      get; internal set;
     }
 
 
     public NamedEntityDto Project {
-      get; set;
+      get; internal set;
     }
 
 
     public NamedEntityDto PaymentsPeriodicity {
-      get; set;
+      get; internal set;
     }
 
 
     public NamedEntityDto BudgetAccount {
-      get; set;
+      get; internal set;
     }
 
 
     public NamedEntityDto DocumentTypesListId {
-      get; set;
+      get; internal set;
     }
 
 
     public DateTime SignDate {
-      get; set;
+      get; internal set;
     }
 
 
     public decimal Total {
-      get; set;
+      get; internal set;
     }
 
   }  // class ContractItemDto
