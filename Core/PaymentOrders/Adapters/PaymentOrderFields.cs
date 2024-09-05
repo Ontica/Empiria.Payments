@@ -25,7 +25,7 @@ namespace Empiria.Payments.Orders.Adapters {
       get; set;
     }
 
-
+   
     public string PayToUID {
       get; set;
     }
@@ -66,7 +66,7 @@ namespace Empiria.Payments.Orders.Adapters {
     }
 
 
-    public DateTime RequestedDate {
+    public DateTime RequestedTime {
       get; set;
     } = ExecutionServer.DateMinValue;
 

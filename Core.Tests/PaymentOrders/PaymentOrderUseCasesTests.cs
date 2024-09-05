@@ -49,7 +49,7 @@ namespace Empiria.Tests.Payments.Orders {
         Total = 1234567.89m,
         DueTime = DateTime.Today,
         RequestedByUID  = "6bebca32-c14f-4996-8300-77ac86513a59",
-        RequestedDate = DateTime.Now
+        RequestedTime = DateTime.Now
 
     };
 
@@ -96,11 +96,11 @@ namespace Empiria.Tests.Payments.Orders {
         Total = 21.89m,
         DueTime = DateTime.Today,
         RequestedByUID = "6bebca32-c14f-4996-8300-77ac86513a59",
-        RequestedDate = DateTime.Now
+        RequestedTime = DateTime.Now
 
       };
 
-      var sut = _usecases.UpdatePaymentOrder("b7a4b215-2ad8-4a5f-9349-21cce0e1a8e9", fields);
+      var sut = _usecases.UpdatePaymentOrder("5426f403-2417-49de-b17d-ed18c37cbe06", fields);
 
       Assert.NotNull(sut);
     }
