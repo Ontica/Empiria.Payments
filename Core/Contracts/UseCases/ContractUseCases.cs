@@ -76,13 +76,6 @@ namespace Empiria.Payments.Contracts.UseCases {
     }
 
 
-    public FixedList<NamedEntityDto> GetContractPap() {
-      var contractPap = ContractPap.GetList();
-
-      return contractPap.MapToNamedEntityList();
-    }
-
-
     public FixedList<ContractDto> SearchContracts(ContractQuery query) {
       Assertion.Require(query, nameof(query));
 
