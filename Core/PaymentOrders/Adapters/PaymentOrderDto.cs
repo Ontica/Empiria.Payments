@@ -68,7 +68,7 @@ namespace Empiria.Payments.Orders.Adapters {
     }
 
 
-    public EntityStatus Status {
+    public NamedEntityDto Status {
       get; internal set;
     }
 
@@ -154,7 +154,7 @@ namespace Empiria.Payments.Orders.Adapters {
     }
 
 
-    public EntityStatus Status {
+    public string StatusName {
       get; internal set;
     }
 

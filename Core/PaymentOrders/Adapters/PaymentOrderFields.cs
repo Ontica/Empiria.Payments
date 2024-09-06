@@ -2,18 +2,19 @@
 *                                                                                                            *
 *  Module   : Payments Management                        Component : Adapters Layer                          *
 *  Assembly : Empiria.Payments.Core.dll                  Pattern   : Fields DTO                              *
-*  Type     : PaymentsFields                             License   : Please read LICENSE.txt file            *
+*  Type     : PaymentOrderFields                         License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : DTO fields structure used for update payment order information.                                *
+*  Summary  : Fields structure used for create and update payment orders.                                    *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
-using Empiria.Parties;
+
+using Empiria.Financial.Core;
 
 namespace Empiria.Payments.Orders.Adapters {
 
-  /// <summary>DTO fields structure used for update payment order information.</summary>
+  /// <summary>Fields structure used for create and update payment orders.</summary>
   public class PaymentOrderFields {
 
     public string PaymentOrderTypeUID {
@@ -25,7 +26,7 @@ namespace Empiria.Payments.Orders.Adapters {
       get; set;
     }
 
-   
+
     public string PayToUID {
       get; set;
     }
@@ -35,7 +36,7 @@ namespace Empiria.Payments.Orders.Adapters {
       get; set;
     }
 
-       
+
     public string CurrencyUID {
       get; set;
     }
@@ -48,8 +49,8 @@ namespace Empiria.Payments.Orders.Adapters {
 
     public string Notes {
       get;  set;
-    }
-        
+    } = string.Empty;
+
 
     public Decimal Total {
       get; set;
@@ -58,7 +59,7 @@ namespace Empiria.Payments.Orders.Adapters {
 
     public DateTime DueTime {
       get; set;
-    }
+    } = ExecutionServer.DateMinValue;
 
 
     public string RequestedByUID {
@@ -72,14 +73,24 @@ namespace Empiria.Payments.Orders.Adapters {
 
 
     internal void EnsureValid() {
-      Assertion.Require(PaymentOrderTypeUID, "Necesito el tipo de orden del contrato");
-      Assertion.Require(PayableUID, "Necesito el objeto payable.");
-      Assertion.Require(PaymentMethodUID, "Necesito el método de pago");
-      Assertion.Require(CurrencyUID, "Necesito la moneda");
-      Assertion.Require(PaymentAccountUID, "Necesito el número de cuenta ");
+      Assertion.Require(PaymentOrderTypeUID, "Necesito el tipo de orden de pago.");
+      _ = PaymentOrderType.Parse(PaymentOrderTypeUID);
+
+      Assertion.Require(PayableUID, "Necesito el objeto ligado al pago.");
+      _ = Payable.Parse(PayableUID);
+
+      Assertion.Require(PaymentMethodUID, "Necesito el método de pago.");
+      _ = PaymentMethod.Parse(PaymentMethodUID);
+
+      Assertion.Require(CurrencyUID, "Necesito la moneda.");
+      _ = Currency.Parse(CurrencyUID);
+
+      Assertion.Require(PaymentAccountUID, "Necesito el número de cuenta.");
+      _ = PaymentAccount.Parse(PaymentAccountUID);
+
       Assertion.Require(Total > 0, "Necesito que el importe a pagar sea mayor a cero.");
     }
 
   }  // class PaymentOrderFields
 
-}  // namespace Empiria.Payments.Orders
+}  // namespace Empiria.Payments.Orders.Adapters
