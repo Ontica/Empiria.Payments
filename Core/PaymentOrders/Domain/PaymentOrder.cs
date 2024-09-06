@@ -13,12 +13,10 @@ using System;
 using Empiria.Contacts;
 using Empiria.Json;
 using Empiria.Parties;
-using Empiria.StateEnums;
 
 using Empiria.Financial.Core;
 
 using Empiria.Payments.Orders.Adapters;
-
 using Empiria.Payments.Orders.Data;
 
 namespace Empiria.Payments.Orders {
@@ -153,10 +151,10 @@ namespace Empiria.Payments.Orders {
     }
 
 
-    [DataField("PYM_ORDER_STATUS", Default = EntityStatus.Pending)]
-    public EntityStatus Status {
+    [DataField("PYM_ORDER_STATUS", Default = PaymentOrderStatus.Pending)]
+    public PaymentOrderStatus Status {
       get; private set;
-    }
+    } = PaymentOrderStatus.Pending;
 
     #endregion Properties
 
@@ -164,17 +162,16 @@ namespace Empiria.Payments.Orders {
 
 
     internal void Delete() {
-
-      Assertion.Require(this.Status == EntityStatus.Active || this.Status == EntityStatus.Suspended,
+      Assertion.Require(this.Status == PaymentOrderStatus.Pending,
                   $"No se puede eliminar una orden de pago que está en estado {this.Status.GetName()}.");
 
-      this.Status = EntityStatus.Deleted;
+      this.Status = PaymentOrderStatus.Deleted;
     }
 
 
     protected override void OnSave() {
       if (base.IsNew) {
-        this.PaymentOrderNo = "O-"+ EmpiriaString.BuildRandomString(10).ToUpperInvariant();
+        this.PaymentOrderNo = GeneratePaymentOrderNo();
         this.PostedBy = ExecutionServer.CurrentContact;
         this.PostingTime = DateTime.Now;
       }
@@ -183,22 +180,29 @@ namespace Empiria.Payments.Orders {
     }
 
 
-    internal void Suspend() {
-      Assertion.Require(this.Status == EntityStatus.Active,
-                  $"No se puede suspender una orden de pago que no este activa.");
+    internal void Suspend(Contact suspendedBy, DateTime suspendedUntil) {
+      Assertion.Require(suspendedBy, nameof(suspendedBy));
 
-      this.Status = EntityStatus.Suspended;
+      Assertion.Require(this.Status == PaymentOrderStatus.Received ||
+                        this.Status == PaymentOrderStatus.Suspended,
+                $"No se puede suspender la orden de pago debido " +
+                $"a que tiene el estado {this.Status.GetName()}.");
+
+      this.Status = PaymentOrderStatus.Suspended;
     }
 
-    #endregion Methods
 
-    #region Helpers
+    internal void Update(PaymentOrderFields fields) {
+      Assertion.Require(fields, nameof(fields));
+      Assertion.Require(this.Status == PaymentOrderStatus.Pending,
+                        $"No se pueden actualizar los datos de la orden de pago " +
+                        $"debido a que tiene el estado {this.Status.GetName()}.");
 
-    public void Update(PaymentOrderFields fields) {
+      fields.EnsureValid();
 
       this.PaymentOrderType = PaymentOrderType.Parse(fields.PaymentOrderTypeUID);
       this.PayTo = Party.Parse(fields.PayToUID);
-      //this.Payable = Payable.Parse(fields.PayableUID);
+      // this.Payable = Payable.Parse(fields.PayableUID);
       this.PayableTypeId = -1;
       this.PaymentMethod = PaymentMethod.Parse(fields.PaymentMethodUID);
       this.Currency = Currency.Parse(fields.CurrencyUID);
@@ -207,16 +211,19 @@ namespace Empiria.Payments.Orders {
       this.RequestedTime = fields.RequestedTime;
       this.DueTime = fields.DueTime;
       this.RequestedBy = Party.Parse(fields.RequestedByUID);
-      this.PostedBy = Contact.Parse(ExecutionServer.CurrentUserId);
-      this.PostingTime = DateTime.Now;
       this.Total = fields.Total;
-      this.Status = EntityStatus.Active;
-      
+    }
+
+    #endregion Methods
+
+    #region Helpers
+
+    private string GeneratePaymentOrderNo() {
+      return "O-" + EmpiriaString.BuildRandomString(10).ToUpperInvariant();
     }
 
     #endregion Helpers
 
-  }  // class Contract
-
+  }  // class PaymentOrder
 
 }  // namespace Empiria.Payments.Contracts
