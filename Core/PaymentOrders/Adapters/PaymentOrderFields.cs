@@ -11,6 +11,7 @@
 using System;
 
 using Empiria.Financial.Core;
+using Empiria.Payments.Payables;
 
 namespace Empiria.Payments.Orders.Adapters {
 
@@ -48,7 +49,7 @@ namespace Empiria.Payments.Orders.Adapters {
 
 
     public string Notes {
-      get;  set;
+      get; set;
     } = string.Empty;
 
 
