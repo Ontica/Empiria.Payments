@@ -89,19 +89,37 @@ namespace Empiria.Payments.Orders.UseCases {
     }
 
 
+    public PaymentOrderDto SuspendPaymentOrder(string paymentOrderUID,
+                                               string suspendedByUID,
+                                               DateTime suspendedUntil) {
+      Assertion.Require(paymentOrderUID, nameof(paymentOrderUID));
+      Assertion.Require(suspendedByUID, nameof(suspendedByUID));
+
+      var order = PaymentOrder.Parse(paymentOrderUID);
+
+      var suspendedBy = Contacts.Contact.Parse(suspendedByUID);
+
+      order.Suspend(suspendedBy, suspendedUntil);
+
+      order.Save();
+
+      return PaymentOrderMapper.Map(order);
+    }
+
+
     public PaymentOrderDto UpdatePaymentOrder(string uid, PaymentOrderFields fields) {
-      Assertion.Require(fields, "fields");
+      Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
 
       var order = PaymentOrder.Parse(uid);
 
       order.Update(fields);
+
       order.Save();
 
       return PaymentOrderMapper.Map(order);
     }
-
 
     #endregion Use cases
 

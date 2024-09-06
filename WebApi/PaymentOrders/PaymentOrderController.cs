@@ -7,6 +7,7 @@
 *  Summary  : Web API used to retrive and update payment orders and their catalogues.                        *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
+using System;
 using System.Web.Http;
 
 using Empiria.WebApi;
@@ -79,9 +80,9 @@ namespace Empiria.Payments.Orders.WebApi {
       base.RequireBody(fields);
 
       using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
-        var paymentOrderDto = usecases.CreatePaymentOrder(fields);
+        PaymentOrderDto paymentOrder = usecases.CreatePaymentOrder(fields);
 
-        return new SingleObjectModel(base.Request, paymentOrderDto);
+        return new SingleObjectModel(base.Request, paymentOrder);
       }
     }
 
@@ -101,19 +102,37 @@ namespace Empiria.Payments.Orders.WebApi {
     }
 
 
+    [HttpPost]
+    [Route("v2/payments-management/payment-orders/{paymentOrderUID:guid}/suspend")]
+    public SingleObjectModel SuspendPaymentOrder([FromUri] string paymentOrderUID,
+                                                 [FromUri] string suspendedByUID,
+                                                 [FromUri] DateTime suspendedUntil) {
+
+      base.RequireResource(suspendedByUID, nameof(suspendedByUID));
+
+      using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
+
+        PaymentOrderDto paymentOrder = usecases.SuspendPaymentOrder(paymentOrderUID,
+                                                                       suspendedByUID,
+                                                                       suspendedUntil);
+
+        return new SingleObjectModel(this.Request, paymentOrder);
+      }
+    }
+
+
     [HttpPut]
     [Route("v2/payments-management/payment-orders/{paymentOrderUID:guid}")]
     public SingleObjectModel UpdatePaymentOrder([FromUri] string paymentOrderUID,
                                                 [FromBody] PaymentOrderFields fields) {
 
-      base.RequireResource(paymentOrderUID, nameof(paymentOrderUID));
       base.RequireBody(fields);
 
       using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
 
-        var paymentOrderDto = usecases.UpdatePaymentOrder(paymentOrderUID, fields);
+        PaymentOrderDto paymentOrder = usecases.UpdatePaymentOrder(paymentOrderUID, fields);
 
-        return new SingleObjectModel(this.Request, paymentOrderDto);
+        return new SingleObjectModel(this.Request, paymentOrder);
       }
     }
 
