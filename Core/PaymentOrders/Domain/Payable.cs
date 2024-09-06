@@ -11,22 +11,18 @@
 using System;
 
 using Empiria.Contacts;
-using Empiria.Parties;
 using Empiria.StateEnums;
 
-using Empiria.Payments.Orders.Adapters;
-using Empiria.Financial.Core;
 using Empiria.Json;
-
 
 namespace Empiria.Payments.Orders {
 
   /// <summary>Represents a payable object.</summary>
-  internal class Payable : BaseObject {
+  abstract internal class Payable : BaseObject {
 
     #region Constructors and parsers
 
-    private Payable() {
+    protected Payable() {
       // Required by Empiria Framework.
     }
 
@@ -42,16 +38,12 @@ namespace Empiria.Payments.Orders {
 
     #region Properties
 
-    public int PayableType {
-      get; private set;
-    }
-
 
     public int PayableTypeId {
       get; private set;
     }
-      
-      
+
+
     public string Notes {
       get; private set;
     }
@@ -64,7 +56,7 @@ namespace Empiria.Payments.Orders {
 
     private JsonObject ExtData {
       get; set;
-    } 
+    }
 
 
     public decimal Total {
@@ -75,7 +67,7 @@ namespace Empiria.Payments.Orders {
     public DateTime DueTime {
       get; private set;
     }
-    
+
 
     public Contact PostedBy {
       get; private set;
@@ -94,18 +86,17 @@ namespace Empiria.Payments.Orders {
     #endregion Properties
 
     #region Methods
-        
+
 
 
     #endregion Methods
 
     #region Helpers
 
-    
+
 
     #endregion Helpers
 
-  }  // class Payable 
-
+  }  // class Payable
 
 }  // namespace Empiria.Payments.Orders
