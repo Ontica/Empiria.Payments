@@ -68,7 +68,7 @@ namespace Empiria.Payments.Orders.Adapters {
         RequestedBy = paymentOrder.RequestedBy.Name,
         RequestedDate = paymentOrder.RequestedTime,
         DueTime = paymentOrder.DueTime,
-        Status = paymentOrder.Status
+        StatusName = paymentOrder.Status.GetName()
       };
     }
 

@@ -1,0 +1,47 @@
+﻿/* Empiria Financial *****************************************************************************************
+*                                                                                                            *
+*  Module   : Payments Management                        Component : Domain Layer                            *
+*  Assembly : Empiria.Payments.Core.dll                  Pattern   : Power type                              *
+*  Type     : PayableType                                License   : Please read LICENSE.txt file            *
+*                                                                                                            *
+*  Summary  : Powertype that describes payable types.                                                        *
+*                                                                                                            *
+************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
+
+using Empiria.Ontology;
+
+namespace Empiria.Payments.Payables {
+
+  /// <summary>Power type that describes payable types.</summary>
+  [Powertype(typeof(Payable))]
+  internal class PayableType : Powertype {
+
+    #region Constructors and parsers
+
+    private PayableType() {
+      // Empiria powertype types always have this constructor.
+    }
+
+    static public new PayableType Parse(int typeId) {
+      if (typeId != -1) {
+        return Parse<PayableType>(typeId);
+      } else {
+        return Empty;
+      }
+    }
+
+    static public new PayableType Parse(string typeName) {
+      return Parse<PayableType>(typeName);
+    }
+
+    static public PayableType Empty {
+      get {
+        return Parse("ObjectType.Payable.Empty");
+      }
+    }
+
+    #endregion Constructors and parsers
+
+  }  // class PayableType
+
+}  // namespace Empiria.Payments.Payables

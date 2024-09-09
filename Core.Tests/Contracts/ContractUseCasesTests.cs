@@ -67,7 +67,7 @@ namespace Empiria.Tests.Payments.Contracts {
 
     [Fact]
     public void Should_Add_A_Contract_Item() {
-       
+
         var fields = new ContractItemFields {
 
         ContractUID = "0bab4264-723d-434f-af8a-40e35e8eb2dc",
@@ -79,13 +79,8 @@ namespace Empiria.Tests.Payments.Contracts {
         UnitPrice = 20,
         ProjectUID = "54c1423a-290f-4e09-adf6-23dbe1f0f825",
         PaymentsPeriodicityUID = "2a361db4-6581-447a-b397-7a43dcdb7ae6",
-<<<<<<< HEAD
-        BudgetAccountUID = "9128df14-32d2-44fe-bac6-6c6384825182", 
-        // DocumentTypesListUID = -1,
-=======
         BudgetAccountUID = "9128df14-32d2-44fe-bac6-6c6384825182",
-        //DocumentTypesListID = -1,
->>>>>>> 85bf680b7f0ed45d89899245f844d21a96f2ecb9
+        // DocumentTypesListUID = -1,
         SignDate = DateTime.Now,
 
       };
