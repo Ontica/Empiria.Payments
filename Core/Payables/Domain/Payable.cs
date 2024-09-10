@@ -18,6 +18,10 @@ using Empiria.Parties;
 
 using Empiria.Financial.Core;
 
+using Empiria.Payments.Payables.Adapters;
+
+using Empiria.Payments.Payables.Data;
+
 namespace Empiria.Payments.Payables {
 
   /// <summary>Represents a payable object. A payable can be a bill, a contract milestone,
@@ -29,6 +33,12 @@ namespace Empiria.Payments.Payables {
 
     protected Payable(PayableType powertype) : base(powertype) {
       // Required by Empiria Framework for all partitioned types.
+    }
+
+    public Payable(PayableFields fields) {
+      Assertion.Require(fields, nameof(fields));
+
+      Update(fields);
     }
 
     static public Payable Parse(int id) => ParseId<Payable>(id);
@@ -43,23 +53,28 @@ namespace Empiria.Payments.Payables {
 
     #region Properties
 
+
     public PayableType PayableType {
       get {
         return (PayableType) GetEmpiriaType();
       }
     }
 
+
     public Party PayTo {
       get; private set;
     }
+
 
     public Currency Currency {
       get; private set;
     }
 
+
     public decimal Total {
       get; private set;
     }
+
 
     public DateTime DueTime {
       get; private set;
@@ -70,23 +85,65 @@ namespace Empiria.Payments.Payables {
       get; private set;
     }
 
+
     private JsonObject ExtData {
       get; set;
+    } = JsonObject.Empty;
+
+
+    public string Keywords {
+      get {
+        return EmpiriaString.BuildKeywords(this.PayTo.Name, this.PayableType.Name, this.Total.ToString());
+      }
     }
+
 
     public Contact PostedBy {
       get; private set;
     }
 
+
     public DateTime PostingTime {
       get; private set;
     }
+
 
     public PayableStatus Status {
       get; private set;
     }
 
     #endregion Properties
+
+    #region Methods
+
+
+    protected override void OnSave() {
+      if (base.IsNew) {
+        this.PostedBy = ExecutionServer.CurrentContact;
+        this.PostingTime = DateTime.Now;
+        this.Status = PayableStatus.Capture;
+      }
+
+      PayableData.WritePayable(this, this.ExtData.ToString());
+    }
+
+
+    internal void Update(PayableFields fields) {
+      Assertion.Require(fields, nameof(fields));
+      
+
+      fields.EnsureValid();
+
+      // this.PayableType = PayableType.Parse(fields.PayableTypeUID); 
+      this.PayTo = Party.Parse(fields.PayToUID);
+      this.Total = fields.Total;
+      this.Currency = Currency.Parse(fields.CurrencyUID);
+      this.DueTime = fields.DueTime;
+      this.Notes = fields.Notes;
+    }
+
+
+    #endregion Methods
 
   }  // class Payable
 
