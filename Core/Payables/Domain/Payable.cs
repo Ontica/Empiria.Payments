@@ -35,7 +35,7 @@ namespace Empiria.Payments.Payables {
       // Required by Empiria Framework for all partitioned types.
     }
 
-    public Payable(PayableFields fields) {
+    internal protected Payable(PayableType payableType, PayableFields fields) : base(payableType) {
       Assertion.Require(fields, nameof(fields));
 
       Update(fields);
@@ -127,21 +127,17 @@ namespace Empiria.Payments.Payables {
       PayableData.WritePayable(this, this.ExtData.ToString());
     }
 
-
     internal void Update(PayableFields fields) {
       Assertion.Require(fields, nameof(fields));
-      
 
       fields.EnsureValid();
 
-      // this.PayableType = PayableType.Parse(fields.PayableTypeUID); 
       this.PayTo = Party.Parse(fields.PayToUID);
       this.Total = fields.Total;
       this.Currency = Currency.Parse(fields.CurrencyUID);
       this.DueTime = fields.DueTime;
       this.Notes = fields.Notes;
     }
-
 
     #endregion Methods
 

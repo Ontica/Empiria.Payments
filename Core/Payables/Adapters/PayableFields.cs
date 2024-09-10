@@ -32,7 +32,7 @@ namespace Empiria.Payments.Payables.Adapters {
     public Decimal Total {
       get; set;
     }
-    
+
 
     public string CurrencyUID {
       get; set;
@@ -41,19 +41,17 @@ namespace Empiria.Payments.Payables.Adapters {
 
     public DateTime DueTime {
       get; set;
-    } = ExecutionServer.DateMinValue; 
+    } = ExecutionServer.DateMinValue;
 
 
     public string Notes {
       get; set;
     } = string.Empty;
-       
-    
 
 
-    internal void EnsureValid() {
+    virtual internal void EnsureValid() {
       Assertion.Require(PayableTypeUID, "Necesito el tipo de pago.");
-      //_ = PayableType.Parse(PayableTypeUID);
+      _ = PayableType.Parse(PayableTypeUID);
 
       Assertion.Require(PayToUID, "Necesito saber a quien se le realizará el pago.");
        _ = Party.Parse(PayToUID);
@@ -62,8 +60,6 @@ namespace Empiria.Payments.Payables.Adapters {
 
       Assertion.Require(CurrencyUID, "Necesito la moneda.");
       _ = Currency.Parse(CurrencyUID);
-
-           
     }
 
   }  // class PayableFields

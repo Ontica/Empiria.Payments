@@ -31,19 +31,19 @@ namespace Empiria.Payments.Payables.UseCases {
 
     #region Use cases
 
-
     public PayableDto CreatePayable(PayableFields fields) {
       Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
 
-      var payable = new Payable(fields);
+      PayableType payableType = PayableType.Parse(fields.PayableTypeUID);
+
+      var payable = new Payable(payableType, fields);
 
       payable.Save();
 
       return PayableMapper.Map(payable);
     }
-
 
     #endregion Use cases
 
