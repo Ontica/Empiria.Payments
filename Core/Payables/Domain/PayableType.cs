@@ -4,7 +4,7 @@
 *  Assembly : Empiria.Payments.Core.dll                  Pattern   : Power type                              *
 *  Type     : PayableType                                License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : Powertype that describes payable types.                                                        *
+*  Summary  : Power type that describes payable types partitioning payable objects.                          *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
@@ -12,7 +12,7 @@ using Empiria.Ontology;
 
 namespace Empiria.Payments.Payables {
 
-  /// <summary>Power type that describes payable types.</summary>
+  /// <summary>Power type that describes payable types partitioning payable objects.</summary>
   [Powertype(typeof(Payable))]
   internal class PayableType : Powertype {
 
@@ -39,6 +39,8 @@ namespace Empiria.Payments.Payables {
         return Parse("ObjectType.Payable.Empty");
       }
     }
+
+    static public PayableType ContractMilestone => Parse("ObjectTypeInfo.Payable.ContractMilestone");
 
     #endregion Constructors and parsers
 
