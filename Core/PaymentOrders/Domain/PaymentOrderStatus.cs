@@ -19,10 +19,19 @@ namespace Empiria.Payments.Orders {
 
     Suspended = 'S',
 
+    Returned = 'T',
+
+    Rejected = 'J',
+
+    Committed = 'M',
+
+    Programmed = 'G',
+
+    Payed = 'C',
+
     Deleted = 'X',
 
   }  // enum PaymentOrderStatus
-
 
 
   /// <summary>Extension methods for PaymentOrderStatus enumeration.</summary>
@@ -33,9 +42,19 @@ namespace Empiria.Payments.Orders {
         case PaymentOrderStatus.Pending:
           return "Pendiente";
         case PaymentOrderStatus.Received:
-          return "Received";
+          return "Recibida";
         case PaymentOrderStatus.Suspended:
-          return "Suspended";
+          return "Suspendida";
+        case PaymentOrderStatus.Returned:
+          return "Regresada";
+        case PaymentOrderStatus.Rejected:
+          return "Rechazada";
+        case PaymentOrderStatus.Committed:
+          return "Comprometida";
+        case PaymentOrderStatus.Programmed:
+          return "Programada";
+        case PaymentOrderStatus.Payed:
+          return "Pagada";
         case PaymentOrderStatus.Deleted:
           return "Eliminada";
         default:
