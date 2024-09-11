@@ -30,21 +30,6 @@ namespace Empiria.Payments.Orders.Adapters {
     }
 
 
-    public string PayToType {
-      get; internal set;
-    }
-
-
-    public string BussinesObjectType {
-      get; internal set;
-    }
-
-
-    public string BussinesObject {
-      get; internal set;
-    }
-
-
     public string RequestedBy {
       get; internal set;
     }
@@ -86,11 +71,6 @@ namespace Empiria.Payments.Orders.Adapters {
 
 
     public string PayTo {
-      get; internal set;
-    }
-
-
-    public string Payable {
       get; internal set;
     }
 

@@ -41,7 +41,7 @@ namespace Empiria.Payments.Orders.Adapters {
         UID = paymentOrder.UID,
         PaymentOrderNo = paymentOrder.PaymentOrderNo,
         PayTo = paymentOrder.PayTo.Name,
-        Payable = "Objeto Payable",
+        PaymentMethod = paymentOrder.PaymentMethod.Name,
         Total = paymentOrder.Total,
         Currency = paymentOrder.Currency.Name,
         RequestedBy = paymentOrder.RequestedBy.Name,

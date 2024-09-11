@@ -128,7 +128,7 @@ namespace Empiria.Payments.Orders {
 
 
     [DataField("PYM_ORDER_REQUESTED_BY_ID")]
-    public Party RequestedBy {
+    public OrganizationalUnit RequestedBy {
       get; private set;
     }
 
@@ -210,7 +210,7 @@ namespace Empiria.Payments.Orders {
       this.Notes = fields.Notes;
       this.RequestedTime = fields.RequestedTime;
       this.DueTime = fields.DueTime;
-      this.RequestedBy = Party.Parse(fields.RequestedByUID);
+      this.RequestedBy = OrganizationalUnit.Parse(fields.RequestedByUID);
       this.Total = fields.Total;
     }
 
