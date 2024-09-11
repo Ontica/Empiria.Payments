@@ -94,7 +94,7 @@ namespace Empiria.Payments.Contracts {
 
 
     [DataField("CONTRACT_ITEM_PAYMENTPERID")]
-    public Payments.Contracts.Contract PaymentsPeriodicity {
+    public Contract PaymentsPeriodicity {
       get; private set;
     }
 
@@ -132,7 +132,7 @@ namespace Empiria.Payments.Contracts {
       }
     }
 
-    
+
     [DataField("CONTRACT_ITEM_POSTING_TIME")]
     internal DateTime LastUpdatedTime {
       get {
@@ -143,7 +143,7 @@ namespace Empiria.Payments.Contracts {
       }
     }
 
-    
+
     [DataField("CONTRACT_ITEM_TOTAL", ConvertFrom = typeof(decimal))]
     public decimal Total {
       get; private set;

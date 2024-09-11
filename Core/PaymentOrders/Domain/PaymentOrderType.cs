@@ -26,7 +26,6 @@ namespace Empiria.Payments.Orders {
 
     #endregion Constructors and parsers
 
-
     #region Public Methods
 
     static internal FixedList<PaymentOrderType> GetList() {
@@ -37,7 +36,6 @@ namespace Empiria.Payments.Orders {
 
     #endregion Public Methods
 
-
-  }  // class ContractType
+  }  // class PaymentOrderType
 
 }  // namespace Empiria.Payments.Contracts

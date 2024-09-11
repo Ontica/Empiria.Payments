@@ -8,7 +8,6 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
-using System;
 using Empiria.Payments.Orders.Adapters;
 using Empiria.Payments.Orders.Data;
 
@@ -42,7 +41,7 @@ namespace Empiria.Payments.Orders {
     #region Methods
 
     #endregion Methods
-  } // class PaymentOrderSearcher
 
+  } // class PaymentOrderSearcher
 
 } // namespace Empiria.Payments.Orders

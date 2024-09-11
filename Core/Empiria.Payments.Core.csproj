@@ -71,10 +71,12 @@
     <ProjectReference Include="..\..\financial.core\Core\Empiria.Financial.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Contracts\Domain\ContractItem.cs~RF586737c.TMP" />
+    <Compile Remove="Suppliers\**" />
+    <EmbeddedResource Remove="Suppliers\**" />
+    <None Remove="Suppliers\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Suppliers\" />
+    <None Remove="Contracts\Domain\ContractItem.cs~RF586737c.TMP" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\financial.budgeting\Core\Empiria.Budgeting.Core.csproj" />

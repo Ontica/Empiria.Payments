@@ -8,20 +8,20 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
+using System;
+
 using Empiria.Contacts;
-using Empiria.Financial.Core;
 using Empiria.Json;
 using Empiria.Parties;
-using Empiria.Payments.Orders.Adapters;
 using Empiria.StateEnums;
-using System;
+
+using Empiria.Financial.Core;
 
 namespace Empiria.Payments.Orders {
 
 
   /// Represents a paymentAccount.
   public class PaymentAccount: BaseObject {
-
 
     #region Constructors and parsers
 
@@ -32,7 +32,7 @@ namespace Empiria.Payments.Orders {
     static public PaymentAccount Parse(int id) => ParseId<PaymentAccount>(id);
 
     static internal PaymentAccount Parse(string UID) => BaseObject.ParseKey<PaymentAccount>(UID);
-    
+
 
     static public PaymentAccount Empty => ParseEmpty<PaymentAccount>();
 
@@ -83,7 +83,7 @@ namespace Empiria.Payments.Orders {
     private JsonObject ExtData {
       get; set;
     }
-          
+
 
     public Contact PostedBy {
       get; private set;
@@ -102,15 +102,6 @@ namespace Empiria.Payments.Orders {
 
     #endregion Properties
 
-    #region Methods
-
-
-   
-
-    #endregion Helpers
-
-
   } // class PaymentAccount
-
 
 } // namespace Empiria.Payments.Orders

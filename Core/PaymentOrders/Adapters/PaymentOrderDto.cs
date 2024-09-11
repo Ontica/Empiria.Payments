@@ -10,9 +10,6 @@
 
 using System;
 
-using Empiria.DynamicData;
-using Empiria.StateEnums;
-
 namespace Empiria.Payments.Orders.Adapters {
 
   /// <summary>Output DTO used to return full payment orders.</summary>
@@ -74,35 +71,9 @@ namespace Empiria.Payments.Orders.Adapters {
 
   }  // class PaymentOrderDto
 
-  public class SearchSalesOrderDto {
-
-
-
-  } // class SearchSalesOrderDto
 
   /// <summary>Output DTO used to return minimal payment order's data for use in lists.</summary>
   public class PaymentOrderDescriptor {
-
-    public PaymentOrdersQuery Query {
-      get; internal set;
-    }
-
-    public FixedList<DataTableColumn> Columns {
-      get; internal set;
-    }
-
-    public FixedList<PaymentOrderDescriptorDto> Entries {
-      get; internal set;
-    }
-
-
-
-  }  // class PaymentOrderDescriptor
-
-
-  /// <summary>Output DTO used to return minimal payment order's data for use in lists.</summary>
-  public class PaymentOrderDescriptorDto {
-
 
     public string UID {
       get; internal set;
@@ -158,7 +129,6 @@ namespace Empiria.Payments.Orders.Adapters {
       get; internal set;
     }
 
-  } // class PaymentOrderDescriptorDto
-
+  } // class PaymentOrderDescriptor
 
 }  // namespace Empiria.Payments.Orders.Adapters
