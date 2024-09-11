@@ -65,13 +65,13 @@ namespace Empiria.Payments.Orders.UseCases {
     }
 
 
-    public PaymentOrderDescriptor GetPaymentOrders(PaymentOrdersQuery query) {
+    public FixedList<PaymentOrderDescriptor> GetPaymentOrders(PaymentOrdersQuery query) {
 
       PaymentOrderSearcher search = new PaymentOrderSearcher();
 
       var orders = search.GetOrders(query);
 
-      return PaymentOrderSearcherMapper.Map(query,orders);
+      return PaymentOrderMapper.MapToDescriptor(orders);
     }
 
 

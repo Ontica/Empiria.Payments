@@ -60,12 +60,12 @@ namespace Empiria.Payments.Orders.WebApi {
 
     [HttpPost]
     [Route("v2/payments-management/payment-orders/search")]
-    public SingleObjectModel GetPaymentOrders([FromBody] PaymentOrdersQuery query) {
+    public CollectionModel GetPaymentOrders([FromBody] PaymentOrdersQuery query) {
 
       using (var usecases = PaymentOrderUseCases.UseCaseInteractor()) {
-        PaymentOrderDescriptor paymentOrders = usecases.GetPaymentOrders(query);
+        FixedList<PaymentOrderDescriptor> paymentOrders = usecases.GetPaymentOrders(query);
 
-        return new SingleObjectModel(base.Request, paymentOrders);
+        return new CollectionModel(base.Request, paymentOrders);
       }
     }
 
