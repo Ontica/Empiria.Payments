@@ -1,15 +1,17 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
 *  Module   : Payments Management                        Component : Domain Layer                            *
-*  Assembly : Empiria.Payments.Core.dll                  Pattern   : Partitioned type                        *
+*  Assembly : Empiria.Payments.Core.dll                  Pattern   : Aggregate root, Partitioned type        *
 *  Type     : Payable                                    License   : Please read LICENSE.txt file            *
 *                                                                                                            *
-*  Summary  : Represents a payable object. A payable can be a bill, a contract milestone,                    *
-*             a service order, a loan, travel expenses, a fixed fund provision, etc.                         *
+*  Summary  : Represents a payable object that is an aggregate root of PayableItem objects.                  *
+*             A payable can be a bill, a contract milestone, a service order, a loan, travel expenses,       *
+*             fixed fund provision, etc.                                                                     *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
+using System.Linq;
 
 using Empiria.Contacts;
 using Empiria.Json;
@@ -25,8 +27,9 @@ using Empiria.Payments.Payables.Data;
 
 namespace Empiria.Payments.Payables {
 
-  /// <summary>Represents a payable object. A payable can be a bill, a contract milestone,
-  /// a service order, a loan, travel expenses, a fixed fund provision, etc.</summary>
+  /// <summary>Represents a payable object that is an aggregate root of PayableItem objects.
+  /// A payable can be a bill, a contract milestone, a service order, a loan, travel expenses,
+  /// fixed fund provision, etc.</summary>
   [PartitionedType(typeof(PayableType))]
   internal class Payable : BaseObject {
 
@@ -54,7 +57,6 @@ namespace Empiria.Payments.Payables {
 
     #region Properties
 
-
     public PayableType PayableType {
       get {
         return (PayableType) GetEmpiriaType();
@@ -72,10 +74,12 @@ namespace Empiria.Payments.Payables {
       get; private set;
     }
 
+
     [DataField("PYM_BUDGET_TYPE_ID")]
     public BudgetType BudgetType {
       get; private set;
     }
+
 
     [DataField("PYM_PAYABLE_CURRENCY_ID")]
     public Currency Currency {
@@ -85,9 +89,10 @@ namespace Empiria.Payments.Payables {
 
     public decimal Total {
       get {
-        return 1000;
+        return GetItems().Sum(x => x.Total);
       }
     }
+
 
     [DataField("PYM_PAYABLE_DUETIME")]
     public DateTime DueTime {
@@ -159,6 +164,48 @@ namespace Empiria.Payments.Payables {
     }
 
     #endregion Methods
+
+    #region Aggregate root methods
+
+    public PayableItem AddItem(PayableItemFields fields) {
+      Assertion.Require(fields, nameof(fields));
+
+      fields.EnsureValid();
+
+      return new PayableItem(this, fields);
+    }
+
+
+    public void DeleteItem(string uid) {
+      PayableItem item = GetItem(uid);
+
+      item.Delete();
+    }
+
+
+    public FixedList<PayableItem> GetItems() {
+      return PayableData.GetPayableItems(this);
+    }
+
+
+    public PayableItem GetItem(string uid) {
+      return PayableData.GetPayableItem(this, uid);
+    }
+
+
+    public PayableItem UpdateItem(PayableItemFields fields) {
+      Assertion.Require(fields, nameof(fields));
+
+      fields.EnsureValid();
+
+      PayableItem item = GetItem(fields.UID);
+
+      item.Update(fields);
+
+      return item;
+    }
+
+    #endregion Aggregate root methods
 
   }  // class Payable
 

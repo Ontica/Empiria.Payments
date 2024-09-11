@@ -15,19 +15,30 @@ using Empiria.Contacts;
 using Empiria.Json;
 using Empiria.StateEnums;
 
-using Empiria.Financial.Core;
 using Empiria.Products;
+
+using Empiria.Financial.Core;
+using Empiria.Budgeting;
+
+using Empiria.Payments.Payables.Adapters;
 
 namespace Empiria.Payments.Payables {
 
-    /// <summary>Represents an item of a payable object. A payable can be a bill, a contract milestone,
-    /// a service order, a loan, travel expenses, a fixed fund provision, etc.</summary>
-    internal class PayableItem : BaseObject {
+  /// <summary>Represents an item of a payable object. A payable can be a bill, a contract milestone,
+  /// a service order, a loan, travel expenses, a fixed fund provision, etc.</summary>
+  internal class PayableItem : BaseObject {
 
     #region Constructors and parsers
 
     protected PayableItem(PayableType powertype) : base(powertype) {
       // Required by Empiria Framework for all partitioned types.
+    }
+
+    public PayableItem(Payable payable, PayableItemFields fields) {
+      Assertion.Require(payable, nameof(payable));
+      Assertion.Require(fields, nameof(fields));
+
+      throw new NotImplementedException();
     }
 
     static public PayableItem Parse(int id) => ParseId<PayableItem>(id);
@@ -58,7 +69,36 @@ namespace Empiria.Payments.Payables {
       get; private set;
     }
 
+
+    public decimal ExchangeRate {
+      get; private set;
+    } = 1;
+
+
+    public decimal UnitPrice {
+      get; private set;
+    }
+
+
+    public decimal Subtotal {
+      get {
+        return Math.Round(UnitPrice * Quantity * ExchangeRate);
+      }
+    }
+
+
+    public decimal Taxes {
+      get; private set;
+    }
+
+
     public decimal Total {
+      get {
+        return Math.Round(Subtotal + Taxes);
+      }
+    }
+
+    public BudgetAccount BudgetAccount {
       get; private set;
     }
 
@@ -83,6 +123,22 @@ namespace Empiria.Payments.Payables {
     }
 
     #endregion Properties
+
+    #region Methods
+
+    internal void Delete() {
+      throw new NotImplementedException();
+    }
+
+    internal void Update(PayableItemFields fields) {
+      Assertion.Require(fields, nameof(fields));
+
+      fields.EnsureValid();
+
+      throw new NotImplementedException();
+    }
+
+    #endregion Methods
 
   }  // class PayableItem
 

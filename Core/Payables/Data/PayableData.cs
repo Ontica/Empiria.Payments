@@ -8,6 +8,7 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
+using System;
 using Empiria.Data;
 
 namespace Empiria.Payments.Payables.Data {
@@ -16,6 +17,21 @@ namespace Empiria.Payments.Payables.Data {
   static internal class PayableData {
 
     #region Methods
+
+    static internal PayableItem GetPayableItem(Payable payable, string payableItemUID) {
+      Assertion.Require(payable, nameof(payable));
+      Assertion.Require(payableItemUID, nameof(payableItemUID));
+
+      throw new NotImplementedException();
+    }
+
+
+    static internal FixedList<PayableItem> GetPayableItems(Payable payable) {
+      Assertion.Require(payable, nameof(payable));
+
+      throw new NotImplementedException();
+    }
+
 
     static internal void WritePayable(Payable o, string extensionData) {
       var op = DataOperation.Parse("write_PYM_Payable",
@@ -38,6 +54,7 @@ namespace Empiria.Payments.Payables.Data {
 
       DataWriter.Execute(op);
     }
+
 
     #endregion Methods
 
