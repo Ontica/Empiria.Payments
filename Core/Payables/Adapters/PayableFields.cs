@@ -10,9 +10,11 @@
 
 using System;
 
-using Empiria.Financial.Core;
 using Empiria.Parties;
 
+using Empiria.Budgeting;
+
+using Empiria.Financial.Core;
 
 namespace Empiria.Payments.Payables.Adapters {
 
@@ -23,21 +25,21 @@ namespace Empiria.Payments.Payables.Adapters {
       get; set;
     }
 
+    public string OrganizationalUnitUID {
+      get; set;
+    }
 
     public string PayToUID {
       get; set;
     }
 
-
-    public Decimal Total {
-      get; set;
-    }
-
-
     public string CurrencyUID {
       get; set;
     }
 
+    public string BudgetTypeUID {
+      get; set;
+    }
 
     public DateTime DueTime {
       get; set;
@@ -53,13 +55,18 @@ namespace Empiria.Payments.Payables.Adapters {
       Assertion.Require(PayableTypeUID, "Necesito el tipo de pago.");
       _ = PayableType.Parse(PayableTypeUID);
 
+
+      Assertion.Require(OrganizationalUnitUID, "Necesito se proporcione el área.");
+      _ = OrganizationalUnit.Parse(OrganizationalUnitUID);
+
       Assertion.Require(PayToUID, "Necesito saber a quien se le realizará el pago.");
        _ = Party.Parse(PayToUID);
 
-      Assertion.Require(Total > 0, "Necesito que el importe a pagar sea mayor a cero.");
-
       Assertion.Require(CurrencyUID, "Necesito la moneda.");
       _ = Currency.Parse(CurrencyUID);
+
+      Assertion.Require(BudgetTypeUID, "Necesito saber con qué presupuesto se hará el pago.");
+      _ = BudgetType.Parse(BudgetTypeUID);
     }
 
   }  // class PayableFields

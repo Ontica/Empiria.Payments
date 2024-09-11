@@ -18,8 +18,9 @@ using Empiria.Parties;
 
 using Empiria.Financial.Core;
 
-using Empiria.Payments.Payables.Adapters;
+using Empiria.Budgeting;
 
+using Empiria.Payments.Payables.Adapters;
 using Empiria.Payments.Payables.Data;
 
 namespace Empiria.Payments.Payables {
@@ -60,70 +61,87 @@ namespace Empiria.Payments.Payables {
       }
     }
 
-
-    public Party PayTo {
+    [DataField("PYM_PAYABLE_ORG_UNIT_ID")]
+    public OrganizationalUnit OrganizationalUnit {
       get; private set;
     }
 
 
+    [DataField("PYM_PAYABLE_PAY_TO_ID")]
+    public Party PayTo {
+      get; private set;
+    }
+
+    [DataField("PYM_BUDGET_TYPE_ID")]
+    public BudgetType BudgetType {
+      get; private set;
+    }
+
+    [DataField("PYM_PAYABLE_CURRENCY_ID")]
     public Currency Currency {
       get; private set;
     }
 
 
     public decimal Total {
-      get; private set;
+      get {
+        return 1000;
+      }
     }
 
-
+    [DataField("PYM_PAYABLE_DUETIME")]
     public DateTime DueTime {
       get; private set;
     } = ExecutionServer.DateMaxValue;
 
 
+    [DataField("PYM_PAYABLE_NOTES")]
     public string Notes {
       get; private set;
     }
 
-
-    private JsonObject ExtData {
+    [DataField("PYM_PAYABLE_EXT_DATA")]
+    protected JsonObject ExtData {
       get; set;
     } = JsonObject.Empty;
 
 
     public string Keywords {
       get {
-        return EmpiriaString.BuildKeywords(this.PayTo.Name, this.PayableType.Name, this.Total.ToString());
+        return EmpiriaString.BuildKeywords(this.PayTo.Name, this.PayableType.Name);
       }
     }
 
 
+    [DataField("PYM_PAYABLE_POSTED_BY_ID")]
     public Contact PostedBy {
       get; private set;
     }
 
 
+    [DataField("PYM_PAYABLE_POSTING_TIME")]
     public DateTime PostingTime {
       get; private set;
     }
 
 
+    [DataField("PYM_PAYABLE_STATUS", Default = PayableStatus.Capture)]
     public PayableStatus Status {
       get; private set;
-    }
+    } = PayableStatus.Capture;
 
     #endregion Properties
 
     #region Methods
 
-
-    protected override void OnSave() {
+    protected override void OnBeforeSave() {
       if (base.IsNew) {
         this.PostedBy = ExecutionServer.CurrentContact;
         this.PostingTime = DateTime.Now;
-        this.Status = PayableStatus.Capture;
       }
+    }
 
+    protected override void OnSave() {
       PayableData.WritePayable(this, this.ExtData.ToString());
     }
 
@@ -132,8 +150,9 @@ namespace Empiria.Payments.Payables {
 
       fields.EnsureValid();
 
+      this.OrganizationalUnit = OrganizationalUnit.Parse(fields.OrganizationalUnitUID);
       this.PayTo = Party.Parse(fields.PayToUID);
-      this.Total = fields.Total;
+      this.BudgetType = BudgetType.Parse(fields.BudgetTypeUID);
       this.Currency = Currency.Parse(fields.CurrencyUID);
       this.DueTime = fields.DueTime;
       this.Notes = fields.Notes;

@@ -13,6 +13,7 @@ using System;
 using Empiria.Payments.Contracts;
 
 using Empiria.Payments.Payables.Adapters;
+using Empiria.Payments.Payables.Data;
 
 namespace Empiria.Payments.Payables {
 
@@ -42,6 +43,7 @@ namespace Empiria.Payments.Payables {
 
     #region Properties
 
+    [DataField("PYM_PAYABLE_CONTRACT_ID")]
     public Contract Contract {
       get; private set;
     }
@@ -49,6 +51,10 @@ namespace Empiria.Payments.Payables {
     #endregion Properties
 
     #region Methods
+
+    protected override void OnSave() {
+      PayableData.WriteContractMilestone(this, base.ExtData.ToString());
+    }
 
     internal void Update(ContractMilestoneFields fields) {
       base.Update(fields);

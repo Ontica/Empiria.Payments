@@ -41,7 +41,6 @@ namespace Empiria.Tests.Payments.Payables {
       var fields = new PayableFields {
         PayableTypeUID = "32e1b307-676b-4488-b26f-1cbc03878875",
         PayToUID = "c6278424-d1ff-492f-b5fe-410b4258292c",
-        Total = 1234567.89m,
         CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
         DueTime = DateTime.Today,
         Notes = "Sin notas",
