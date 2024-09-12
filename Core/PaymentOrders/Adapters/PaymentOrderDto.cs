@@ -65,6 +65,11 @@ namespace Empiria.Payments.Orders.Adapters {
     }
 
 
+    public string PaymentOrderTypeName {
+      get; internal set;
+    }
+
+
     public string PaymentOrderNo {
       get; internal set;
     }

@@ -135,7 +135,9 @@ namespace Empiria.Payments.Orders {
 
     public string Keywords {
       get {
-        return EmpiriaString.BuildKeywords(this.PayTo.Name, this.RequestedBy.Name);
+        return EmpiriaString.BuildKeywords(this.PaymentOrderNo, this.PayTo.Name,
+                                           this.RequestedBy.Name, this.PaymentOrderType.Name,
+                                           this.PaymentMethod.Name);
       }
     }
 

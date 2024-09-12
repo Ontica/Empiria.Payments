@@ -39,6 +39,7 @@ namespace Empiria.Payments.Orders.Adapters {
     static internal PaymentOrderDescriptor MapToDescriptor(PaymentOrder paymentOrder) {
       return new PaymentOrderDescriptor {
         UID = paymentOrder.UID,
+        PaymentOrderTypeName = paymentOrder.PaymentOrderType.Name,
         PaymentOrderNo = paymentOrder.PaymentOrderNo,
         PayTo = paymentOrder.PayTo.Name,
         PaymentMethod = paymentOrder.PaymentMethod.Name,
