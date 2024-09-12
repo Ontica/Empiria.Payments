@@ -9,7 +9,6 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using Empiria.Data;
-using Empiria.Payments.Orders.Adapters;
 
 namespace Empiria.Payments.Orders.Data {
 
@@ -18,19 +17,16 @@ namespace Empiria.Payments.Orders.Data {
 
     #region Methods
 
+    static internal FixedList<PaymentOrder> GetPaymentOrders(string filter, string sortBy) {
+      var sql = "SELECT * FROM PYM_ORDERS";
 
-    static internal FixedList<PaymentOrder> GetPaymentOrders(PaymentOrdersQuery query) {
-
-      string keywordsFilter = string.Empty;
-      char status = 'A';
-
-      if (query.Keywords != string.Empty) {
-        keywordsFilter = $" {SearchExpression.ParseAndLikeKeywords("PYM_ORDER_KEYWORDS", query.Keywords)} AND ";
+      if (!string.IsNullOrWhiteSpace(filter)) {
+        sql += $" WHERE {filter}";
       }
 
-      var sql = $"SELECT * FROM PYM_ORDERS WHERE {keywordsFilter} (PYM_ORDER_DUETIME >={DataCommonMethods.FormatSqlDbDateTime(query.FromDate)}) AND " +
-        $" (PYM_ORDER_DUETIME < {DataCommonMethods.FormatSqlDbDateTime(query.ToDate.AddDays(1))} ) AND " +
-        $" (PYM_ORDER_STATUS = '{status}') ";
+      if (!string.IsNullOrWhiteSpace(sortBy)) {
+        sql += $" ORDER BY {sortBy}";
+      }
 
       var dataOperation = DataOperation.Parse(sql);
 

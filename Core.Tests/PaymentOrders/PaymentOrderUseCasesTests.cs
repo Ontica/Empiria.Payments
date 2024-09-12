@@ -108,14 +108,14 @@ namespace Empiria.Tests.Payments.Orders {
 
 
     [Fact]
-    public void Should_Search_Payment_Order() {
+    public void Should_Search_Payment_Orders() {
       var query = new PaymentOrdersQuery {
         Keywords = "",
         FromDate = new DateTime(2024, 01, 01),
         ToDate = new DateTime(2024, 01, 01)
       };
 
-      var sut = _usecases.GetPaymentOrders(query);
+      var sut = _usecases.SearchPaymentOrders(query);
 
       Assert.NotNull(sut);
     }

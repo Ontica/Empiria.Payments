@@ -31,6 +31,8 @@ namespace Empiria.Payments.Orders {
 
     Deleted = 'X',
 
+    All = '@',
+
   }  // enum PaymentOrderStatus
 
 

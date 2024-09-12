@@ -12,6 +12,7 @@ using Empiria.Services;
 
 using Empiria.Payments.Orders.Adapters;
 using System;
+using Empiria.Payments.Orders.Data;
 
 namespace Empiria.Payments.Orders.UseCases {
 
@@ -65,16 +66,6 @@ namespace Empiria.Payments.Orders.UseCases {
     }
 
 
-    public FixedList<PaymentOrderDescriptor> GetPaymentOrders(PaymentOrdersQuery query) {
-
-      PaymentOrderSearcher search = new PaymentOrderSearcher();
-
-      var orders = search.GetOrders(query);
-
-      return PaymentOrderMapper.MapToDescriptor(orders);
-    }
-
-
     public FixedList<NamedEntityDto> GetPaymentOrderTypes() {
       var paymentOrderTypes = PaymentOrderType.GetList();
 
@@ -86,6 +77,20 @@ namespace Empiria.Payments.Orders.UseCases {
       var paymentMethods = PaymentMethod.GetList();
 
       return paymentMethods.MapToNamedEntityList();
+    }
+
+
+    public FixedList<PaymentOrderDescriptor> SearchPaymentOrders(PaymentOrdersQuery query) {
+      Assertion.Require(query, nameof(query));
+
+      query.EnsureIsValid();
+
+      string filter = query.MapToFilterString();
+      string sort = query.MapToSortString();
+
+      FixedList<PaymentOrder> paymentOrders = PaymentOrderData.GetPaymentOrders(filter, sort);
+
+      return PaymentOrderMapper.MapToDescriptor(paymentOrders);
     }
 
 
