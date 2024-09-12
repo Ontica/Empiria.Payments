@@ -7,13 +7,10 @@
 *  Summary  : Represents a supplier payment related request.                                                 *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
-using System;
 
 using Empiria.DataObjects;
-using Empiria.Parties;
 
 using Empiria.Workflow.Requests;
-using Empiria.Workflow.Requests.Adapters;
 
 namespace Empiria.Payments.Processes {
 
@@ -29,16 +26,6 @@ namespace Empiria.Payments.Processes {
       get {
         return new FixedList<FieldValue>();
       }
-    }
-
-    protected override void Update(RequestFieldsDto fields) {
-      base.Update(fields);
-
-      this.UniqueID = $"GP-{DateTime.Today.Year}-00001";
-      this.ControlID = $"{DateTime.Today.Year}-00001";
-      this.Requester = Person.Parse(ExecutionServer.CurrentUserId);
-      this.RequesterName = Requester.Name;
-      this.Description = $"{RequestType.DisplayName}";
     }
 
   }  // class PaymentRequest
