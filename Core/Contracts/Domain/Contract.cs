@@ -52,7 +52,7 @@ namespace Empiria.Payments.Contracts {
 
     #region Properties
 
-    [DataField("CONTRACT_TYPE_ID")]
+    // [DataField("CONTRACT_TYPE_ID")]
     public string ContractTypeUID {
       get; private set;
     }
@@ -96,7 +96,7 @@ namespace Empiria.Payments.Contracts {
     }
 
 
-    [DataField("SUPPLIER_UID")]
+    // [DataField("SUPPLIER_ID")]
     public string SupplierUID {
       get; private set;
     }
