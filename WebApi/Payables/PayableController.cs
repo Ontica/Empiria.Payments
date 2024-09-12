@@ -21,9 +21,22 @@ namespace Empiria.Payments.Payables.WebApi {
 
     #region Query web apis
 
+
+    [HttpGet]
+    [Route("v2/payments-management/payables/budget-types")]
+    public CollectionModel GetBudgetTypes() {
+
+      using (var usecases = PayableUseCases.UseCaseInteractor()) {
+        FixedList<NamedEntityDto> budgetTypes = usecases.GetBudgetTypes();
+
+        return new CollectionModel(Request, budgetTypes);
+      }
+    }
+
+
     [HttpGet]
     [Route("v2/payments-management/payables/payable-types")]
-    public CollectionModel GetPaymentMethods() {
+    public CollectionModel GetPayableTypes() {
 
       using (var usecases = PayableUseCases.UseCaseInteractor()) {
         FixedList<NamedEntityDto> payableTypes = usecases.GetPayableTypes();

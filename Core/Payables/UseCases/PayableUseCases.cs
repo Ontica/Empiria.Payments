@@ -11,6 +11,7 @@
 using Empiria.Services;
 
 using Empiria.Payments.Payables.Adapters;
+using Empiria.Budgeting;
 
 namespace Empiria.Payments.Payables.UseCases {
 
@@ -43,6 +44,15 @@ namespace Empiria.Payments.Payables.UseCases {
       payable.Save();
 
       return PayableMapper.Map(payable);
+    }
+
+
+    public FixedList<NamedEntityDto> GetBudgetTypes() {
+
+      FixedList<BudgetType> budgetTypes = BudgetType.GetList();
+
+      return budgetTypes.Select(x => new NamedEntityDto(x.UID, x.DisplayName))
+                         .ToFixedList();
     }
 
 

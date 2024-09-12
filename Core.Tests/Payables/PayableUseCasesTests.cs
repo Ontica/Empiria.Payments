@@ -12,6 +12,7 @@ using Xunit;
 
 using Empiria.Payments.Payables.UseCases;
 using Empiria.Payments.Payables.Adapters;
+using Empiria.Budgeting;
 
 namespace Empiria.Tests.Payments.Payables {
 
@@ -52,7 +53,16 @@ namespace Empiria.Tests.Payments.Payables {
 
       Assert.NotNull(sut);
     }
-     
+
+
+    [Fact]
+    public void Should_Get_Budget_Types() {
+
+      var sut = _usecases.GetBudgetTypes();
+
+      Assert.NotNull(sut);
+    }                    
+
 
     [Fact]
     public void Should_Get_Payable_Types() {
