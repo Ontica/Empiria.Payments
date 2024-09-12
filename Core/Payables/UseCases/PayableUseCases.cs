@@ -45,6 +45,16 @@ namespace Empiria.Payments.Payables.UseCases {
       return PayableMapper.Map(payable);
     }
 
+
+    public FixedList<NamedEntityDto> GetPayableTypes() {
+
+      FixedList<PayableType> payableTypes = PayableType.GetList();
+
+      return payableTypes.Select(x => new NamedEntityDto(x.UID, x.DisplayName))
+      .ToFixedList();
+    }
+
+   
     #endregion Use cases
 
   }  // class PayableUseCases

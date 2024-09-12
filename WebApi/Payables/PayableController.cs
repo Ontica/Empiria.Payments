@@ -20,7 +20,17 @@ namespace Empiria.Payments.Payables.WebApi {
   public class PayableController : WebApiController {
 
     #region Query web apis
-      
+
+    [HttpGet]
+    [Route("v2/payments-management/payables/payable-types")]
+    public CollectionModel GetPaymentMethods() {
+
+      using (var usecases = PayableUseCases.UseCaseInteractor()) {
+        FixedList<NamedEntityDto> payableTypes = usecases.GetPayableTypes();
+
+        return new CollectionModel(Request, payableTypes);
+      }
+    }
 
     #endregion Query web apis
 

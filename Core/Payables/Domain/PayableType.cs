@@ -34,11 +34,17 @@ namespace Empiria.Payments.Payables {
       return Parse<PayableType>(typeName);
     }
 
+    static public FixedList<PayableType> GetList() {
+      return BasePayableType.ExtensionData.GetFixedList<PayableType>("payableTypes");
+    }
+
     static public PayableType Empty {
       get {
         return Parse("ObjectType.Payable.Empty");
       }
     }
+
+    static private ObjectTypeInfo BasePayableType => Powertype.Parse("ObjectTypeInfo.PowerType.PayableType");
 
     static public PayableType ContractMilestone => Parse("ObjectTypeInfo.Payable.ContractMilestone");
 

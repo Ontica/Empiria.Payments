@@ -52,6 +52,15 @@ namespace Empiria.Tests.Payments.Payables {
 
       Assert.NotNull(sut);
     }
+     
+
+    [Fact]
+    public void Should_Get_Payable_Types() {
+
+      var sut = _usecases.GetPayableTypes();
+
+      Assert.NotNull(sut);
+    }
 
 
     #endregion Facts
