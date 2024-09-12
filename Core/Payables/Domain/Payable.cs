@@ -157,7 +157,7 @@ namespace Empiria.Payments.Payables {
 
       this.OrganizationalUnit = OrganizationalUnit.Parse(fields.OrganizationalUnitUID);
       this.PayTo = Party.Parse(fields.PayToUID);
-      this.BudgetType = BudgetType.Parse(fields.BudgetTypeUID);
+      this.BudgetType = BudgetType.Parse(fields.BudgetTypeId);
       this.Currency = Currency.Parse(fields.CurrencyUID);
       this.DueTime = fields.DueTime;
       this.Notes = fields.Notes;
