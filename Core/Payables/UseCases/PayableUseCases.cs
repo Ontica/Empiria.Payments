@@ -40,7 +40,7 @@ namespace Empiria.Payments.Payables.UseCases {
 
       fields.EnsureValid();
 
-      PayableType payableType = PayableType.Parse(fields.PayableTypeId);
+      PayableType payableType = PayableType.Parse(fields.PayableTypeUID);
 
       var payable = new Payable(payableType, fields);
 

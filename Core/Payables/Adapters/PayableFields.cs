@@ -21,7 +21,7 @@ namespace Empiria.Payments.Payables.Adapters {
   /// <summary>Fields structure used for create and update payable objects.</summary>
   public class PayableFields {
 
-    public int PayableTypeId {
+    public string PayableTypeUID {
       get; set;
     }
 
@@ -37,7 +37,7 @@ namespace Empiria.Payments.Payables.Adapters {
       get; set;
     }
 
-    public int BudgetTypeId {
+    public string BudgetTypeUID {
       get; set;
     }
 
@@ -52,8 +52,8 @@ namespace Empiria.Payments.Payables.Adapters {
 
 
     virtual internal void EnsureValid() {
-      Assertion.Require(PayableTypeId, "Necesito el tipo de pago.");
-      _ = PayableType.Parse(PayableTypeId);
+      Assertion.Require(PayableTypeUID, "Necesito el tipo de pago.");
+      _ = PayableType.Parse(PayableTypeUID);
 
       Assertion.Require(OrganizationalUnitUID, "Necesito se proporcione el área.");
       _ = OrganizationalUnit.Parse(OrganizationalUnitUID);
@@ -64,8 +64,8 @@ namespace Empiria.Payments.Payables.Adapters {
       Assertion.Require(CurrencyUID, "Necesito la moneda.");
       _ = Currency.Parse(CurrencyUID);
 
-      Assertion.Require(BudgetTypeId, "Necesito saber con qué presupuesto se hará el pago.");
-      _ = BudgetType.Parse(BudgetTypeId);
+      Assertion.Require(BudgetTypeUID, "Necesito saber con qué presupuesto se hará el pago.");
+      _ = BudgetType.Parse(BudgetTypeUID);
     }
 
   }  // class PayableFields
