@@ -9,6 +9,8 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
+using Empiria.Payments.Orders.Adapters;
+using Empiria.Payments.Orders;
 
 
 namespace Empiria.Payments.Payables.Adapters {
@@ -29,6 +31,25 @@ namespace Empiria.Payments.Payables.Adapters {
       };
 
       throw new NotImplementedException();
+    }
+
+    static internal FixedList<PayableDescriptor> MapToDescriptor(FixedList<Payable> orders) {
+      return orders.Select(x => MapToDescriptor(x)).ToFixedList();
+    }
+
+    static internal PayableDescriptor MapToDescriptor(Payable payable) {
+      return new PayableDescriptor {
+        UID = payable.UID,
+        PayableTypeName = payable.PayableType.Name,
+        BudgetTypeName = payable.BudgetType.Name,
+        ContractNo = "Constante",
+        PayTo = payable.PayTo.Name,
+        Total = payable.Total,
+        Currency = payable.Currency.Name,
+        DueTime = payable.DueTime,
+        RequestedBy = payable.OrganizationalUnit.Name,
+        StatusName = payable.Status.GetName()
+      };
     }
 
 

@@ -12,7 +12,7 @@ using Xunit;
 
 using Empiria.Payments.Payables.UseCases;
 using Empiria.Payments.Payables.Adapters;
-using Empiria.Budgeting;
+
 
 namespace Empiria.Tests.Payments.Payables {
 
@@ -71,6 +71,21 @@ namespace Empiria.Tests.Payments.Payables {
 
       Assert.NotNull(sut);
     }
+
+
+    [Fact]
+    public void Should_Search_Payables() {
+      var query = new PayablesQuery {
+        Keywords = "",
+        FromDate = new DateTime(2024, 01, 01),
+        ToDate = new DateTime(2024, 01, 01)
+      };
+
+      var sut = _usecases.SearchPayables(query);
+
+      Assert.NotNull(sut);
+    }
+
 
 
     #endregion Facts

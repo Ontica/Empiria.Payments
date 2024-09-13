@@ -18,6 +18,23 @@ namespace Empiria.Payments.Payables.Data {
 
     #region Methods
 
+    static internal FixedList<Payable> GetPayables(string filter, string sortBy) {
+      var sql = "SELECT * FROM PYM_PAYABLES";
+
+      if (!string.IsNullOrWhiteSpace(filter)) {
+        sql += $" WHERE {filter}";
+      }
+
+      if (!string.IsNullOrWhiteSpace(sortBy)) {
+        sql += $" ORDER BY {sortBy}";
+      }
+
+      var dataOperation = DataOperation.Parse(sql);
+
+      return DataReader.GetFixedList<Payable>(dataOperation);
+    }
+
+
     static internal PayableItem GetPayableItem(Payable payable, string payableItemUID) {
       Assertion.Require(payable, nameof(payable));
       Assertion.Require(payableItemUID, nameof(payableItemUID));

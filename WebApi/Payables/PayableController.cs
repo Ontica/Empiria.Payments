@@ -13,6 +13,7 @@ using Empiria.WebApi;
 
 using Empiria.Payments.Payables.UseCases;
 using Empiria.Payments.Payables.Adapters;
+using Empiria.Payments.Orders.Adapters;
 
 namespace Empiria.Payments.Payables.WebApi {
 
@@ -44,6 +45,19 @@ namespace Empiria.Payments.Payables.WebApi {
         return new CollectionModel(Request, payableTypes);
       }
     }
+
+
+    [HttpGet]
+    [Route("v2/payments-management/payables/search")]
+    public CollectionModel SearchPayables([FromBody] PayablesQuery query) {
+
+      using (var usecases = PayableUseCases.UseCaseInteractor()) {
+        FixedList<PayableDescriptor> payables  = usecases.SearchPayables(query);
+
+        return new CollectionModel(base.Request, payables);
+      }
+    }
+
 
     #endregion Query web apis
 

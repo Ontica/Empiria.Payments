@@ -21,6 +21,8 @@ namespace Empiria.Payments.Payables {
 
     Deleted = 'X',
 
+    All = '@',
+
   }  // enum PayableStatus
 
 

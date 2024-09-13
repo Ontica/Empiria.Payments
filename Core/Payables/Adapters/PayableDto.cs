@@ -55,4 +55,59 @@ namespace Empiria.Payments.Payables.Adapters {
   } // class PayableDto
 
 
+  /// <summary>Output DTO used to return minimal payables objects data for use in lists.</summary>
+  public class PayableDescriptor {
+
+    public string UID {
+      get; internal set;
+    }
+
+
+    public string PayableTypeName {
+      get; internal set;
+    }
+
+
+    public string BudgetTypeName {
+      get; internal set;
+    }
+
+
+    public string ContractNo {
+      get; internal set;
+    }
+
+
+    public string PayTo {
+      get; internal set;
+    }
+
+
+    public decimal Total {
+      get; internal set;
+    }
+
+
+    public string Currency {
+      get; internal set;
+    }
+
+
+    public DateTime DueTime {
+      get; internal set;
+    }
+
+
+    public string RequestedBy {
+      get; internal set;
+    }
+
+
+    public string StatusName {
+      get; internal set;
+    }
+
+
+  } // class PayableDescriptor
+
 }  // namespace Empiria.Payments.Payables.Adapters

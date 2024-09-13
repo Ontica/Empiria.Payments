@@ -75,7 +75,7 @@ namespace Empiria.Payments.Payables {
     }
 
 
-    [DataField("PYM_BUDGET_TYPE_ID")]
+    [DataField("PYM_PAYABLE_BUDGET_TYPE_ID")]
     public BudgetType BudgetType {
       get; private set;
     }
@@ -89,7 +89,7 @@ namespace Empiria.Payments.Payables {
 
     public decimal Total {
       get {
-        return GetItems().Sum(x => x.Total);
+        return 1900m; //GetItems().Sum(x => x.Total);
       }
     }
 

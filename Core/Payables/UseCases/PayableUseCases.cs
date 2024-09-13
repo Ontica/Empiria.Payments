@@ -12,6 +12,9 @@ using Empiria.Services;
 
 using Empiria.Payments.Payables.Adapters;
 using Empiria.Budgeting;
+using Empiria.Payments.Orders.Adapters;
+
+using Empiria.Payments.Payables.Data;
 
 namespace Empiria.Payments.Payables.UseCases {
 
@@ -64,7 +67,23 @@ namespace Empiria.Payments.Payables.UseCases {
       .ToFixedList();
     }
 
-   
+    public FixedList<PayableDescriptor> SearchPayables(PayablesQuery query) {
+      Assertion.Require(query, nameof(query));
+
+      query.EnsureIsValid();
+
+      string filter = string.Empty;
+      string sortBy = string.Empty;
+
+      FixedList<Payable> payables = PayableData.GetPayables(filter, sortBy);
+
+      return PayableMapper.MapToDescriptor(payables);
+    }
+
+
+
+
+
     #endregion Use cases
 
   }  // class PayableUseCases
