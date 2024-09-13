@@ -38,14 +38,15 @@ namespace Empiria.Payments.Payables.Adapters {
     }
 
     static internal PayableDescriptor MapToDescriptor(Payable payable) {
+
       return new PayableDescriptor {
         UID = payable.UID,
-        PayableTypeName = payable.PayableType.Name,
-        BudgetTypeName = payable.BudgetType.Name,
-        ContractNo = "Constante",
+        PayableTypeName = payable.PayableType.DisplayName,
+        BudgetTypeName = payable.BudgetType.DisplayName,
+        ContractNo = payable is ContractMilestone ? ((ContractMilestone) payable).Contract.ContractNo : string.Empty,
         PayTo = payable.PayTo.Name,
         Total = payable.Total,
-        Currency = payable.Currency.Name,
+        CurrencyCode = payable.Currency.Code,
         DueTime = payable.DueTime,
         RequestedBy = payable.OrganizationalUnit.Name,
         StatusName = payable.Status.GetName()

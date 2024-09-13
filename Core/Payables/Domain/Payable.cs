@@ -24,6 +24,7 @@ using Empiria.Budgeting;
 
 using Empiria.Payments.Payables.Adapters;
 using Empiria.Payments.Payables.Data;
+using Empiria.Payments.Contracts;
 
 namespace Empiria.Payments.Payables {
 
@@ -62,6 +63,7 @@ namespace Empiria.Payments.Payables {
         return (PayableType) GetEmpiriaType();
       }
     }
+
 
     [DataField("PYM_PAYABLE_ORG_UNIT_ID")]
     public OrganizationalUnit OrganizationalUnit {

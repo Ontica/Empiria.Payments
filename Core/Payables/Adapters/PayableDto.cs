@@ -88,7 +88,7 @@ namespace Empiria.Payments.Payables.Adapters {
     }
 
 
-    public string Currency {
+    public string CurrencyCode {
       get; internal set;
     }
 
