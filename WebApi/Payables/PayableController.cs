@@ -47,7 +47,7 @@ namespace Empiria.Payments.Payables.WebApi {
     }
 
 
-    [HttpGet]
+    [HttpPost]
     [Route("v2/payments-management/payables/search")]
     public CollectionModel SearchPayables([FromBody] PayablesQuery query) {
 
