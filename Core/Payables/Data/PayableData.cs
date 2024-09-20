@@ -46,7 +46,11 @@ namespace Empiria.Payments.Payables.Data {
     static internal FixedList<PayableItem> GetPayableItems(Payable payable) {
       Assertion.Require(payable, nameof(payable));
 
-      throw new NotImplementedException();
+      var sql = $"SELECT * FROM pym_payable_items WHERE PYM_PYB_ID = {payable.Id} AND PYM_PYB_ITEM_STATUS <> 'X' ";
+      var dataOperation = DataOperation.Parse(sql);
+
+
+      return DataReader.GetFixedList<PayableItem>(dataOperation);
     }
 
 

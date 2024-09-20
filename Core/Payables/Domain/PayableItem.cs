@@ -87,7 +87,7 @@ namespace Empiria.Payments.Payables {
     }
 
 
-    public decimal Taxes {
+ /*  public decimal Taxes {
       get; private set;
     }
 
@@ -96,7 +96,7 @@ namespace Empiria.Payments.Payables {
       get {
         return Math.Round(Subtotal + Taxes);
       }
-    }
+    } */
 
     public BudgetAccount BudgetAccount {
       get; private set;
