@@ -52,16 +52,7 @@ namespace Empiria.Tests.Payments.Payables {
       var sut = _usecases.CreatePayable(fields);
 
       Assert.NotNull(sut);
-    }
-
-
-    [Fact]
-    public void Should_Get_Budget_Types() {
-
-      var sut = _usecases.GetBudgetTypes();
-
-      Assert.NotNull(sut);
-    }                    
+    }                
 
 
     [Fact]
