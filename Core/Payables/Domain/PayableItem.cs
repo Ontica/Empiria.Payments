@@ -34,6 +34,10 @@ namespace Empiria.Payments.Payables {
       // Required by Empiria Framework for all partitioned types.
     }
 
+    private PayableItem() {
+      // Required by Empiria Framework.
+    }
+
     public PayableItem(Payable payable, PayableItemFields fields) {
       Assertion.Require(payable, nameof(payable));
       Assertion.Require(fields, nameof(fields));
@@ -61,20 +65,23 @@ namespace Empiria.Payments.Payables {
       get; private set;
     }
 
+   [DataField("PYM_PYB_ITEM_QTY", ConvertFrom = typeof(decimal))]
     public decimal Quantity {
       get; private set;
     }
 
+    [DataField("PYM_PYB_ITEM_CURRENCY_ID")]
     public Currency Currency {
       get; private set;
     }
 
-
+   [DataField("PYM_PYB_ITEM_EXCH_RATE", ConvertFrom = typeof(decimal))]
     public decimal ExchangeRate {
       get; private set;
     } = 1;
 
 
+    [DataField("PYM_PYB_ITEM_QTY", ConvertFrom = typeof(decimal))]
     public decimal UnitPrice {
       get; private set;
     }
@@ -86,41 +93,35 @@ namespace Empiria.Payments.Payables {
       }
     }
 
-
- /*  public decimal Taxes {
-      get; private set;
-    }
-
-
-    public decimal Total {
-      get {
-        return Math.Round(Subtotal + Taxes);
-      }
-    } */
-
+    [DataField("PYM_PYB_ITEM_BDG_ACCT_ID")]
     public BudgetAccount BudgetAccount {
       get; private set;
     }
 
+    [DataField("PYM_PYB_ITEM_DESCRIPTION")]
     public string Notes {
       get; private set;
     }
 
+    [DataField("PYM_PYB_ITEM_EXT_DATA")]
     private JsonObject ExtData {
       get; set;
     }
 
+    [DataField("PYM_PYB_ITEM_POSTED_BY_ID")]
     public Contact PostedBy {
       get; private set;
     }
 
+    [DataField("PYM_PYB_ITEM_POSTING_TIME")]
     public DateTime PostingTime {
       get; private set;
     }
 
+    [DataField("PYM_PYB_ITEM_STATUS", Default = EntityStatus.Pending)]
     public EntityStatus Status {
       get; private set;
-    }
+    } = EntityStatus.Pending;
 
     #endregion Properties
 

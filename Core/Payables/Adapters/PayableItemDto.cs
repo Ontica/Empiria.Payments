@@ -39,7 +39,7 @@ namespace Empiria.Payments.Payables.Adapters {
 
 
     public decimal Quantity {
-      get; private set;
+      get; internal set;
     }
 
 
@@ -49,19 +49,17 @@ namespace Empiria.Payments.Payables.Adapters {
 
 
     public decimal ExchangeRate {
-      get; private set;
+      get; internal set;
     } = 1;
 
 
     public decimal UnitPrice {
-      get; private set;
+      get; internal set;
     }
 
 
     public decimal Subtotal {
-      get {
-        return Math.Round(UnitPrice * Quantity * ExchangeRate);
-      }
+      get; internal set;
     }
 
     

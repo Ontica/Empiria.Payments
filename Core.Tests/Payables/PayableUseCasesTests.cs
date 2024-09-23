@@ -56,6 +56,15 @@ namespace Empiria.Tests.Payments.Payables {
 
 
     [Fact]
+    public void Should_Get_PayableItems() {
+
+      var sut = _usecases.GetPayableItems("5b428865-0ba3-4113-afe8-4061db5b7c2e");
+
+      Assert.NotNull(sut);
+    }
+
+
+    [Fact]
     public void Should_Get_Payable_Types() {
 
       var sut = _usecases.GetPayableTypes();

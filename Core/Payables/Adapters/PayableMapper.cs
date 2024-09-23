@@ -30,7 +30,6 @@ namespace Empiria.Payments.Payables.Adapters {
         Status = new NamedEntityDto(payable.Status.ToString(), payable.Status.GetName())
       };
 
-      throw new NotImplementedException();
     }
 
     static internal FixedList<PayableDescriptor> MapToDescriptor(FixedList<Payable> orders) {

@@ -83,9 +83,6 @@ namespace Empiria.Payments.Payables.UseCases {
     }
 
 
-
-
-
     #endregion Use cases
 
   }  // class PayableUseCases
