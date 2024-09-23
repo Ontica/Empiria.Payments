@@ -40,13 +40,15 @@ namespace Empiria.Payments.Payables.Adapters {
 
       return new PayableDescriptor {
         UID = payable.UID,
+        PayableNo = "ND",
         PayableTypeName = payable.PayableType.DisplayName,
         BudgetTypeName = payable.BudgetType.DisplayName,
-        ContractNo = payable is ContractMilestone ? ((ContractMilestone) payable).Contract.ContractNo : string.Empty,
+        ContractNo =  payable is ContractMilestone ? ((ContractMilestone) payable).Contract.ContractNo : "ND",
         PayTo = payable.PayTo.Name,
         Total = payable.Total,
         CurrencyCode = payable.Currency.Code,
         DueTime = payable.DueTime,
+        RequestedTime  = DateTime.Today,
         RequestedBy = payable.OrganizationalUnit.Name,
         StatusName = payable.Status.GetName()
       };

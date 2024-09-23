@@ -62,6 +62,9 @@ namespace Empiria.Payments.Payables.Adapters {
       get; internal set;
     }
 
+    public string PayableNo {
+      get; internal set;
+    }
 
     public string PayableTypeName {
       get; internal set;
@@ -97,6 +100,9 @@ namespace Empiria.Payments.Payables.Adapters {
       get; internal set;
     }
 
+    public DateTime RequestedTime {
+      get; internal set;
+    }
 
     public string RequestedBy {
       get; internal set;
