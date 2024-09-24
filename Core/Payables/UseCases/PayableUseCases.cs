@@ -74,8 +74,8 @@ namespace Empiria.Payments.Payables.UseCases {
 
       query.EnsureIsValid();
 
-      string filter = string.Empty;
-      string sortBy = string.Empty;
+      string filter = query.MapToFilterString();
+      string sortBy = query.MapToSortString();
 
       FixedList<Payable> payables = PayableData.GetPayables(filter, sortBy);
 

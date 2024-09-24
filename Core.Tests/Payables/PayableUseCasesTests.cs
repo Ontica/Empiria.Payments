@@ -76,7 +76,7 @@ namespace Empiria.Tests.Payments.Payables {
     [Fact]
     public void Should_Search_Payables() {
       var query = new PayablesQuery {
-        Keywords = "",
+        Keywords = "oracle",
         FromDate = new DateTime(2024, 01, 01),
         ToDate = new DateTime(2024, 01, 01)
       };
@@ -85,7 +85,6 @@ namespace Empiria.Tests.Payments.Payables {
 
       Assert.NotNull(sut);
     }
-
 
 
     #endregion Facts
