@@ -46,7 +46,7 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public string Notes {
+    public string  CurrencyUID { 
       get; set;
     }
 
@@ -70,31 +70,43 @@ namespace Empiria.Payments.Contracts.Adapters {
       get; set;
     }
 
-    public string SupplierUID {
-      get; set;
-    }
-
-    public string CurrencyUID {
-      get; set;
-    }
-
 
     public string BudgetTypeUID {
       get; set;
     }
 
 
-    public string DocumentUID {
+    public string SupplierUID {
       get; set;
     }
 
 
-    public string ContractUID {
+    public string ParentUID {
       get; set;
     }
 
 
-    public int ParentContractId {
+    public string ExtData {
+      get; set;
+    }
+
+
+    public string KeyWords {
+      get; set;
+    }
+
+
+    public string PostedByUID {
+      get; set;
+    }
+
+
+    public string PostingTime {
+      get; set;
+    }
+
+
+    public string Status {
       get; set;
     }
 
@@ -116,7 +128,7 @@ namespace Empiria.Payments.Contracts.Adapters {
                   "anterior a la fecha de inicio.");
       Assertion.Require(SignDate != ExecutionServer.DateMinValue,
                         "Necesito la fecha del firma del contrato");
-      Assertion.Require(Total > 0, "El importe del contrato debe ser mayor a cero.");
+      //Assertion.Require(Total > 0, "El importe del contrato debe ser mayor a cero.");
     }
 
   }  // class ContractFields
