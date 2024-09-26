@@ -1,7 +1,7 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
-*  Module   : Contracts Unit Management                       Component : Domain Layer                            *
-*  Assembly : Empiria.Budgeting.Transactions.dll         Pattern   : Infomation Holder                       *
+*  Module   : Contracts Unit Management                  Component : Domain Layer                            *
+*  Assembly : Empiria.Payments.Contracts.dll             Pattern   : Infomation Holder                       *
 *  Type     : ContractUnit                               License   : Please read LICENSE.txt file            *
 *                                                                                                            *
 *  Summary  : Represents a contract unit.                                                                    *
@@ -20,11 +20,18 @@ namespace Empiria.Payments.Contracts {
       return BaseObject.ParseKey<ContractUnit>(uid);
     }
 
+
+    static internal ContractUnit Parse(int id) {
+      return BaseObject.ParseId<ContractUnit>(id);
+    }
+
+
     static internal FixedList<ContractUnit> GetList() {
       return BaseObject.GetList<ContractUnit>()
                        .ToFixedList();
     }
 
+    
     static internal ContractUnit Empty => BaseObject.ParseEmpty<ContractUnit>();
 
     #endregion Constructors and parsers
