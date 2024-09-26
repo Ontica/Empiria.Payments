@@ -76,7 +76,12 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public NamedEntityDto DocumentTypesListId {
+    public NamedEntityDto Document {
+      get; internal set;
+    }
+
+
+    public NamedEntityDto DocumentTypes {
       get; internal set;
     }
 
