@@ -16,14 +16,21 @@ namespace Empiria.Payments.Contracts {
 
     #region Constructors and parsers
 
+    static internal ContractCucop Parse(int id) {
+      return BaseObject.ParseId<ContractCucop>(id);
+    }
+
+
     static internal ContractCucop Parse(string uid) {
       return BaseObject.ParseKey<ContractCucop>(uid);
     }
+
 
     static internal FixedList<ContractCucop> GetList() {
       return BaseObject.GetList<ContractCucop>()
                        .ToFixedList();
     }
+
 
     static internal ContractCucop Empty => BaseObject.ParseEmpty<ContractCucop>();
 
