@@ -26,7 +26,7 @@ namespace Empiria.Payments.Payables.Adapters {
         Total = payable.Total,
         Currency = payable.Currency.Name,
         DueTime = payable.DueTime,
-        Notes = payable.Notes,
+        Notes = payable.Description,
         Status = new NamedEntityDto(payable.Status.ToString(), payable.Status.GetName())
       };
 

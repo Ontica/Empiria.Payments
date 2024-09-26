@@ -41,12 +41,12 @@ namespace Empiria.Tests.Payments.Payables {
     public void Should_Create_Payable() {
       var fields = new PayableFields {
         PayableTypeUID = "ObjectTypeInfo.Payable.Bill",
+        Description = "Sin notas",
         OrganizationalUnitUID = "d4b9aae9-cc6e-4fbc-9589-639dec5dab9f",
         PayToUID = "c6278424-d1ff-492f-b5fe-410b4258292c",
         CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
         BudgetTypeUID = "ObjectTypeInfo.Budget.ProgramaFinanciero",
         DueTime = DateTime.Today,
-        Notes = "Sin notas",
     };
 
       var sut = _usecases.CreatePayable(fields);

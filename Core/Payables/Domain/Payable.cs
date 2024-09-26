@@ -65,6 +65,12 @@ namespace Empiria.Payments.Payables {
     }
 
 
+    [DataField("PYM_PAYABLE_NOTES")]
+    public string Description {
+      get; private set;
+    }
+
+
     [DataField("PYM_PAYABLE_ORG_UNIT_ID")]
     public OrganizationalUnit OrganizationalUnit {
       get; private set;
@@ -100,12 +106,7 @@ namespace Empiria.Payments.Payables {
     public DateTime DueTime {
       get; private set;
     } = ExecutionServer.DateMaxValue;
-
-
-    [DataField("PYM_PAYABLE_NOTES")]
-    public string Notes {
-      get; private set;
-    }
+    
 
     [DataField("PYM_PAYABLE_EXT_DATA")]
     protected JsonObject ExtData {
@@ -157,12 +158,12 @@ namespace Empiria.Payments.Payables {
 
       fields.EnsureValid();
 
+      this.Description = fields.Description;
       this.OrganizationalUnit = OrganizationalUnit.Parse(fields.OrganizationalUnitUID);
       this.PayTo = Party.Parse(fields.PayToUID);
       this.BudgetType = BudgetType.Parse(fields.BudgetTypeUID);
       this.Currency = Currency.Parse(fields.CurrencyUID);
       this.DueTime = fields.DueTime;
-      this.Notes = fields.Notes;
     }
 
     #endregion Methods

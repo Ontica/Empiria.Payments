@@ -58,7 +58,7 @@ namespace Empiria.Payments.Payables.Data {
       var op = DataOperation.Parse("write_PYM_Payable",
                      o.Id, o.UID, o.PayableType.Id, o.OrganizationalUnit.Id,
                      o.PayTo.Id, Contracts.Contract.Empty.Id,
-                     o.Currency.Id, o.BudgetType.Id, o.DueTime, o.Notes,
+                     o.Currency.Id, o.BudgetType.Id, o.DueTime, o.Description,
                      extensionData, o.Keywords, o.PostedBy.Id,
                      o.PostingTime, (char) o.Status);
 
@@ -69,7 +69,7 @@ namespace Empiria.Payments.Payables.Data {
       var op = DataOperation.Parse("write_PYM_Payable",
                      o.Id, o.UID, o.PayableType.Id, o.OrganizationalUnit.Id,
                      o.PayTo.Id, o.Contract.Id,
-                     o.Currency.Id, o.BudgetType.Id, o.DueTime, o.Notes,
+                     o.Currency.Id, o.BudgetType.Id, o.DueTime, o.Description,
                      extensionData, o.Keywords, o.PostedBy.Id,
                      o.PostingTime, (char) o.Status);
 
