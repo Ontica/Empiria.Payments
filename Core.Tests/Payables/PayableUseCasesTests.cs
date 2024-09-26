@@ -94,6 +94,26 @@ namespace Empiria.Tests.Payments.Payables {
     }
 
 
+    [Fact]
+    public void Should_Update_Payable() {
+      var fields = new PayableFields {
+        PayableTypeUID = "ObjectTypeInfo.Payable.Bill",
+        Description = "Modificado desde le test",
+        OrganizationalUnitUID = "d4b9aae9-cc6e-4fbc-9589-639dec5dab9f",
+        PayToUID = "c6278424-d1ff-492f-b5fe-410b4258292c",
+        CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
+        BudgetTypeUID = "ObjectTypeInfo.Budget.ProgramaFinanciero",
+        DueTime = DateTime.Today,
+      };
+
+      var payableUID = "5b428865-0ba3-4113-afe8-4061db5b7c2e";
+      var sut = _usecases.UpdatePayable(payableUID,fields);
+
+      Assert.NotNull(sut);
+    }
+
+
+
     #endregion Facts
 
   }  //  class PayableUseCasesTests
