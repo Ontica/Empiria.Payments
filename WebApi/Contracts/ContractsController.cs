@@ -4,11 +4,10 @@
 *  Assembly : Empiria.Payments.WebApi.dll                  Pattern   : Web api Controller                    *
 *  Type     : ContractsController                          License   : Please read LICENSE.txt file          *
 *                                                                                                            *
-*  Summary  : Web API used to retrive and update contracts.                                                    *
+*  Summary  : Web API used to retrive and update contracts.                                                  *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 using System.Web.Http;
-
 using Empiria.WebApi;
 
 using Empiria.Payments.Contracts.Adapters;
@@ -32,7 +31,6 @@ namespace Empiria.Budgeting.WebApi {
       }
     }
 
-
     [HttpGet]
     [Route("v2/contracts/contract-types")]
     public CollectionModel GetContractTypes() {
@@ -55,7 +53,6 @@ namespace Empiria.Budgeting.WebApi {
       }
     }
 
-
     [HttpGet]
     [Route("v2/contracts/contract-cucop-types")]
     public CollectionModel GetContraCucopTypes() {
@@ -67,7 +64,6 @@ namespace Empiria.Budgeting.WebApi {
       }
     }
 
-
     [HttpPost]
     [Route("v2/contracts/search")]
     public CollectionModel SearchContracts([FromBody] ContractQuery query) {
@@ -75,7 +71,7 @@ namespace Empiria.Budgeting.WebApi {
       base.RequireBody(query);
 
       using (var usecases = ContractUseCases.UseCaseInteractor()) {
-        FixedList<ContractDto> contracts = usecases.SearchContracts(query);
+        FixedList<ContractDescriptor> contracts = usecases.SearchContracts(query);
 
         return new CollectionModel(base.Request, contracts);
       }

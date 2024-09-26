@@ -8,6 +8,8 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
+using System;
+
 namespace Empiria.Payments.Contracts.Adapters {
 
   /// <summary>Provides data mapping services for Contract related types.</summary>
@@ -26,8 +28,33 @@ namespace Empiria.Payments.Contracts.Adapters {
         Name = contract.Name,
         SignDate = contract.SignDate,
         Total = contract.Total,
-        LastUpdatedTime = contract.LastUpdatedTime
       };
+    }
+
+    
+    static internal  FixedList<ContractDescriptor> MapToDescriptor(FixedList<Contract> contracts) {
+      return contracts.Select(contract => MapToDescriptor(contract))
+                .ToFixedList();
+
+    }
+
+
+    private static ContractDescriptor MapToDescriptor(Contract contract) {
+      return new ContractDescriptor {
+        UID = contract.UID,
+        ContractNo = contract.ContractNo,
+        Name = contract.Name,
+        Description = contract.Description,
+        SignDate = contract.SignDate,
+        Supplier = contract.Supplier.Name,
+        BudgetType = contract.BudgetType.DisplayName,
+        ManagedByOrgUnit = contract.ManagedByOrgUnit.FullName,
+        ContractType = contract.ContractType.Name,
+        Currency = contract.Currency.Name,
+        ToDate = contract.ToDate,
+        FromDate = contract.ToDate,
+      };
+
     }
 
   }  // class ContractMapper

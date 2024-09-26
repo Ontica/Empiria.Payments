@@ -11,6 +11,7 @@
 using Empiria.Services;
 
 using Empiria.Payments.Contracts.Adapters;
+using Empiria.Payments.Contracts.Data;
 
 namespace Empiria.Payments.Contracts.UseCases {
 
@@ -76,17 +77,15 @@ namespace Empiria.Payments.Contracts.UseCases {
     }
 
 
-    public FixedList<ContractDto> SearchContracts(ContractQuery query) {
+    public FixedList<ContractDescriptor> SearchContracts(ContractQuery query) {
       Assertion.Require(query, nameof(query));
 
-      //string condition = query.GetConditionClause();
-      //string orderBy = query.GetOrderByClause();
+      string condition = query.MapToFilterString();
+      string orderBy = query.MapToSortString();
 
-      //FixedList<Contract> contracts = ContractData.SearchContracts(condition, orderBy);
+      FixedList<Contract> contracts = ContractData.getContracts(condition, orderBy);
 
-      var contracts = new FixedList<Contract>();
-
-      return ContractMapper.Map(contracts);
+      return ContractMapper.MapToDescriptor(contracts);
     }
 
     #endregion Use cases

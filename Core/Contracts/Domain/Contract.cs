@@ -17,6 +17,9 @@ using Empiria.StateEnums;
 
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.Data;
+using Empiria.Payments.Orders;
+using Empiria.Financial.Core;
+using Empiria.Budgeting;
 
 namespace Empiria.Payments.Contracts {
 
@@ -52,92 +55,98 @@ namespace Empiria.Payments.Contracts {
 
     #region Properties
 
-    // [DataField("CONTRACT_TYPE_ID")]
-    public string ContractTypeUID {
+    [DataField("CONTRACT_TYPE_ID")]
+    public ContractType ContractType {
       get; private set;
     }
+
 
     [DataField("CONTRACT_NO")]
     public string ContractNo {
       get; private set;
     }
 
+
     [DataField("CONTRACT_NAME")]
     public string Name {
       get; private set;
     }
+
 
     [DataField("CONTRACT_DESCRIPTION")]
     public string Description {
       get; private set;
     }
 
-    [DataField("FROM_DATE")]
+
+    [DataField("CONTRACT_CURRENCY_ID")]
+    public Currency Currency {
+      get; private set;
+    }
+
+
+    [DataField("CONTRACT_FROM_DATE")]
     public DateTime FromDate {
       get; private set;
     }
 
 
-    [DataField("TO_DATE")]
+    [DataField("CONTRACT_TO_DATE")]
     public DateTime ToDate {
       get; private set;
     }
 
 
-    [DataField("SIGN_DATE")]
+    [DataField("CONTRACT_SIGN_DATE")]
     public DateTime SignDate {
       get; private set;
     }
 
 
-    [DataField("MANAGED_BY_ORG_UNIT_ID")]
+    [DataField("CONTRACT_MGMT_ORG_UNIT_ID")]
     public OrganizationalUnit ManagedByOrgUnit {
       get; private set;
     }
 
 
-    // [DataField("SUPPLIER_ID")]
-    public string SupplierUID {
+    [DataField("CONTRACT_BUDGET_TYPE_ID")]
+    public BudgetType BudgetType {
       get; private set;
+    }
+
+
+    [DataField("CONTRACT_SUPPLIER_ID")]
+    public Party Supplier {
+      get; private set;
+    }
+
+
+    [DataField("CONTRACT_PARENT_ID", Default = -1)]
+    private int ParentId {
+      get; set;
+    } = -1;
+
+
+    public Contract Parent {
+      get {
+        if (this.IsEmptyInstance || this.ParentId == this.Id) {
+          return this;
+        }
+        return Contract.Parse(this.ParentId);
+      }
+    }
+
+
+    public bool HasParent {
+      get {
+        return !Parent.IsEmptyInstance && Parent.Distinct(this);
+      }
     }
 
 
     [DataField("CONTRACT_EXT_DATA")]
     private JsonObject ExtData {
       get; set;
-    }
-
-
-    internal decimal FromTotal {
-      get {
-        return ExtData.Get<decimal>("fromTotal", 0);
-      } set {
-        ExtData.SetIf("fromTotal", value, value != 0);
-      }
-    }
-
-    internal Contact LastUpdatedBy {
-      get {
-        return ExtData.Get<Contact>("lastUpdatedById", Contact.Empty);
-      }
-      set {
-        ExtData.Set("lastUpdatedById", value.Id);
-      }
-    }
-
-   
-    internal DateTime LastUpdatedTime {
-      get {
-        return ExtData.Get<DateTime>("lastUpdatedTime", this.PostingTime);
-      }
-      set {
-        ExtData.Set("lastUpdatedTime", value);
-      }
-    }
-
-    [DataField("CONTRACT_TOTAL", ConvertFrom = typeof(decimal))]
-    public decimal Total {
-      get; private set;
     }
 
 
@@ -149,13 +158,13 @@ namespace Empiria.Payments.Contracts {
     }
 
 
-    [DataField("POSTED_BY_ID")]
+    [DataField("CONTRACT_POSTED_BY_ID")]
     public Contact PostedBy {
       get; private set;
     }
 
 
-    [DataField("POSTING_TIME")]
+    [DataField("CONTRACT_POSTING_TIME")]
     public DateTime PostingTime {
       get; private set;
     }
@@ -165,6 +174,12 @@ namespace Empiria.Payments.Contracts {
     public EntityStatus Status {
       get; private set;
     }
+
+
+    public decimal Total {
+      get; private set;
+    }
+
 
     #endregion Properties
 
@@ -198,9 +213,6 @@ namespace Empiria.Payments.Contracts {
         this.PostingTime = DateTime.Now;
       }
 
-      LastUpdatedBy = ExecutionServer.CurrentContact;
-      LastUpdatedTime = DateTime.Now;
-
       ContractData.WriteContract(this, this.ExtData.ToString());
     }
 
@@ -229,16 +241,17 @@ namespace Empiria.Payments.Contracts {
     #region Helpers
 
     private void Load(ContractFields fields) {
-      ContractTypeUID = fields.ContractTypeUID;
-      ContractNo = fields.ContractNo;
-      Name = fields.Name;
-      Description = string.Empty;
-      FromDate = fields.FromDate;
-      ToDate = fields.ToDate;
-      SignDate = fields.SignDate;
-      Total = fields.Total;
-      ManagedByOrgUnit = OrganizationalUnit.Parse(fields.ManagedByOrgUnitUID);
-      SupplierUID = fields.SupplierUID;
+      this.ContractType = ContractType.Parse(fields.ContractTypeUID);
+      this.ContractNo = fields.ContractNo;
+      this.Name = fields.Name;
+      this.Description = fields.Description;
+      this.Currency = Currency.Parse(fields.CurrencyUID);
+      this.FromDate = fields.FromDate;
+      this.ToDate = fields.ToDate;
+      this.SignDate = fields.SignDate;
+      this.ManagedByOrgUnit = OrganizationalUnit.Parse(fields.ManagedByOrgUnitUID);
+      this.Supplier = Party.Parse(fields.SupplierUID);
+      this.BudgetType = BudgetType.Parse(fields.BudgetTypeUID);
       ExtData = new JsonObject();
     }
 

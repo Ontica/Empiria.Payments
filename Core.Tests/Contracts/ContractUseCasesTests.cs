@@ -12,8 +12,6 @@ using Xunit;
 
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.UseCases;
-using Empiria.DataTypes;
-using System.Security.Cryptography;
 
 namespace Empiria.Tests.Payments.Contracts {
 
@@ -47,13 +45,16 @@ namespace Empiria.Tests.Payments.Contracts {
       var fields = new ContractFields {
         ContractTypeUID = TestingConstants.CONTRACT_TYPE_UID,
         ContractNo = "123-9089/A456",
-        Name = "Servicios de desarrollo de software",
-        FromDate = new DateTime(2024, 1, 1),
+        Name = "Servicios de desarrollo de software 1",
+        Description = "Description",
+        CurrencyUID = TestingConstants.CONTRACT_CURRENCY_ID,
         ToDate = new DateTime(2024, 12, 31),
+        FromDate = new DateTime(2024, 1, 1),
         SignDate = new DateTime(2023, 12, 18),
-        ManagedByOrgUnitUID = TestingConstants.MANAGED_BY_ORG_UNIT_ID,
+        ManagedByOrgUnitUID = TestingConstants.MANAGED_BY_ORG_UNIT_UID,
+        BudgetTypeUID = TestingConstants.CONTRACT_BUDGET_TYPE_UID,
         SupplierUID = TestingConstants.SUPPLIER_UID,
-        Total = 1234567.89m,
+        ParentUID = "Empty",
       };
 
       ContractDto sut = _usecases.AddContract(fields);
@@ -68,19 +69,18 @@ namespace Empiria.Tests.Payments.Contracts {
     [Fact]
     public void Should_Add_A_Contract_Item() {
 
-        var fields = new ContractItemFields {
+      var fields = new ContractItemFields {
 
-        ContractUID = "0bab4264-723d-434f-af8a-40e35e8eb2dc",
-        ProductUID = "120a4170-203c-4b54-a29a-72474765211e",
+        ContractUID = TestingConstants.CONTRACT_UID,
+        ProductUID = TestingConstants.CONTRACT_ITEM_PRODUCT_UID,
         Description = "Prueba contract items",
-        UnitMeasureUID = "3a99bb8a-113f-4e0c-846c-9c0bf8ec1ded",
+        UnitMeasureUID = TestingConstants.CONTRACT_ITEM_UNIT_UID,
         ToQuantity = 5,
         FromQuantity = 2,
         UnitPrice = 20,
-        ProjectUID = "54c1423a-290f-4e09-adf6-23dbe1f0f825",
-        PaymentsPeriodicityUID = "2a361db4-6581-447a-b397-7a43dcdb7ae6",
-        BudgetAccountUID = "9128df14-32d2-44fe-bac6-6c6384825182",
-        // DocumentTypesListUID = -1,
+        BudgetAccountUID = TestingConstants.CONTRACT_BUDGET_ACCOUNT_UID,
+        ProjectUID = TestingConstants.CONTRACT_ITEM_PROJECT_UID,
+        PaymentPeriodicityUID = TestingConstants.CONTRACT_ITEM_PYM_PER_UID,
         SignDate = DateTime.Now,
 
       };
@@ -123,6 +123,21 @@ namespace Empiria.Tests.Payments.Contracts {
       Assert.NotNull(sut);
 
     }
+
+
+    [Fact]
+    public void Should_Search_Contracts() {
+
+      var query = new ContractQuery {
+        Keywords = "soft",
+      };
+
+      var sut = _usecases.SearchContracts(query);
+
+      Assert.NotNull(sut);
+
+    }
+
 
     #endregion Facts
 
