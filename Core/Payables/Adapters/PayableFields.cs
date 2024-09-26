@@ -51,6 +51,12 @@ namespace Empiria.Payments.Payables.Adapters {
       get; set;
     } = ExecutionServer.DateMinValue;
 
+
+    public DateTime RequestedTime {
+      get;
+      internal set;
+    } = ExecutionServer.DateMinValue;
+
     #endregion Properties
 
     #region Methods

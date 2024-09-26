@@ -65,6 +65,11 @@ namespace Empiria.Payments.Payables {
     }
 
 
+    public string payableNo {
+      get; private set;
+    }
+
+
     [DataField("PYM_PAYABLE_NOTES")]
     public string Description {
       get; private set;
@@ -120,6 +125,11 @@ namespace Empiria.Payments.Payables {
       }
     }
 
+    
+    public DateTime RequestedTime {
+      get; private set;
+    }
+
 
     [DataField("PYM_PAYABLE_POSTED_BY_ID")]
     public Contact PostedBy {
@@ -144,6 +154,7 @@ namespace Empiria.Payments.Payables {
 
     protected override void OnBeforeSave() {
       if (base.IsNew) {
+        this.payableNo = GeneratePayableNo();
         this.PostedBy = ExecutionServer.CurrentContact;
         this.PostingTime = DateTime.Now;
       }
@@ -164,6 +175,7 @@ namespace Empiria.Payments.Payables {
       this.BudgetType = BudgetType.Parse(fields.BudgetTypeUID);
       this.Currency = Currency.Parse(fields.CurrencyUID);
       this.DueTime = fields.DueTime;
+      this.RequestedTime = fields.RequestedTime;
     }
 
     #endregion Methods
@@ -209,6 +221,18 @@ namespace Empiria.Payments.Payables {
     }
 
     #endregion Aggregate root methods
+
+    #region Helpers
+
+    static public string GeneratePayableNo() {
+      int current = (int) PayableData.GetLastPayableNumber();
+
+      current++;
+
+      return $"OP-2024-{current:00000}";
+    }
+
+    #endregion Helpers
 
   }  // class Payable
 

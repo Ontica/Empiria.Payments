@@ -54,6 +54,16 @@ namespace Empiria.Payments.Payables.Data {
     }
 
 
+    static internal decimal GetLastPayableNumber() {
+      string sql = "SELECT MAX(PYM_Payable_Id) " +
+                   "FROM PYM_Payables ";
+
+      var op = DataOperation.Parse(sql);
+
+      return DataReader.GetScalar<decimal>(op);
+    }
+
+
     static internal void WritePayable(Payable o, string extensionData) {
       var op = DataOperation.Parse("write_PYM_Payable",
                      o.Id, o.UID, o.PayableType.Id, o.OrganizationalUnit.Id,
