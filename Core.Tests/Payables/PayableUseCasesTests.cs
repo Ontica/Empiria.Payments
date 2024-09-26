@@ -63,6 +63,15 @@ namespace Empiria.Tests.Payments.Payables {
 
 
     [Fact]
+    public void Should_Get_Payable() {
+
+      var sut = _usecases.GetPayable("79cda212-9676-429b-b242-407614eb01db");
+
+      Assert.NotNull(sut);
+    }
+
+
+    [Fact]
     public void Should_Get_PayableItems() {
 
       var sut = _usecases.GetPayableItems("5b428865-0ba3-4113-afe8-4061db5b7c2e");
@@ -111,7 +120,6 @@ namespace Empiria.Tests.Payments.Payables {
 
       Assert.NotNull(sut);
     }
-
 
 
     #endregion Facts

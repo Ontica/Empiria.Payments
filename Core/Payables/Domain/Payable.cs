@@ -66,7 +66,7 @@ namespace Empiria.Payments.Payables {
 
     public string payableNo {
       get; private set;
-    }
+    } = "No definido";
 
 
     [DataField("PYM_PAYABLE_NOTES")]
@@ -124,10 +124,10 @@ namespace Empiria.Payments.Payables {
       }
     }
 
-    
+
     public DateTime RequestedTime {
       get; private set;
-    }
+    } = DateTime.Now;
 
 
     [DataField("PYM_PAYABLE_POSTED_BY_ID")]

@@ -11,6 +11,7 @@
 
 
 using System;
+using Empiria.Parties;
 
 namespace Empiria.Payments.Payables.Adapters {
 
@@ -21,8 +22,33 @@ namespace Empiria.Payments.Payables.Adapters {
       get; internal set;
     }
 
-    
+
+    public string PayableNo {
+      get; internal set;
+    }
+
+
+    public NamedEntityDto PayableType {
+      get; internal set;
+    }
+
+
+    public string Description {
+      get; internal set;
+    }
+
+
+    public NamedEntityDto RequestedBy {
+      get; internal set;
+    }
+
+
     public NamedEntityDto PayTo {
+      get; internal set;
+    }
+
+
+    public NamedEntityDto BudgetType {
       get; internal set;
     }
 
@@ -37,16 +63,16 @@ namespace Empiria.Payments.Payables.Adapters {
     }
 
 
+    public DateTime RequestedTime {
+      get; internal set;
+    }
+
+
     public DateTime DueTime {
       get; internal set;
     }
-
-
-    public string Notes {
-      get; internal set;
-    }
-        
-
+    
+    
     public NamedEntityDto Status {
       get; internal set;
     }
@@ -62,9 +88,11 @@ namespace Empiria.Payments.Payables.Adapters {
       get; internal set;
     }
 
+
     public string PayableNo {
       get; internal set;
     }
+
 
     public string PayableTypeName {
       get; internal set;

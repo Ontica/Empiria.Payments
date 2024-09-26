@@ -59,6 +59,13 @@ namespace Empiria.Payments.Payables.UseCases {
     }
 
 
+    public PayableDto GetPayable(string payableUID) {
+      var payable = Payable.Parse(payableUID);
+
+      return PayableMapper.Map(payable);
+    }
+
+
     public FixedList<PayableItemDto> GetPayableItems(string payableUID) {
       Assertion.Require(payableUID, nameof(payableUID));
 

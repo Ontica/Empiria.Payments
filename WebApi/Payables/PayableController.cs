@@ -79,6 +79,21 @@ namespace Empiria.Payments.Payables.WebApi {
     }
 
 
+    [HttpGet]
+    [Route("v2/payments-management/payables/{payableUID:guid}")]
+    public SingleObjectModel GetPayable([FromUri] string payableUID) {
+
+      base.RequireResource(payableUID, "payableUID");
+
+      using (var usecases = PayableUseCases.UseCaseInteractor()) {
+
+        PayableDto payableDto = usecases.GetPayable(payableUID);
+
+        return new SingleObjectModel(this.Request, payableDto);
+      }
+    }
+
+
     [HttpPut]
     [Route("v2/payments-management/payables/{payableUID:guid}")]
     public SingleObjectModel UpdatePaymentOrder([FromUri] string payableUID,
