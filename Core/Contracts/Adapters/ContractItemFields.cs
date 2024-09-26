@@ -55,7 +55,7 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public string PaymentsPeriodicityUID {
+    public string PaymentPeriodicityUID {
       get; set;
     }
 
@@ -65,7 +65,7 @@ namespace Empiria.Payments.Contracts.Adapters {
     }
 
 
-    public string DocumentTypesListUID {
+    public string DocumentTypeUID {
       get; set;
     }
 
@@ -74,7 +74,27 @@ namespace Empiria.Payments.Contracts.Adapters {
       get; set;
     }
 
-     
+
+    public string ExtData {
+      get; set;
+    }
+
+
+    public string KeyWords {
+      get; set;
+    }
+
+
+    public string PostedByUID {
+      get; set;
+    }
+
+
+    public string PostingTime {
+      get; set;
+    }
+
+
     public decimal Total {
       get; set;
     }
@@ -82,12 +102,12 @@ namespace Empiria.Payments.Contracts.Adapters {
 
     internal void EnsureValid() {
       Assertion.Require(ContractUID, "Se requiere el número de contrato.");
-      Assertion.Require(ProductUID, "Se requiere el ID del úmero de contrato.");
+      Assertion.Require(ProductUID, "Se requiere el ID del número de contrato.");
       Assertion.Require(Description, "Necesito el nombre del contrato.");
       Assertion.Require(UnitMeasureUID, "Necesito la unidad de medida.");
-      Assertion.Require(UnitPrice, "Necesito el precio unitario.");
-      Assertion.Require(FromQuantity, "Necesito la cantidad de medida inicial.");
-      Assertion.Require(ToQuantity, "Necesito la cantidad de medida final.");
+      Assertion.Require(UnitPrice > 0, "Necesito el precio unitario.");
+      Assertion.Require(FromQuantity > 0, "Necesito la cantidad de medida inicial.");
+      Assertion.Require(ToQuantity > 0, "Necesito la cantidad de medida final.");
 
     }
 
