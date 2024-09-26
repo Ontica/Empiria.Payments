@@ -13,7 +13,7 @@ using Empiria.WebApi;
 
 using Empiria.Payments.Payables.UseCases;
 using Empiria.Payments.Payables.Adapters;
-using Empiria.Payments.Orders.Adapters;
+
 
 namespace Empiria.Payments.Payables.WebApi {
 
@@ -63,6 +63,20 @@ namespace Empiria.Payments.Payables.WebApi {
       }
     }
 
+
+    [HttpDelete]
+    [Route("v2/payments-management/payables/{payableUID:guid}")]
+    public NoDataModel DeletePayable([FromUri] string payableUID) {
+
+      base.RequireResource(payableUID, nameof(payableUID));
+
+      using (var usecases = PayableUseCases.UseCaseInteractor()) {
+
+        usecases.DeletePayable(payableUID);
+
+        return new NoDataModel(this.Request);
+      }
+    }
 
     #endregion Command web apis
 

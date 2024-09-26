@@ -24,7 +24,6 @@ using Empiria.Budgeting;
 
 using Empiria.Payments.Payables.Adapters;
 using Empiria.Payments.Payables.Data;
-using Empiria.Payments.Contracts;
 
 namespace Empiria.Payments.Payables {
 
@@ -164,6 +163,16 @@ namespace Empiria.Payments.Payables {
       PayableData.WritePayable(this, this.ExtData.ToString());
     }
 
+
+    internal void Delete() {
+      Assertion.Require(this.Status == PayableStatus.Capture,
+                 $"No se puede eliminar una obligación de pago que está en estado {this.Status.GetName()}.");
+
+      this.Status = PayableStatus.Deleted;
+      }
+
+
+
     internal void Update(PayableFields fields) {
       Assertion.Require(fields, nameof(fields));
 
@@ -231,6 +240,8 @@ namespace Empiria.Payments.Payables {
 
       return $"OP-2024-{current:00000}";
     }
+
+   
 
     #endregion Helpers
 

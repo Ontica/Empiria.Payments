@@ -52,7 +52,14 @@ namespace Empiria.Tests.Payments.Payables {
       var sut = _usecases.CreatePayable(fields);
 
       Assert.NotNull(sut);
-    }                
+    }
+
+
+    [Fact]
+    public void Should_Delete_Payable() {
+
+      _usecases.DeletePayable("79cda212-9676-429b-b242-407614eb01db");
+    }
 
 
     [Fact]

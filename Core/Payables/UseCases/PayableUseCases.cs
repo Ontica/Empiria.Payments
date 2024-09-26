@@ -11,9 +11,6 @@
 using Empiria.Services;
 
 using Empiria.Payments.Payables.Adapters;
-using Empiria.Budgeting;
-
-
 using Empiria.Payments.Payables.Data;
 
 
@@ -48,6 +45,17 @@ namespace Empiria.Payments.Payables.UseCases {
       payable.Save();
 
       return PayableMapper.Map(payable);
+    }
+
+
+    public void DeletePayable(string payableUID) {
+      Assertion.Require(payableUID, nameof(payableUID));
+
+      var payable = Payable.Parse(payableUID);
+
+      payable.Delete();
+
+      payable.Save();
     }
 
 
