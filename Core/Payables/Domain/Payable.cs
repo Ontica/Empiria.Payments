@@ -224,7 +224,7 @@ namespace Empiria.Payments.Payables {
 
       PayableItem item = GetItem(fields.UID);
 
-      item.Update(fields);
+      item.Update(this,fields);
 
       return item;
     }

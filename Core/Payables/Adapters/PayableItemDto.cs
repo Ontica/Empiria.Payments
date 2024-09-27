@@ -11,6 +11,7 @@
 
 
 using System;
+using Empiria.Budgeting;
 using Empiria.StateEnums;
 
 namespace Empiria.Payments.Payables.Adapters {
@@ -43,6 +44,11 @@ namespace Empiria.Payments.Payables.Adapters {
     }
 
 
+    public decimal UnitPrice {
+      get; internal set;
+    }
+
+
     public NamedEntityDto Currency {
       get; internal set;
     }
@@ -51,18 +57,18 @@ namespace Empiria.Payments.Payables.Adapters {
     public decimal ExchangeRate {
       get; internal set;
     } = 1;
-
-
-    public decimal UnitPrice {
-      get; internal set;
-    }
-
-
+        
+    
     public decimal Subtotal {
       get; internal set;
     }
 
-    
+
+    public NamedEntityDto BudgetAccount {
+       get; internal set;
+    }
+
+
     public NamedEntityDto Status {
       get; internal set;
     }

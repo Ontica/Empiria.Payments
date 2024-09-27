@@ -64,17 +64,6 @@ namespace Empiria.Payments.Payables.Data {
     }
 
 
-    static internal void WritePayable(Payable o, string extensionData) {
-      var op = DataOperation.Parse("write_PYM_Payable",
-                     o.Id, o.UID, o.PayableType.Id, o.OrganizationalUnit.Id,
-                     o.PayTo.Id, Contracts.Contract.Empty.Id,
-                     o.Currency.Id, o.BudgetType.Id, o.DueTime, o.Description,
-                     extensionData, o.Keywords, o.PostedBy.Id,
-                     o.PostingTime, (char) o.Status);
-
-      DataWriter.Execute(op);
-    }
-
     static internal void WriteContractMilestone(ContractMilestone o, string extensionData) {
       var op = DataOperation.Parse("write_PYM_Payable",
                      o.Id, o.UID, o.PayableType.Id, o.OrganizationalUnit.Id,
@@ -86,6 +75,27 @@ namespace Empiria.Payments.Payables.Data {
       DataWriter.Execute(op);
     }
 
+
+    static internal void WritePayable(Payable o, string extensionData) {
+      var op = DataOperation.Parse("write_PYM_Payable",
+                     o.Id, o.UID, o.PayableType.Id, o.OrganizationalUnit.Id,
+                     o.PayTo.Id, Contracts.Contract.Empty.Id,
+                     o.Currency.Id, o.BudgetType.Id, o.DueTime, o.Description,
+                     extensionData, o.Keywords, o.PostedBy.Id,
+                     o.PostingTime, (char) o.Status);
+
+      DataWriter.Execute(op);
+    }
+
+
+    static internal void WritePayableItem(PayableItem o, string extensionData) {
+      var op = DataOperation.Parse("write_PYM_Payable_Item",
+                     o.Id, o.UID, o.Payable.Id, 1,1, o.Payable.Description, o.Quantity, o.UnitPrice,
+                     o.Currency.Id,1,o.ExchangeRate,o.BudgetAccount.Id, 1, extensionData,
+                     o.PostedBy.Id, o.PostingTime, (char) o.Status);
+
+      DataWriter.Execute(op);
+    }
 
     #endregion Methods
 

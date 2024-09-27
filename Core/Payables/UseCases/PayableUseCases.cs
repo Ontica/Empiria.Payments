@@ -114,6 +114,22 @@ namespace Empiria.Payments.Payables.UseCases {
     }
 
 
+    public PayableItemDto AddPayableItem(string payableUID,PayableItemFields fields) {
+      Assertion.Require(payableUID, nameof(payableUID));
+      Assertion.Require(fields, nameof(fields));
+
+      fields.EnsureValid();
+
+      Payable payable = Payable.Parse(payableUID);
+
+      var payableItem = payable.AddItem(fields);
+
+      payableItem.Save();
+
+      return PayableItemMapper.Map(payableItem);
+    }
+
+
     #endregion Use cases
 
   }  // class PayableUseCases

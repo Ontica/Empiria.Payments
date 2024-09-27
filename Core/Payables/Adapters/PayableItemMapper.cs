@@ -21,14 +21,15 @@ namespace Empiria.Payments.Payables.Adapters {
     static internal PayableItemDto Map(PayableItem payableItem) {
       return new PayableItemDto {
         UID = payableItem.UID,
-        Description = payableItem.Notes,
+        Description = payableItem.Description,
         Product = new NamedEntityDto("9e2ab96e-f8b7-458d-aec5-5ad429e39464", "Adquisición de software"),
         Unit = new NamedEntityDto("31af88af-bca2-47fc-80f6-0d5e439b5ce3", "pieza"),
-        Quantity = 1m,
-        Currency = payableItem.Currency.MapToNamedEntity(),
-        ExchangeRate = 1m,
+        Quantity = payableItem.Quantity,
         UnitPrice = payableItem.UnitPrice,
+        Currency = payableItem.Currency.MapToNamedEntity(),
+        ExchangeRate = payableItem.ExchangeRate,
         Subtotal = payableItem.Subtotal,
+        BudgetAccount = new NamedEntityDto(payableItem.BudgetAccount.UID, payableItem.BudgetAccount.Code), // ToDo Ask 
         Status = new NamedEntityDto(payableItem.Status.ToString(), "Activo")
       };
     }

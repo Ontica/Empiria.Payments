@@ -12,6 +12,7 @@ using Xunit;
 
 using Empiria.Payments.Payables.UseCases;
 using Empiria.Payments.Payables.Adapters;
+using Empiria.Products;
 
 
 namespace Empiria.Tests.Payments.Payables {
@@ -36,6 +37,26 @@ namespace Empiria.Tests.Payments.Payables {
     #endregion Use cases initialization
 
     #region Facts
+
+    [Fact]
+    public void Should_Add_PayableItem() {
+      var fields = new PayableItemFields {
+        ProductUID = "",
+        UnitUID = "",
+        Description = "Agregado desde las pruebas",
+        Quantity = 3m,
+        UnitPrice = 10,
+        CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
+        ExchangeRate = 1m,
+        BudgetAccountUID = "ebc50e45-071d-4da4-8c63-0c54c10cfe0a"
+      };
+
+      var payableUID = "713b2755-aee1-44af-9f3c-1f46caebca1c";
+      var sut = _usecases.AddPayableItem(payableUID, fields);
+
+      Assert.NotNull(sut);
+    }
+
 
     [Fact]
     public void Should_Create_Payable() {

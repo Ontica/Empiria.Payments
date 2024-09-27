@@ -21,6 +21,7 @@ using Empiria.Financial.Core;
 using Empiria.Budgeting;
 
 using Empiria.Payments.Payables.Adapters;
+using Empiria.Payments.Payables.Data;
 
 namespace Empiria.Payments.Payables {
 
@@ -42,7 +43,7 @@ namespace Empiria.Payments.Payables {
       Assertion.Require(payable, nameof(payable));
       Assertion.Require(fields, nameof(fields));
 
-      throw new NotImplementedException();
+      Update(payable,fields);
     }
 
     static public PayableItem Parse(int id) => ParseId<PayableItem>(id);
@@ -56,6 +57,11 @@ namespace Empiria.Payments.Payables {
     #endregion Constructors and parsers
 
     #region Properties
+        
+    public Payable Payable {
+      get; private set;
+    }
+
 
     public Product Product {
       get; private set;
@@ -65,15 +71,24 @@ namespace Empiria.Payments.Payables {
       get; private set;
     }
 
-   [DataField("PYM_PYB_ITEM_QTY", ConvertFrom = typeof(decimal))]
+
+    [DataField("PYM_PYB_ITEM_DESCRIPTION")]
+    public string Description {
+      get; private set;
+    }
+
+
+    [DataField("PYM_PYB_ITEM_QTY", ConvertFrom = typeof(decimal))]
     public decimal Quantity {
       get; private set;
     }
+
 
     [DataField("PYM_PYB_ITEM_CURRENCY_ID")]
     public Currency Currency {
       get; private set;
     }
+
 
    [DataField("PYM_PYB_ITEM_EXCH_RATE", ConvertFrom = typeof(decimal))]
     public decimal ExchangeRate {
@@ -93,30 +108,30 @@ namespace Empiria.Payments.Payables {
       }
     }
 
+
     [DataField("PYM_PYB_ITEM_BDG_ACCT_ID")]
     public BudgetAccount BudgetAccount {
       get; private set;
     }
-
-    [DataField("PYM_PYB_ITEM_DESCRIPTION")]
-    public string Notes {
-      get; private set;
-    }
+       
 
     [DataField("PYM_PYB_ITEM_EXT_DATA")]
     private JsonObject ExtData {
       get; set;
     }
 
+
     [DataField("PYM_PYB_ITEM_POSTED_BY_ID")]
     public Contact PostedBy {
       get; private set;
     }
 
+
     [DataField("PYM_PYB_ITEM_POSTING_TIME")]
     public DateTime PostingTime {
       get; private set;
     }
+
 
     [DataField("PYM_PYB_ITEM_STATUS", Default = EntityStatus.Pending)]
     public EntityStatus Status {
@@ -127,16 +142,37 @@ namespace Empiria.Payments.Payables {
 
     #region Methods
 
+
+    protected override void OnBeforeSave() {
+      if (base.IsNew) {
+        this.PostedBy = ExecutionServer.CurrentContact;
+        this.PostingTime = DateTime.Now;
+      }
+    }
+
+    protected override void OnSave() {
+      PayableData.WritePayableItem(this, this.ExtData.ToString());
+    }
+
     internal void Delete() {
       throw new NotImplementedException();
     }
 
-    internal void Update(PayableItemFields fields) {
+
+    internal void Update(Payable payable, PayableItemFields fields) {
       Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
+      //this.Product = Product..Parse(fields.ProductUID); 
+      //this.Unit = ProductUnit.Parse(fields.UnitUID);
 
-      throw new NotImplementedException();
+      this.Payable = payable;
+      this.Description = fields.Description;
+      this.Quantity = fields.Quantity;
+      this.Currency = Currency.Parse(fields.CurrencyUID);
+      this.ExchangeRate = fields.ExchangeRate;
+      this.UnitPrice = fields.UnitPrice;
+      this.BudgetAccount = BudgetAccount.Parse(fields.BudgetAccountUID);
     }
 
     #endregion Methods
