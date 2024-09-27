@@ -63,37 +63,37 @@ namespace Empiria.Payments.Payables {
       }
     }
 
-
+    [DataField("PYM_PYB_NO")]
     public string payableNo {
       get; private set;
-    } = "No definido";
+    } 
 
 
-    [DataField("PYM_PAYABLE_NOTES")]
+    [DataField("PYM_PYB_DESCRIPTION")]
     public string Description {
       get; private set;
     }
 
 
-    [DataField("PYM_PAYABLE_ORG_UNIT_ID")]
+    [DataField("PYM_PYB_ORG_UNIT_ID")]
     public OrganizationalUnit OrganizationalUnit {
       get; private set;
     }
 
 
-    [DataField("PYM_PAYABLE_PAY_TO_ID")]
+    [DataField("PYM_PYB_PAY_TO_ID")]
     public Party PayTo {
       get; private set;
     }
 
-
-    [DataField("PYM_PAYABLE_BUDGET_TYPE_ID")]
+      
+    [DataField("PYM_PYB_BUDGET_TYPE_ID")]
     public BudgetType BudgetType {
       get; private set;
     }
 
 
-    [DataField("PYM_PAYABLE_CURRENCY_ID")]
+    [DataField("PYM_PYB_CURRENCY_ID")]
     public Currency Currency {
       get; private set;
     }
@@ -106,13 +106,13 @@ namespace Empiria.Payments.Payables {
     }
 
 
-    [DataField("PYM_PAYABLE_DUETIME")]
+    [DataField("PYM_PYB_DUETIME")]
     public DateTime DueTime {
       get; private set;
     } = ExecutionServer.DateMaxValue;
     
 
-    [DataField("PYM_PAYABLE_EXT_DATA")]
+    [DataField("PYM_PYB_EXT_DATA")]
     protected JsonObject ExtData {
       get; set;
     } = JsonObject.Empty;
@@ -120,29 +120,30 @@ namespace Empiria.Payments.Payables {
 
     public string Keywords {
       get {
-        return EmpiriaString.BuildKeywords(this.PayTo.Name, this.PayableType.Name);
+        return EmpiriaString.BuildKeywords(this.payableNo, this.PayTo.Name, this.PayableType.Name);
       }
     }
 
 
+    [DataField("PYM_PYB_REQUESTED_TIME")]
     public DateTime RequestedTime {
       get; private set;
-    } = DateTime.Now;
+    } 
 
 
-    [DataField("PYM_PAYABLE_POSTED_BY_ID")]
+    [DataField("PYM_PYB_POSTED_BY_ID")]
     public Contact PostedBy {
       get; private set;
     }
 
 
-    [DataField("PYM_PAYABLE_POSTING_TIME")]
+    [DataField("PYM_PYB_POSTING_TIME")]
     public DateTime PostingTime {
       get; private set;
     }
 
 
-    [DataField("PYM_PAYABLE_STATUS", Default = PayableStatus.Capture)]
+    [DataField("PYM_PYB_STATUS", Default = PayableStatus.Capture)]
     public PayableStatus Status {
       get; private set;
     } = PayableStatus.Capture;
@@ -169,8 +170,7 @@ namespace Empiria.Payments.Payables {
                  $"No se puede eliminar una obligación de pago que está en estado {this.Status.GetName()}.");
 
       this.Status = PayableStatus.Deleted;
-      }
-
+    }
 
 
     internal void Update(PayableFields fields) {

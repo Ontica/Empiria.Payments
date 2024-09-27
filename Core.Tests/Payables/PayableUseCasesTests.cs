@@ -102,7 +102,7 @@ namespace Empiria.Tests.Payments.Payables {
     [Fact]
     public void Should_Get_PayableItems() {
 
-      var sut = _usecases.GetPayableItems("5b428865-0ba3-4113-afe8-4061db5b7c2e");
+      var sut = _usecases.GetPayableItems("713b2755-aee1-44af-9f3c-1f46caebca1c");
 
       Assert.NotNull(sut);
     }
@@ -120,9 +120,9 @@ namespace Empiria.Tests.Payments.Payables {
     [Fact]
     public void Should_Search_Payables() {
       var query = new PayablesQuery {
-        Keywords = "oracle",
+        Keywords = "00005",
         FromDate = new DateTime(2024, 01, 01),
-        ToDate = new DateTime(2024, 01, 01)
+        ToDate = new DateTime(2028, 01, 01)
       };
 
       var sut = _usecases.SearchPayables(query);
@@ -135,7 +135,7 @@ namespace Empiria.Tests.Payments.Payables {
     public void Should_Update_Payable() {
       var fields = new PayableFields {
         PayableTypeUID = "ObjectTypeInfo.Payable.Bill",
-        Description = "Sin notas",
+        Description = "Actualziado desde las pruebas",
         OrganizationalUnitUID = "d4b9aae9-cc6e-4fbc-9589-639dec5dab9f",
         PayToUID = "c6278424-d1ff-492f-b5fe-410b4258292c",
         CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
@@ -143,7 +143,7 @@ namespace Empiria.Tests.Payments.Payables {
         DueTime = DateTime.Today,
       };
 
-      var payableUID = "5b428865-0ba3-4113-afe8-4061db5b7c2e";
+      var payableUID = "4b0d2fa1-5ce9-453d-ba52-bab230314fc2";
      
       var sut = _usecases.UpdatePayable(payableUID, fields);
 
@@ -156,7 +156,7 @@ namespace Empiria.Tests.Payments.Payables {
       var fields = new PayableItemFields {
         ProductUID = "",
         UnitUID = "",
-        Description = "Christian Updated",
+        Description = "Actualizando Items desde las pruebas",
         Quantity = 3m,
         UnitPrice = 10,
         CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
