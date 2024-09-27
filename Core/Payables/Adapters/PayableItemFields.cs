@@ -65,15 +65,15 @@ namespace Empiria.Payments.Payables.Adapters {
     #region Methods
 
     internal void EnsureValid() {
-   //   Assertion.Require(Description, "Necesito la descripción.");
+      Assertion.Require(Description, "Necesito la descripción.");
       Assertion.Require(Quantity, "Necesito la cantidad.");
       Assertion.Require(UnitPrice, "Necesito el precio unitario.");
 
-     // Assertion.Require(CurrencyUID, "Necesito la moneda.");
-    //  _ = Currency.Parse(CurrencyUID);
+      Assertion.Require(CurrencyUID, "Necesito la moneda.");
+      _ = Currency.Parse(CurrencyUID);
 
-      //Assertion.Require(BudgetAccountUID, "Necesito se proporcione el número de cuenta del presupuesto.");
-      //_ = BudgetAccount.Parse(BudgetAccountUID);
+      Assertion.Require(BudgetAccountUID, "Necesito se proporcione el número de cuenta del presupuesto.");
+      _ = BudgetAccount.Parse(BudgetAccountUID);
     }
 
     #endregion Methods

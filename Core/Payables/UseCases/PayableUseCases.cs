@@ -130,8 +130,20 @@ namespace Empiria.Payments.Payables.UseCases {
       return PayableItemMapper.Map(payableItem);
     }
 
+    
+    public void DeletePayableItem(string payableUID, string payableItemUID) {
+      Assertion.Require(payableUID, nameof(payableUID));
+      Assertion.Require(payableItemUID, nameof(payableItemUID));
+
+      Payable payable = Payable.Parse(payableUID);
+           
+      payable.DeleteItem(payableItemUID);
+    }
+
+
     public PayableItemDto UpdatePayableItem(string payableUID, string payableItemUID, PayableItemFields fields) {
       Assertion.Require(payableUID, nameof(payableUID));
+      Assertion.Require(payableItemUID, nameof(payableItemUID));
       Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
@@ -146,7 +158,7 @@ namespace Empiria.Payments.Payables.UseCases {
       return PayableItemMapper.Map(payableItem);
     }
 
-
+    
     #endregion Use cases
 
   }  // class PayableUseCases

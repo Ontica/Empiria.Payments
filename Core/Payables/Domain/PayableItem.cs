@@ -57,7 +57,8 @@ namespace Empiria.Payments.Payables {
     #endregion Constructors and parsers
 
     #region Properties
-        
+    
+    [DataField("PYM_PYB_ID")]
     public Payable Payable {
       get; private set;
     }
@@ -66,6 +67,7 @@ namespace Empiria.Payments.Payables {
     public Product Product {
       get; private set;
     }
+
 
     public ProductUnit Unit {
       get; private set;
@@ -155,7 +157,7 @@ namespace Empiria.Payments.Payables {
     }
 
     internal void Delete() {
-      throw new NotImplementedException();
+      this.Status = EntityStatus.Deleted;
     }
 
 

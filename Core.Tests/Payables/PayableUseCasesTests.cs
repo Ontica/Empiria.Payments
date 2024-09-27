@@ -84,6 +84,13 @@ namespace Empiria.Tests.Payments.Payables {
 
 
     [Fact]
+    public void Should_Delete_PayableItem() {
+
+      _usecases.DeletePayableItem("713b2755-aee1-44af-9f3c-1f46caebca1c", "456e7c4d-a5b3-4f8a-bd8b-ad1d05d11240");
+    }
+
+
+    [Fact]
     public void Should_Get_Payable() {
 
       var sut = _usecases.GetPayable("79cda212-9676-429b-b242-407614eb01db");
@@ -149,7 +156,7 @@ namespace Empiria.Tests.Payments.Payables {
       var fields = new PayableItemFields {
         ProductUID = "",
         UnitUID = "",
-        Description = "Modificado desde las pruebas ",
+        Description = "Christian Updated",
         Quantity = 3m,
         UnitPrice = 10,
         CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",

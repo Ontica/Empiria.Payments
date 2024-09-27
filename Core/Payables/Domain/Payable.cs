@@ -202,8 +202,10 @@ namespace Empiria.Payments.Payables {
 
     public void DeleteItem(string uid) {
       PayableItem item = GetItem(uid);
-
+   
       item.Delete();
+
+      item.Save();
     }
 
 
