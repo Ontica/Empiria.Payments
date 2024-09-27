@@ -8,8 +8,8 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
-using System;
 using Empiria.Data;
+
 
 namespace Empiria.Payments.Payables.Data {
 
@@ -39,7 +39,12 @@ namespace Empiria.Payments.Payables.Data {
       Assertion.Require(payable, nameof(payable));
       Assertion.Require(payableItemUID, nameof(payableItemUID));
 
-      throw new NotImplementedException();
+      var sql = "SELECT* FROM PYM_PAYABLE_ITEMS " +
+                $"WHERE PYM_PYB_ID = {payable.Id} AND PYM_PYB_ITEM_UID = '{payableItemUID}'";
+
+      var dataOperation = DataOperation.Parse(sql);
+
+      return DataReader.GetObject<PayableItem>(dataOperation);
     }
 
 
@@ -48,7 +53,6 @@ namespace Empiria.Payments.Payables.Data {
 
       var sql = $"SELECT * FROM pym_payable_items WHERE PYM_PYB_ID = {payable.Id} AND PYM_PYB_ITEM_STATUS <> 'X' ";
       var dataOperation = DataOperation.Parse(sql);
-
 
       return DataReader.GetFixedList<PayableItem>(dataOperation);
     }
@@ -90,7 +94,7 @@ namespace Empiria.Payments.Payables.Data {
 
     static internal void WritePayableItem(PayableItem o, string extensionData) {
       var op = DataOperation.Parse("write_PYM_Payable_Item",
-                     o.Id, o.UID, o.Payable.Id, 1,1, o.Payable.Description, o.Quantity, o.UnitPrice,
+                     o.Id, o.UID, o.Payable.Id, 1,1, o.Description, o.Quantity, o.UnitPrice,
                      o.Currency.Id,1,o.ExchangeRate,o.BudgetAccount.Id, 1, extensionData,
                      o.PostedBy.Id, o.PostingTime, (char) o.Status);
 

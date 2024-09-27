@@ -128,7 +128,7 @@ namespace Empiria.Tests.Payments.Payables {
     public void Should_Update_Payable() {
       var fields = new PayableFields {
         PayableTypeUID = "ObjectTypeInfo.Payable.Bill",
-        Description = "Modificado desde le test",
+        Description = "Sin notas",
         OrganizationalUnitUID = "d4b9aae9-cc6e-4fbc-9589-639dec5dab9f",
         PayToUID = "c6278424-d1ff-492f-b5fe-410b4258292c",
         CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
@@ -137,7 +137,29 @@ namespace Empiria.Tests.Payments.Payables {
       };
 
       var payableUID = "5b428865-0ba3-4113-afe8-4061db5b7c2e";
-      var sut = _usecases.UpdatePayable(payableUID,fields);
+     
+      var sut = _usecases.UpdatePayable(payableUID, fields);
+
+      Assert.NotNull(sut);
+    }
+
+
+    [Fact]
+    public void Should_Update_PayableItem() {
+      var fields = new PayableItemFields {
+        ProductUID = "",
+        UnitUID = "",
+        Description = "Modificado desde las pruebas ",
+        Quantity = 3m,
+        UnitPrice = 10,
+        CurrencyUID = "358626ea-3c2c-44dd-80b5-18017fe3927e",
+        ExchangeRate = 1m,
+        BudgetAccountUID = "ebc50e45-071d-4da4-8c63-0c54c10cfe0a"
+      };
+
+      var payableUID = "713b2755-aee1-44af-9f3c-1f46caebca1c";
+      var payableItemUID = "0785cf8e-fd06-4e41-ac1b-b2e3b09d12c2";
+      var sut = _usecases.UpdatePayableItem(payableUID,payableItemUID, fields);
 
       Assert.NotNull(sut);
     }

@@ -12,6 +12,7 @@ using Empiria.Services;
 
 using Empiria.Payments.Payables.Adapters;
 using Empiria.Payments.Payables.Data;
+using System;
 
 
 namespace Empiria.Payments.Payables.UseCases {
@@ -114,7 +115,7 @@ namespace Empiria.Payments.Payables.UseCases {
     }
 
 
-    public PayableItemDto AddPayableItem(string payableUID,PayableItemFields fields) {
+    public PayableItemDto AddPayableItem(string payableUID, PayableItemFields fields) {
       Assertion.Require(payableUID, nameof(payableUID));
       Assertion.Require(fields, nameof(fields));
 
@@ -123,6 +124,22 @@ namespace Empiria.Payments.Payables.UseCases {
       Payable payable = Payable.Parse(payableUID);
 
       var payableItem = payable.AddItem(fields);
+
+      payableItem.Save();
+
+      return PayableItemMapper.Map(payableItem);
+    }
+
+    public PayableItemDto UpdatePayableItem(string payableUID, string payableItemUID, PayableItemFields fields) {
+      Assertion.Require(payableUID, nameof(payableUID));
+      Assertion.Require(fields, nameof(fields));
+
+      fields.EnsureValid();
+
+      Payable payable = Payable.Parse(payableUID);
+
+      fields.UID = payableItemUID;
+      var payableItem = payable.UpdateItem(fields);
 
       payableItem.Save();
 

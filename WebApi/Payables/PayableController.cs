@@ -96,7 +96,7 @@ namespace Empiria.Payments.Payables.WebApi {
 
     [HttpPut]
     [Route("v2/payments-management/payables/{payableUID:guid}")]
-    public SingleObjectModel UpdatePaymentOrder([FromUri] string payableUID,
+    public SingleObjectModel UpdatePayable([FromUri] string payableUID,
                                                 [FromBody] PayableFields fields) {
 
       base.RequireResource(payableUID, nameof(payableUID));
@@ -123,6 +123,24 @@ namespace Empiria.Payments.Payables.WebApi {
         PayableItemDto payableItem = usecases.AddPayableItem(payableUID, fields);
 
         return new SingleObjectModel(base.Request, payableItem);
+      }
+    }
+
+    
+    [HttpPut]
+    [Route("v2/payments-management/payables/{payableUID:guid}/items/{payableItemUID: guid}")]
+    public SingleObjectModel UpdatePayableItem([FromUri] string payableUID,
+                                               [FromUri] string payableItemUID,
+                                               [FromBody] PayableItemFields fields) {
+
+      base.RequireResource(payableUID, nameof(payableUID));
+      base.RequireResource(payableItemUID, nameof(payableItemUID));
+
+      using (var usecases = PayableUseCases.UseCaseInteractor()) {
+
+        PayableItemDto payableItem = usecases.UpdatePayableItem(payableUID, payableItemUID, fields);
+
+        return new SingleObjectModel(this.Request, payableItem);
       }
     }
 
