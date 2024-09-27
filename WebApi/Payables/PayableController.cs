@@ -128,7 +128,7 @@ namespace Empiria.Payments.Payables.WebApi {
 
 
     [HttpDelete]
-    [Route("v2/payments-management/payables/{payableUID:guid}/items/{payableItemUID: guid}")]
+    [Route("v2/payments-management/payables/{payableUID:guid}/items/{payableItemUID:guid}")]
     public NoDataModel UpdatePayableItem([FromUri] string payableUID,
                                                [FromUri] string payableItemUID) {
 
@@ -145,7 +145,7 @@ namespace Empiria.Payments.Payables.WebApi {
 
 
     [HttpPut]
-    [Route("v2/payments-management/payables/{payableUID:guid}/items/{payableItemUID: guid}")]
+    [Route("v2/payments-management/payables/{payableUID:guid}/items/{payableItemUID:guid}")]
     public SingleObjectModel UpdatePayableItem([FromUri] string payableUID,
                                                [FromUri] string payableItemUID,
                                                [FromBody] PayableItemFields fields) {
