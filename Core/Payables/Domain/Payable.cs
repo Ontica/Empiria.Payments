@@ -11,6 +11,7 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
+using System.Collections.Generic;
 
 using Empiria.Contacts;
 using Empiria.Json;
@@ -32,6 +33,12 @@ namespace Empiria.Payments.Payables {
   [PartitionedType(typeof(PayableType))]
   internal class Payable : BaseObject {
 
+    #region Fields
+
+    private List<PayableItem> _items = new List<PayableItem>();
+
+    #endregion Fields
+
     #region Constructors and parsers
 
     internal protected Payable(PayableType payableType) : base(payableType) {
@@ -45,6 +52,10 @@ namespace Empiria.Payments.Payables {
     }
 
     static public Payable Empty => ParseEmpty<Payable>();
+
+    protected override void OnLoad() {
+      _items = PayableData.GetPayableItems(this);
+    }
 
     #endregion Constructors and parsers
 
@@ -141,10 +152,6 @@ namespace Empiria.Payments.Payables {
       get; private set;
     } = PayableStatus.Capture;
 
-    public FixedList<PayableItem> Items {
-      get; internal set;
-    }
-
     #endregion Properties
 
     #region Methods
@@ -193,7 +200,7 @@ namespace Empiria.Payments.Payables {
       Assertion.Require(payableItem.Payable.Equals(this),
                        "wrong payableItem.Payable instance");
 
-      // todo agregar a la lista
+      _items.Add(payableItem);
     }
 
 
@@ -209,19 +216,25 @@ namespace Empiria.Payments.Payables {
 
       payableItem.Delete();
 
+      _items.Remove(payableItem);
+
       return payableItem;
     }
 
 
     internal FixedList<PayableItem> GetItems() {
-      return PayableData.GetPayableItems(this);
+      return _items.ToFixedList();
     }
 
 
     internal PayableItem GetItem(string payableItemUID) {
       Assertion.Require(payableItemUID, nameof(payableItemUID));
 
-      return PayableData.GetPayableItem(this, payableItemUID);
+      PayableItem payableItem = _items.Find(x => x.UID == payableItemUID);
+
+      Assertion.Require(payableItem, "PayableItem not found.");
+
+      return payableItem;
     }
 
     #endregion Aggregate root methods

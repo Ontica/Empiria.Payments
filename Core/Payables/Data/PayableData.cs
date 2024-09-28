@@ -8,6 +8,8 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
+using System.Collections.Generic;
+
 using Empiria.Data;
 
 using Empiria.Payments.Contracts;
@@ -30,9 +32,9 @@ namespace Empiria.Payments.Payables.Data {
         sql += $" ORDER BY {sortBy}";
       }
 
-      var dataOperation = DataOperation.Parse(sql);
+      var op = DataOperation.Parse(sql);
 
-      return DataReader.GetFixedList<Payable>(dataOperation);
+      return DataReader.GetFixedList<Payable>(op);
     }
 
 
@@ -41,21 +43,25 @@ namespace Empiria.Payments.Payables.Data {
       Assertion.Require(payableItemUID, nameof(payableItemUID));
 
       var sql = "SELECT* FROM PYM_PAYABLE_ITEMS " +
-                $"WHERE PYM_PYB_ID = {payable.Id} AND PYM_PYB_ITEM_UID = '{payableItemUID}'";
+                $"WHERE PYM_PYB_ID = {payable.Id} AND " +
+                $"PYM_PYB_ITEM_UID = '{payableItemUID}'";
 
-      var dataOperation = DataOperation.Parse(sql);
+      var op = DataOperation.Parse(sql);
 
-      return DataReader.GetObject<PayableItem>(dataOperation);
+      return DataReader.GetObject<PayableItem>(op);
     }
 
 
-    static internal FixedList<PayableItem> GetPayableItems(Payable payable) {
+    static internal List<PayableItem> GetPayableItems(Payable payable) {
       Assertion.Require(payable, nameof(payable));
 
-      var sql = $"SELECT * FROM pym_payable_items WHERE PYM_PYB_ID = {payable.Id} AND PYM_PYB_ITEM_STATUS <> 'X' ";
-      var dataOperation = DataOperation.Parse(sql);
+      var sql = $"SELECT * FROM pym_payable_items " +
+                $"WHERE PYM_PYB_ID = {payable.Id} AND " +
+                $"PYM_PYB_ITEM_STATUS <> 'X'";
 
-      return DataReader.GetFixedList<PayableItem>(dataOperation);
+      var op = DataOperation.Parse(sql);
+
+      return DataReader.GetList<PayableItem>(op);
     }
 
 
