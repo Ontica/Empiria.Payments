@@ -18,61 +18,71 @@ namespace Empiria.Payments.Payables.Adapters {
   /// <summary>Contains fields in order to create or update a PayableItem.</summary>
   public class PayableItemFields {
 
-    #region Properties 
+    #region Properties
 
     public string UID {
-      get; internal set;
-    }
+      get; set;
+    } = string.Empty;
+
+
+    public string PayableUID {
+      get; set;
+    } = string.Empty;
+
 
     public string ProductUID {
-      get; internal set;
-    }
+      get; set;
+    } = string.Empty;
 
 
     public string UnitUID {
-      get; internal set;
-    }
+      get; set;
+    } = string.Empty;
 
 
     public string Description {
-      get; internal set;
-    }
+      get; set;
+    } = string.Empty;
 
 
     public decimal Quantity {
-      get; internal set;
+      get; set;
     }
+
 
     public decimal UnitPrice {
-      get; internal set;
+      get; set;
     }
 
+
     public string CurrencyUID {
-      get; internal set;
-    }
-    
+      get; set;
+    } = string.Empty;
+
+
     public decimal ExchangeRate {
-      get; internal set;
+      get; set;
     } = 1;
-     
-        
+
+
     public string BudgetAccountUID {
-      get; internal set;
-    }
+      get; set;
+    } = string.Empty;
 
     #endregion Properties
 
     #region Methods
 
     internal void EnsureValid() {
+      Assertion.Require(PayableUID, nameof(PayableUID));
       Assertion.Require(Description, "Necesito la descripción.");
-      Assertion.Require(Quantity, "Necesito la cantidad.");
-      Assertion.Require(UnitPrice, "Necesito el precio unitario.");
+      Assertion.Require(Quantity > 0, "Necesito la cantidad.");
+      Assertion.Require(UnitPrice > 0, "Necesito el precio unitario.");
 
       Assertion.Require(CurrencyUID, "Necesito la moneda.");
-      _ = Currency.Parse(CurrencyUID);
+      Assertion.Require(BudgetAccountUID, "Necesito el número de cuenta del presupuesto.");
 
-      Assertion.Require(BudgetAccountUID, "Necesito se proporcione el número de cuenta del presupuesto.");
+      _ = Currency.Parse(CurrencyUID);
       _ = BudgetAccount.Parse(BudgetAccountUID);
     }
 

@@ -188,48 +188,40 @@ namespace Empiria.Payments.Payables {
 
     #region Aggregate root methods
 
-    public PayableItem AddItem(PayableItemFields fields) {
-      Assertion.Require(fields, nameof(fields));
+    internal void AddItem(PayableItem payableItem) {
+      Assertion.Require(payableItem, nameof(payableItem));
+      Assertion.Require(payableItem.Payable.Equals(this),
+                       "wrong payableItem.Payable instance");
 
-      fields.EnsureValid();
+      // todo agregar a la lista
+    }
 
-      var payableItem = new PayableItem(this);
 
-      payableItem.Update(fields);
+    internal PayableItem CreateItem() {
+      return new PayableItem(this);
+    }
+
+
+    internal PayableItem RemoveItem(string payableItemUID) {
+      Assertion.Require(payableItemUID, nameof(payableItemUID));
+
+      PayableItem payableItem = GetItem(payableItemUID);
+
+      payableItem.Delete();
 
       return payableItem;
     }
 
 
-    public void DeleteItem(string uid) {
-      PayableItem item = GetItem(uid);
-
-      item.Delete();
-
-      item.Save();
-    }
-
-
-    public FixedList<PayableItem> GetItems() {
+    internal FixedList<PayableItem> GetItems() {
       return PayableData.GetPayableItems(this);
     }
 
 
-    public PayableItem GetItem(string uid) {
-      return PayableData.GetPayableItem(this, uid);
-    }
+    internal PayableItem GetItem(string payableItemUID) {
+      Assertion.Require(payableItemUID, nameof(payableItemUID));
 
-
-    public PayableItem UpdateItem(PayableItemFields fields) {
-      Assertion.Require(fields, nameof(fields));
-
-      fields.EnsureValid();
-
-      PayableItem item = GetItem(fields.UID);
-
-      item.Update(fields);
-
-      return item;
+      return PayableData.GetPayableItem(this, payableItemUID);
     }
 
     #endregion Aggregate root methods

@@ -86,7 +86,7 @@ namespace Empiria.Tests.Payments.Payables {
     [Fact]
     public void Should_Delete_PayableItem() {
 
-      _usecases.DeletePayableItem("713b2755-aee1-44af-9f3c-1f46caebca1c", "456e7c4d-a5b3-4f8a-bd8b-ad1d05d11240");
+      _usecases.RemovePayableItem("713b2755-aee1-44af-9f3c-1f46caebca1c", "456e7c4d-a5b3-4f8a-bd8b-ad1d05d11240");
     }
 
 

@@ -48,7 +48,7 @@ namespace Empiria.Payments.Payables.WebApi {
 
     #endregion Query web apis
 
-    #region Command web apis
+    #region Payable command web apis
 
     [HttpPost]
     [Route("v2/payments-management/payables")]
@@ -68,8 +68,6 @@ namespace Empiria.Payments.Payables.WebApi {
     [Route("v2/payments-management/payables/{payableUID:guid}")]
     public NoDataModel DeletePayable([FromUri] string payableUID) {
 
-      base.RequireResource(payableUID, nameof(payableUID));
-
       using (var usecases = PayableUseCases.UseCaseInteractor()) {
 
         usecases.DeletePayable(payableUID);
@@ -83,8 +81,6 @@ namespace Empiria.Payments.Payables.WebApi {
     [Route("v2/payments-management/payables/{payableUID:guid}")]
     public SingleObjectModel GetPayable([FromUri] string payableUID) {
 
-      base.RequireResource(payableUID, "payableUID");
-
       using (var usecases = PayableUseCases.UseCaseInteractor()) {
 
         PayableDto payableDto = usecases.GetPayable(payableUID);
@@ -97,9 +93,7 @@ namespace Empiria.Payments.Payables.WebApi {
     [HttpPut]
     [Route("v2/payments-management/payables/{payableUID:guid}")]
     public SingleObjectModel UpdatePayable([FromUri] string payableUID,
-                                                [FromBody] PayableFields fields) {
-
-      base.RequireResource(payableUID, nameof(payableUID));
+                                           [FromBody] PayableFields fields) {
       base.RequireBody(fields);
 
       using (var usecases = PayableUseCases.UseCaseInteractor()) {
@@ -110,13 +104,14 @@ namespace Empiria.Payments.Payables.WebApi {
       }
     }
 
+    #endregion Payable command web apis
+
+    #region Payable items command web apis
 
     [HttpPost]
     [Route("v2/payments-management/payables/{payableUID:guid}/items")]
     public SingleObjectModel AddPayableItem([FromUri] string payableUID,
                                             [FromBody] PayableItemFields fields) {
-
-      base.RequireResource(payableUID, nameof(payableUID));
       base.RequireBody(fields);
 
       using (var usecases = PayableUseCases.UseCaseInteractor()) {
@@ -129,15 +124,12 @@ namespace Empiria.Payments.Payables.WebApi {
 
     [HttpDelete]
     [Route("v2/payments-management/payables/{payableUID:guid}/items/{payableItemUID:guid}")]
-    public NoDataModel UpdatePayableItem([FromUri] string payableUID,
-                                               [FromUri] string payableItemUID) {
-
-      base.RequireResource(payableUID, nameof(payableUID));
-      base.RequireResource(payableItemUID, nameof(payableItemUID));
+    public NoDataModel RemovePayableItem([FromUri] string payableUID,
+                                         [FromUri] string payableItemUID) {
 
       using (var usecases = PayableUseCases.UseCaseInteractor()) {
 
-        usecases.DeletePayableItem(payableUID, payableItemUID);
+        usecases.RemovePayableItem(payableUID, payableItemUID);
 
         return new NoDataModel(this.Request);
       }
@@ -150,8 +142,7 @@ namespace Empiria.Payments.Payables.WebApi {
                                                [FromUri] string payableItemUID,
                                                [FromBody] PayableItemFields fields) {
 
-      base.RequireResource(payableUID, nameof(payableUID));
-      base.RequireResource(payableItemUID, nameof(payableItemUID));
+      base.RequireBody(fields);
 
       using (var usecases = PayableUseCases.UseCaseInteractor()) {
 
@@ -161,7 +152,7 @@ namespace Empiria.Payments.Payables.WebApi {
       }
     }
 
-    #endregion Command web apis
+    #endregion Payable items command web apis
 
   }  // class PayableController
 

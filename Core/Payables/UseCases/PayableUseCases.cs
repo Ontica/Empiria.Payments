@@ -30,7 +30,7 @@ namespace Empiria.Payments.Payables.UseCases {
 
     #endregion Constructors and parsers
 
-    #region Use cases
+    #region Payable use cases
 
     public PayableDto CreatePayable(PayableFields fields) {
       Assertion.Require(fields, nameof(fields));
@@ -71,10 +71,12 @@ namespace Empiria.Payments.Payables.UseCases {
       Assertion.Require(payableUID, nameof(payableUID));
 
       Payable payable = Payable.Parse(payableUID);
+
       FixedList<PayableItem> payableItems = payable.GetItems();
 
       return PayableItemMapper.Map(payableItems);
     }
+
 
     public FixedList<NamedEntityDto> GetPayableTypes() {
 
@@ -114,6 +116,9 @@ namespace Empiria.Payments.Payables.UseCases {
       return PayableMapper.Map(payable);
     }
 
+    #endregion Payable use cases
+
+    #region PayableItem use cases
 
     public PayableItemDto AddPayableItem(string payableUID, PayableItemFields fields) {
       Assertion.Require(payableUID, nameof(payableUID));
@@ -121,9 +126,13 @@ namespace Empiria.Payments.Payables.UseCases {
 
       fields.EnsureValid();
 
-      Payable payable = Payable.Parse(payableUID);
+      var payable = Payable.Parse(payableUID);
 
-      var payableItem = payable.AddItem(fields);
+      PayableItem payableItem = payable.CreateItem();
+
+      payableItem.Update(fields);
+
+      payable.AddItem(payableItem);
 
       payableItem.Save();
 
@@ -131,35 +140,43 @@ namespace Empiria.Payments.Payables.UseCases {
     }
 
 
-    public void DeletePayableItem(string payableUID, string payableItemUID) {
+    public void RemovePayableItem(string payableUID, string payableItemUID) {
       Assertion.Require(payableUID, nameof(payableUID));
       Assertion.Require(payableItemUID, nameof(payableItemUID));
 
       Payable payable = Payable.Parse(payableUID);
 
-      payable.DeleteItem(payableItemUID);
+      PayableItem payableItem = payable.RemoveItem(payableItemUID);
+
+      payableItem.Save();
     }
 
 
-    public PayableItemDto UpdatePayableItem(string payableUID, string payableItemUID, PayableItemFields fields) {
+    public PayableItemDto UpdatePayableItem(string payableUID,
+                                            string payableItemUID,
+                                            PayableItemFields fields) {
+
       Assertion.Require(payableUID, nameof(payableUID));
       Assertion.Require(payableItemUID, nameof(payableItemUID));
       Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
 
+      Assertion.Require(payableUID = fields.PayableUID, "fields.PayableUID field mismatch.");
+      Assertion.Require(payableItemUID = fields.UID, "fields.UID field mismatch.");
+
       Payable payable = Payable.Parse(payableUID);
 
-      fields.UID = payableItemUID;
-      var payableItem = payable.UpdateItem(fields);
+      PayableItem payableItem = payable.GetItem(payableItemUID);
+
+      payableItem.Update(fields);
 
       payableItem.Save();
 
       return PayableItemMapper.Map(payableItem);
     }
 
-
-    #endregion Use cases
+    #endregion PayableItem use cases
 
   }  // class PayableUseCases
 
