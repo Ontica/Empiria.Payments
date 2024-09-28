@@ -22,7 +22,7 @@ namespace Empiria.Payments.Payables.Data {
     #region Methods
 
     static internal FixedList<Payable> GetPayables(string filter, string sortBy) {
-      var sql = "SELECT * FROM PYM_PAYABLES";
+      var sql = "SELECT * FROM VW_PYM_PAYABLES";
 
       if (!string.IsNullOrWhiteSpace(filter)) {
         sql += $" WHERE {filter}";

@@ -167,9 +167,7 @@ namespace Empiria.Payments.Payables.UseCases {
 
       Payable payable = Payable.Parse(payableUID);
 
-      PayableItem payableItem = payable.GetItem(payableItemUID);
-
-      payableItem.Update(fields);
+      PayableItem payableItem = payable.UpdateItem(payableItemUID, fields);
 
       payableItem.Save();
 

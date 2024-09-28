@@ -103,10 +103,9 @@ namespace Empiria.Payments.Payables {
     }
 
 
+    [DataField("PYM_PYB_TOTAL")]
     public decimal Total {
-      get {
-        return 1900m; //GetItems().Sum(x => x.Total);
-      }
+      get; private set;
     }
 
 
@@ -201,6 +200,8 @@ namespace Empiria.Payments.Payables {
                        "wrong payableItem.Payable instance");
 
       _items.Value.Add(payableItem);
+
+      Total += payableItem.Subtotal;
     }
 
 
@@ -224,14 +225,33 @@ namespace Empiria.Payments.Payables {
       return _items.Value.ToFixedList();
     }
 
+
     internal PayableItem RemoveItem(string payableItemUID) {
       Assertion.Require(payableItemUID, nameof(payableItemUID));
 
       PayableItem payableItem = GetItem(payableItemUID);
 
+      _items.Value.Remove(payableItem);
+
       payableItem.Delete();
 
-      _items.Value.Remove(payableItem);
+      Total -= payableItem.Subtotal;
+
+      return payableItem;
+    }
+
+
+    internal PayableItem UpdateItem(string payableItemUID, PayableItemFields fields) {
+      Assertion.Require(payableItemUID, nameof(payableItemUID));
+      Assertion.Require(fields, nameof(fields));
+
+      PayableItem payableItem = GetItem(payableItemUID);
+
+      Total -= payableItem.Subtotal;
+
+      payableItem.Update(fields);
+
+      Total += payableItem.Subtotal;
 
       return payableItem;
     }
