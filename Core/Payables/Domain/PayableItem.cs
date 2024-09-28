@@ -154,6 +154,8 @@ namespace Empiria.Payments.Payables {
 
     protected override void OnSave() {
       PayableData.WritePayableItem(this, this.ExtData.ToString());
+
+      this.Payable.Items = PayableData.GetPayableItems(this.Payable);
     }
 
     internal void Delete() {

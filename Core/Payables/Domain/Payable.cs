@@ -148,6 +148,10 @@ namespace Empiria.Payments.Payables {
       get; private set;
     } = PayableStatus.Capture;
 
+    public FixedList<PayableItem> Items {
+      get; internal set;
+    }
+
     #endregion Properties
 
     #region Methods
