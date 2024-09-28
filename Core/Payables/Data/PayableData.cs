@@ -55,7 +55,7 @@ namespace Empiria.Payments.Payables.Data {
     static internal List<PayableItem> GetPayableItems(Payable payable) {
       Assertion.Require(payable, nameof(payable));
 
-      var sql = $"SELECT * FROM pym_payable_items " +
+      var sql = $"SELECT * FROM PYM_PAYABLE_ITEMS " +
                 $"WHERE PYM_PYB_ID = {payable.Id} AND " +
                 $"PYM_PYB_ITEM_STATUS <> 'X'";
 
@@ -65,13 +65,13 @@ namespace Empiria.Payments.Payables.Data {
     }
 
 
-    static internal decimal GetLastPayableNumber() {
+    static internal int GetLastPayableNumber() {
       string sql = "SELECT MAX(PYM_PYB_Id) " +
-                   "FROM PYM_Payables ";
+                   "FROM PYM_Payables";
 
       var op = DataOperation.Parse(sql);
 
-      return DataReader.GetScalar<decimal>(op);
+      return (int) DataReader.GetScalar<decimal>(op);
     }
 
 

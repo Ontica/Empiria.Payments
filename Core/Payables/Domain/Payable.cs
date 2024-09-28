@@ -35,7 +35,7 @@ namespace Empiria.Payments.Payables {
 
     #region Fields
 
-    private List<PayableItem> _items = new List<PayableItem>();
+    private Lazy<List<PayableItem>> _items = new Lazy<List<PayableItem>>();
 
     #endregion Fields
 
@@ -54,7 +54,7 @@ namespace Empiria.Payments.Payables {
     static public Payable Empty => ParseEmpty<Payable>();
 
     protected override void OnLoad() {
-      _items = PayableData.GetPayableItems(this);
+      _items = new Lazy<List<PayableItem>>(() => PayableData.GetPayableItems(this));
     }
 
     #endregion Constructors and parsers
@@ -200,7 +200,7 @@ namespace Empiria.Payments.Payables {
       Assertion.Require(payableItem.Payable.Equals(this),
                        "wrong payableItem.Payable instance");
 
-      _items.Add(payableItem);
+      _items.Value.Add(payableItem);
     }
 
 
@@ -209,6 +209,21 @@ namespace Empiria.Payments.Payables {
     }
 
 
+    internal PayableItem GetItem(string payableItemUID) {
+      Assertion.Require(payableItemUID, nameof(payableItemUID));
+
+      PayableItem payableItem = _items.Value.Find(x => x.UID == payableItemUID);
+
+      Assertion.Require(payableItem, "PayableItem not found.");
+
+      return payableItem;
+    }
+
+
+    internal FixedList<PayableItem> GetItems() {
+      return _items.Value.ToFixedList();
+    }
+
     internal PayableItem RemoveItem(string payableItemUID) {
       Assertion.Require(payableItemUID, nameof(payableItemUID));
 
@@ -216,23 +231,7 @@ namespace Empiria.Payments.Payables {
 
       payableItem.Delete();
 
-      _items.Remove(payableItem);
-
-      return payableItem;
-    }
-
-
-    internal FixedList<PayableItem> GetItems() {
-      return _items.ToFixedList();
-    }
-
-
-    internal PayableItem GetItem(string payableItemUID) {
-      Assertion.Require(payableItemUID, nameof(payableItemUID));
-
-      PayableItem payableItem = _items.Find(x => x.UID == payableItemUID);
-
-      Assertion.Require(payableItem, "PayableItem not found.");
+      _items.Value.Remove(payableItem);
 
       return payableItem;
     }
@@ -242,7 +241,7 @@ namespace Empiria.Payments.Payables {
     #region Helpers
 
     static public string GeneratePayableNo() {
-      int current = (int) PayableData.GetLastPayableNumber();
+      int current = PayableData.GetLastPayableNumber();
 
       current++;
 
