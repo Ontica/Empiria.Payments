@@ -31,19 +31,17 @@ namespace Empiria.Payments.Payables {
 
     #region Constructors and parsers
 
-    protected PayableItem(PayableType powertype) : base(powertype) {
-      // Required by Empiria Framework for all partitioned types.
-    }
-
     private PayableItem() {
       // Required by Empiria Framework.
     }
 
-    public PayableItem(Payable payable, PayableItemFields fields) {
-      Assertion.Require(payable, nameof(payable));
-      Assertion.Require(fields, nameof(fields));
 
-      Update(payable,fields);
+    internal PayableItem(Payable payable) {
+      Assertion.Require(payable, nameof(payable));
+      Assertion.Require(!payable.IsEmptyInstance,
+                        "payable can not be the empty instance.");
+
+      Payable = payable;
     }
 
     static public PayableItem Parse(int id) => ParseId<PayableItem>(id);
@@ -57,7 +55,7 @@ namespace Empiria.Payments.Payables {
     #endregion Constructors and parsers
 
     #region Properties
-    
+
     [DataField("PYM_PYB_ID")]
     public Payable Payable {
       get; private set;
@@ -115,7 +113,7 @@ namespace Empiria.Payments.Payables {
     public BudgetAccount BudgetAccount {
       get; private set;
     }
-       
+
 
     [DataField("PYM_PYB_ITEM_EXT_DATA")]
     private JsonObject ExtData {
@@ -152,25 +150,25 @@ namespace Empiria.Payments.Payables {
       }
     }
 
+
     protected override void OnSave() {
       PayableData.WritePayableItem(this, this.ExtData.ToString());
-
-      this.Payable.Items = PayableData.GetPayableItems(this.Payable);
     }
+
 
     internal void Delete() {
       this.Status = EntityStatus.Deleted;
     }
 
 
-    internal void Update(Payable payable, PayableItemFields fields) {
+    internal void Update(PayableItemFields fields) {
       Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
-      //this.Product = Product..Parse(fields.ProductUID); 
+
+      //this.Product = Product..Parse(fields.ProductUID);
       //this.Unit = ProductUnit.Parse(fields.UnitUID);
 
-      this.Payable = payable;
       this.Description = fields.Description;
       this.Quantity = fields.Quantity;
       this.Currency = Currency.Parse(fields.CurrencyUID);

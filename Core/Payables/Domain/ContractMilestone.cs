@@ -1,18 +1,15 @@
 ﻿/* Empiria Financial *****************************************************************************************
 *                                                                                                            *
 *  Module   : Payments Management                        Component : Domain Layer                            *
-*  Assembly : Empiria.Payments.Core.dll                  Pattern   : Partitioned type                        *
+*  Assembly : Empiria.Payments.Core.dll                  Pattern   : Information holder                      *
 *  Type     : ContractMilestone                          License   : Please read LICENSE.txt file            *
 *                                                                                                            *
 *  Summary  : Represents a contract milestone that is a payable object.                                      *
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
-using System;
-
 using Empiria.Payments.Contracts;
 
-using Empiria.Payments.Payables.Adapters;
 using Empiria.Payments.Payables.Data;
 
 namespace Empiria.Payments.Payables {
@@ -22,13 +19,16 @@ namespace Empiria.Payments.Payables {
 
     #region Constructors and parsers
 
-    private ContractMilestone(PayableType powertype) : base(powertype) {
-      // Required by Empiria Framework for all partitioned types.
+    internal ContractMilestone(Contract contract) : base(PayableType.ContractMilestone) {
+      Assertion.Require(contract, nameof(contract));
+      Assertion.Require(!contract.IsEmptyInstance,
+                        "contract can not be the empty instance");
+
+      Contract = contract;
     }
 
-    public ContractMilestone(ContractMilestoneFields fields) : base(PayableType.ContractMilestone, fields) {
-
-      Update(fields);
+    private ContractMilestone(PayableType powertype) : base(powertype) {
+      // Required by Empiria Framework for all partitioned types.
     }
 
     static public new ContractMilestone Parse(int id) => ParseId<ContractMilestone>(id);
@@ -54,12 +54,6 @@ namespace Empiria.Payments.Payables {
 
     protected override void OnSave() {
       PayableData.WriteContractMilestone(this, base.ExtData.ToString());
-    }
-
-    internal void Update(ContractMilestoneFields fields) {
-      base.Update(fields);
-
-      this.Contract = Contract.Parse(fields.ContractUID);
     }
 
     #endregion Methods

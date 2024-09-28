@@ -11,7 +11,6 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
-using System.Linq;
 
 using Empiria.Contacts;
 using Empiria.Json;
@@ -35,14 +34,8 @@ namespace Empiria.Payments.Payables {
 
     #region Constructors and parsers
 
-    protected Payable(PayableType powertype) : base(powertype) {
+    internal protected Payable(PayableType payableType) : base(payableType) {
       // Required by Empiria Framework for all partitioned types.
-    }
-
-    internal protected Payable(PayableType payableType, PayableFields fields) : base(payableType) {
-      Assertion.Require(fields, nameof(fields));
-
-      Update(fields);
     }
 
     static public Payable Parse(int id) => ParseId<Payable>(id);
@@ -66,7 +59,7 @@ namespace Empiria.Payments.Payables {
     [DataField("PYM_PYB_NO")]
     public string payableNo {
       get; private set;
-    } 
+    }
 
 
     [DataField("PYM_PYB_DESCRIPTION")]
@@ -86,7 +79,7 @@ namespace Empiria.Payments.Payables {
       get; private set;
     }
 
-      
+
     [DataField("PYM_PYB_BUDGET_TYPE_ID")]
     public BudgetType BudgetType {
       get; private set;
@@ -110,7 +103,7 @@ namespace Empiria.Payments.Payables {
     public DateTime DueTime {
       get; private set;
     } = ExecutionServer.DateMaxValue;
-    
+
 
     [DataField("PYM_PYB_EXT_DATA")]
     protected JsonObject ExtData {
@@ -128,7 +121,7 @@ namespace Empiria.Payments.Payables {
     [DataField("PYM_PYB_REQUESTED_TIME")]
     public DateTime RequestedTime {
       get; private set;
-    } 
+    }
 
 
     [DataField("PYM_PYB_POSTED_BY_ID")]
@@ -200,13 +193,17 @@ namespace Empiria.Payments.Payables {
 
       fields.EnsureValid();
 
-      return new PayableItem(this, fields);
+      var payableItem = new PayableItem(this);
+
+      payableItem.Update(fields);
+
+      return payableItem;
     }
 
 
     public void DeleteItem(string uid) {
       PayableItem item = GetItem(uid);
-   
+
       item.Delete();
 
       item.Save();
@@ -230,7 +227,7 @@ namespace Empiria.Payments.Payables {
 
       PayableItem item = GetItem(fields.UID);
 
-      item.Update(this,fields);
+      item.Update(fields);
 
       return item;
     }
@@ -246,8 +243,6 @@ namespace Empiria.Payments.Payables {
 
       return $"OP-2024-{current:00000}";
     }
-
-   
 
     #endregion Helpers
 

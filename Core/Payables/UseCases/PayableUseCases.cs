@@ -12,8 +12,6 @@ using Empiria.Services;
 
 using Empiria.Payments.Payables.Adapters;
 using Empiria.Payments.Payables.Data;
-using System;
-
 
 namespace Empiria.Payments.Payables.UseCases {
 
@@ -41,7 +39,9 @@ namespace Empiria.Payments.Payables.UseCases {
 
       PayableType payableType = PayableType.Parse(fields.PayableTypeUID);
 
-      var payable = new Payable(payableType, fields);
+      var payable = new Payable(payableType);
+
+      payable.Update(fields);
 
       payable.Save();
 
@@ -130,13 +130,13 @@ namespace Empiria.Payments.Payables.UseCases {
       return PayableItemMapper.Map(payableItem);
     }
 
-    
+
     public void DeletePayableItem(string payableUID, string payableItemUID) {
       Assertion.Require(payableUID, nameof(payableUID));
       Assertion.Require(payableItemUID, nameof(payableItemUID));
 
       Payable payable = Payable.Parse(payableUID);
-           
+
       payable.DeleteItem(payableItemUID);
     }
 
@@ -158,7 +158,7 @@ namespace Empiria.Payments.Payables.UseCases {
       return PayableItemMapper.Map(payableItem);
     }
 
-    
+
     #endregion Use cases
 
   }  // class PayableUseCases
