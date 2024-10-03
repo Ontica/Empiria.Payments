@@ -29,17 +29,17 @@ namespace Empiria.Payments.Contracts.Adapters {
       get; set;
     } = string.Empty;
 
-    
-    public string[] BudgetSegments {
+
+    public string BudgetTypeUID {
       get; set;
-    }
+    } = string.Empty;
 
     
-    public bool HasPendingPayments {
+    public string ManagedByOrgUnitUID {
       get; set;
-    }
+    } = string.Empty;
 
-    
+
     public EntityStatus Status {
       get; set;
     } = EntityStatus.All;

@@ -9,6 +9,8 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
+using Empiria.Budgeting;
+using Empiria.Parties;
 using Empiria.StateEnums;
 
 namespace Empiria.Payments.Contracts.Adapters {
@@ -21,23 +23,31 @@ namespace Empiria.Payments.Contracts.Adapters {
       // no - op
     }
 
-      static internal string MapToFilterString(this ContractQuery query) {
+    static internal string MapToFilterString(this ContractQuery query) {
 
-      string contractStatusFilter = BuildContractStatusFilter(query.Status);
+      string statusFilter = BuildContractStatusFilter(query.Status);
 
       string contractNoFilter = BuildContractNoFilter(query.ContractNo);
 
-      string contractkeywordFilter = BuildkeywordFilter(query.Keywords);
+      string keywordFilter = BuildkeywordFilter(query.Keywords);
 
-      string contractSupplierUIDFilter = BuildSupplierFilter(query.SupplierUID);
+      string supplierUIDFilter = BuildSupplierFilter(query.SupplierUID);
 
-      var filter = new Filter(contractStatusFilter);
+      string budgetTypeUIDFilter = BuildBudgetTypeFilter(query.BudgetTypeUID);
+
+      string managedByOrgUnitFilter = BuildManagedByOrgUnitFilter(query.ManagedByOrgUnitUID);
+
+      var filter = new Filter(statusFilter);
 
       filter.AppendAnd(contractNoFilter);
 
-      filter.AppendAnd(contractkeywordFilter);
+      filter.AppendAnd(keywordFilter);
 
-      filter.AppendAnd(contractSupplierUIDFilter);
+      filter.AppendAnd(supplierUIDFilter);
+
+      filter.AppendAnd(budgetTypeUIDFilter);
+
+      filter.AppendAnd(managedByOrgUnitFilter);
 
       return filter.ToString();
 
@@ -58,6 +68,16 @@ namespace Empiria.Payments.Contracts.Adapters {
 
     #region Helpers
 
+    private static string BuildBudgetTypeFilter(string budgetTypeUID) {
+      if (budgetTypeUID == string.Empty) {
+        return string.Empty;
+      }
+
+      var budgetType = BudgetType.Parse(budgetTypeUID);
+
+      return $"CONTRACT_BUDGET_TYPE_ID = {budgetType.Id}";
+    }
+
     private static string BuildSupplierFilter(string supplierUID) {
       if (supplierUID == string.Empty) {
         return string.Empty;
@@ -68,7 +88,6 @@ namespace Empiria.Payments.Contracts.Adapters {
       return $"CONTRACT_SUPPLIER_ID = '{supplier.Id}'";
     }
 
-
     private static string BuildkeywordFilter(string keywords) {
       if (keywords == string.Empty) {
         return string.Empty;
@@ -76,7 +95,6 @@ namespace Empiria.Payments.Contracts.Adapters {
 
       return SearchExpression.ParseAndLike("CONTRACT_KEYWORDS", keywords);
     }
-
 
     private static string BuildContractNoFilter(string contratNo) {
       if (contratNo == string.Empty) {
@@ -92,6 +110,16 @@ namespace Empiria.Payments.Contracts.Adapters {
       }
 
       return $"CONTRACT_STATUS = '{(char) status}'";
+    }
+
+    private static string BuildManagedByOrgUnitFilter(string managedByOrgUnitUID) {
+      if (managedByOrgUnitUID == string.Empty) {
+        return string.Empty;
+      }
+
+      var managedByOrgUnit = OrganizationalUnit.Parse(managedByOrgUnitUID);
+
+      return $"CONTRACT_MGMT_ORG_UNIT_ID = {managedByOrgUnit.Id}";
     }
 
     #endregion Helpers
