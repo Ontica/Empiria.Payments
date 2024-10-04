@@ -12,7 +12,6 @@ using Xunit;
 
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.UseCases;
-using Empiria.Payments.Contracts;
 
 namespace Empiria.Tests.Payments.Contracts {
 

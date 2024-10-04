@@ -8,6 +8,7 @@
 *                                                                                                            *
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
+using System.Collections.Generic;
 using Empiria.Data;
 
 namespace Empiria.Payments.Contracts.Data {
@@ -15,7 +16,7 @@ namespace Empiria.Payments.Contracts.Data {
   /// <summary>Provides data read and write methods for contract item instances.</summary>
   static public class ContractIemData {
 
-    static internal FixedList<ContractItem> GetContractItems(Contract contract) {
+    static internal List<ContractItem> GetContractItems(Contract contract) {
       Assertion.Require(contract, nameof(contract));
 
       var sql = "SELECT * FROM PYM_CONTRACT_ITEMS " +
@@ -23,7 +24,7 @@ namespace Empiria.Payments.Contracts.Data {
 
       var op = DataOperation.Parse(sql);
 
-      return DataReader.GetFixedList<ContractItem>(op);
+      return DataReader.GetList<ContractItem>(op);
     }
 
     static public void WriteContractItem(ContractItem o, string extensionData) {

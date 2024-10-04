@@ -20,13 +20,21 @@ using Empiria.Payments.Contracts.Data;
 using Empiria.Payments.Orders;
 using Empiria.Financial.Core;
 using Empiria.Budgeting;
+using System.Collections.Generic;
 
 namespace Empiria.Payments.Contracts {
 
   /// <summary>Represents a contract or a service order.</summary>
   public class Contract : BaseObject, INamedEntity {
 
-    #region Constructors and parsers
+    #region Fields
+
+      private Lazy<List<ContractItem>> _items = new Lazy<List<ContractItem>>();
+
+    #endregion Fields
+
+
+  #region Constructors and parsers
 
     public Contract() {
       // Required by Empiria Framework.
@@ -36,7 +44,6 @@ namespace Empiria.Payments.Contracts {
       //Assertion.Require(fields, nameof(fields));
       //Load(fields);
     //}
-
 
     static internal Contract Parse(int contractId) {
       return BaseObject.ParseId<Contract>(contractId);
@@ -49,15 +56,18 @@ namespace Empiria.Payments.Contracts {
 
     static internal Contract Empty => BaseObject.ParseEmpty<Contract>();
 
+    protected override void OnLoad() {
+      _items = new Lazy<List<ContractItem>>(() => ContractIemData.GetContractItems(this));
+    }
 
-    #endregion Constructors and parsers
+        #endregion Constructors and parsers
 
     #region Properties
 
     [DataField("CONTRACT_TYPE_ID")]
     public ContractType ContractType {
       get; private set;
-    } 
+    }
 
 
     [DataField("CONTRACT_NO")]
@@ -255,12 +265,14 @@ namespace Empiria.Payments.Contracts {
     }
 
     internal void AddItem(ContractItem contractItem) {
-      throw new NotImplementedException();
+      Assertion.Require(contractItem, nameof(contractItem));
+      Assertion.Require(contractItem.Contract.Equals(this), "Wrong ContractItem.Contract instance");
+
+      _items.Value.Add(contractItem); 
     }
 
     internal FixedList<ContractItem> GetItems() {
-      return ContractIemData.GetContractItems(this);
-
+      return _items.Value.ToFixedList();
     }
 
     internal ContractItem RemoveItem(string contractItemUID) {
@@ -268,7 +280,8 @@ namespace Empiria.Payments.Contracts {
        
       var contractItem = ContractItem.Parse(contractItemUID);
 
-      // ToDo Remove from contract item list.
+      _items.Value.Remove(contractItem);
+
       contractItem.Delete();
 
       return contractItem;
@@ -279,7 +292,12 @@ namespace Empiria.Payments.Contracts {
 
       var contractItem = ContractItem.Parse(contractItemUID);
 
-      // ToDo Update from contract item list.
+      _items.Value.Remove(contractItem);
+
+      contractItem.Load(fields);
+
+      _items.Value.Add(contractItem);
+
       contractItem.Load(fields);
 
       return contractItem;
