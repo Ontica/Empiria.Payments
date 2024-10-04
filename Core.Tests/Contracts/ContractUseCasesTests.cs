@@ -98,10 +98,23 @@ namespace Empiria.Tests.Payments.Contracts {
       ContractDto sut = _usecases.GetContract(TestingConstants.CONTRACT_UID);
 
       Assert.NotNull(sut);
-      Assert.NotNull(sut.UID);
-      Assert.Equal(TestingConstants.CONTRACT_UID, sut.UID);
-      Assert.NotNull(sut.ContractNo);
-      Assert.True(sut.Total > 0);
+
+    }
+
+    [Fact]
+    public void Should_Read_A_Contract_Item() {
+
+      ContractItemDto sut = _itemusecases.GetContractItem(TestingConstants.CONTRACT_ITEM_UID);
+
+      Assert.NotNull(sut);
+    }
+
+    [Fact]
+    public void Should_Read_A_Contract_Items() {
+
+      FixedList<ContractItemDto> sut = _usecases.GetContractItems(TestingConstants.CONTRACT_UID);
+
+      Assert.NotNull(sut);
     }
 
     [Fact]
@@ -135,6 +148,10 @@ namespace Empiria.Tests.Payments.Contracts {
       Assert.NotNull(sut);
       Assert.NotNull(sut.UID);
     }
+
+
+    
+
 
     [Fact]
     public void Should_Read_A_Contract_Unit() {

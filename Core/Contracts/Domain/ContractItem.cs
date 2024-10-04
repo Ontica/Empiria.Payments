@@ -148,10 +148,10 @@ namespace Empiria.Payments.Contracts {
     }
 
 
-    [DataField("CONTRACT_ITEM_STATUS", Default = EntityStatus.Active)]
+    [DataField("CONTRACT_ITEM_STATUS", Default = EntityStatus.Pending)]
     public EntityStatus Status {
       get; private set;
-    }
+    } = EntityStatus.Pending;
 
     #endregion Properties
 
@@ -191,7 +191,6 @@ namespace Empiria.Payments.Contracts {
       this.BudgetAccount = BudgetAccount.Parse(fields.BudgetAccountUID);
       this.LastUpdatedBy = Contact.Parse(ExecutionServer.CurrentUserId);
       this.PostingTime = DateTime.Now;
-      this.Status = EntityStatus.Active;
 }
 
     #endregion Helpers

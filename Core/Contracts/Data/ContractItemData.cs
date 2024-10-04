@@ -15,6 +15,17 @@ namespace Empiria.Payments.Contracts.Data {
   /// <summary>Provides data read and write methods for contract item instances.</summary>
   static public class ContractIemData {
 
+    static internal FixedList<ContractItem> GetContractItems(Contract contract) {
+      Assertion.Require(contract, nameof(contract));
+
+      var sql = "SELECT * FROM PYM_CONTRACT_ITEMS " +
+                $"WHERE contract_id = {contract.Id} AND contract_item_status <> 'X'";
+
+      var op = DataOperation.Parse(sql);
+
+      return DataReader.GetFixedList<ContractItem>(op);
+    }
+
     static public void WriteContractItem(ContractItem o, string extensionData) {
       var op = DataOperation.Parse("write_PYM_Contract_Item",
                      o.Id, o.UID, o.Contract.Id, o.Product.Id, o.Description,

@@ -12,11 +12,10 @@ using Empiria.Services;
 
 using Empiria.Payments.Contracts.Adapters;
 
-namespace Empiria.Payments.Contracts.UseCases
-{
+namespace Empiria.Payments.Contracts.UseCases {
 
-    /// <summary>Use cases for contract management.</summary>
-    public class ContractItemUseCases : UseCase {
+  /// <summary>Use cases for contract management.</summary>
+  public class ContractItemUseCases : UseCase {
 
     #region Constructors and parsers
 
@@ -38,7 +37,7 @@ namespace Empiria.Payments.Contracts.UseCases
 
       fields.EnsureValid();
 
-      var contract = Contract.Parse(ContractUID);  
+      var contract = Contract.Parse(ContractUID);
 
       var contractItem = new ContractItem(fields);
 
@@ -49,6 +48,14 @@ namespace Empiria.Payments.Contracts.UseCases
       return ContractItemMapper.Map(contractItem);
     }
 
+
+    public ContractItemDto GetContractItem(string contractItemUID) {
+      Assertion.Require(contractItemUID, nameof(contractItemUID));
+
+      var contractItem = ContractItem.Parse(contractItemUID);
+
+      return ContractItemMapper.Map(contractItem);
+    }
 
     public void RemoveContractItem(string ContractUID, string ContractItemUID) {
       Assertion.Require(ContractUID, nameof(ContractUID));
@@ -66,21 +73,12 @@ namespace Empiria.Payments.Contracts.UseCases
       Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
-      
+
       var contract = Contract.Parse(ContractUID);
 
       var contractItem = contract.UpdateItem(ContractItemUID, fields);
 
       contractItem.Save();
-
-      return ContractItemMapper.Map(contractItem);
-    }
-
-
-    public ContractItemDto GetContractItem(string contractItemUID) {
-      Assertion.Require(contractItemUID, nameof(contractItemUID));
-
-      var contractItem = ContractItem.Parse(contractItemUID);
 
       return ContractItemMapper.Map(contractItem);
     }

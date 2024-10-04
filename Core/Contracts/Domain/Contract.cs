@@ -258,6 +258,11 @@ namespace Empiria.Payments.Contracts {
       throw new NotImplementedException();
     }
 
+    internal FixedList<ContractItem> GetItems() {
+      return ContractIemData.GetContractItems(this);
+
+    }
+
     internal ContractItem RemoveItem(string contractItemUID) {
       Assertion.Require("contractItemUID", nameof(contractItemUID));
        
