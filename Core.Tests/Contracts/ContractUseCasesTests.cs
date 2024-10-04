@@ -12,13 +12,14 @@ using Xunit;
 
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.UseCases;
+using Empiria.Payments.Contracts;
 
 namespace Empiria.Tests.Payments.Contracts {
 
   /// <summary>Test cases for retrieving accounts from the accounts chart.</summary>
   public class ContractUseCasesTests {
 
-     #region Use cases initialization
+    #region Use cases initialization
 
     private readonly ContractUseCases _usecases;
     private readonly ContractItemUseCases _itemusecases;
@@ -82,10 +83,9 @@ namespace Empiria.Tests.Payments.Contracts {
         ProjectUID = TestingConstants.CONTRACT_ITEM_PROJECT_UID,
         PaymentPeriodicityUID = TestingConstants.CONTRACT_ITEM_PYM_PER_UID,
         SignDate = DateTime.Now,
-
       };
 
-      ContractItemDto sut = _itemusecases.AddContractItem(fields);
+      ContractItemDto sut = _itemusecases.AddContractItem(TestingConstants.CONTRACT_UID, fields);
 
       Assert.NotNull(sut);
       Assert.NotNull(sut.UID);
@@ -104,6 +104,37 @@ namespace Empiria.Tests.Payments.Contracts {
       Assert.True(sut.Total > 0);
     }
 
+    [Fact]
+    public void Should_Remove_A_Contract_Item() {
+
+      _itemusecases.RemoveContractItem(TestingConstants.CONTRACT_UID, TestingConstants.CONTRACT_ITEM_UID);
+
+    }
+
+
+    [Fact]
+    public void Should_Update_A_Contract_Item() {
+
+      var fields = new ContractItemFields {
+
+        ContractUID = TestingConstants.CONTRACT_UID,
+        ProductUID = TestingConstants.CONTRACT_ITEM_PRODUCT_UID,
+        Description = "Prueba contract item modificar en test",
+        UnitMeasureUID = TestingConstants.CONTRACT_ITEM_UNIT_UID,
+        ToQuantity = 10,
+        FromQuantity = 5,
+        UnitPrice = 20,
+        BudgetAccountUID = TestingConstants.CONTRACT_BUDGET_ACCOUNT_UID,
+        ProjectUID = TestingConstants.CONTRACT_ITEM_PROJECT_UID,
+        PaymentPeriodicityUID = TestingConstants.CONTRACT_ITEM_PYM_PER_UID,
+        SignDate = DateTime.Now,
+      };
+
+      ContractItemDto sut = _itemusecases.UpdateContractItem(TestingConstants.CONTRACT_UID, TestingConstants.CONTRACT_ITEM_UID, fields);
+
+      Assert.NotNull(sut);
+      Assert.NotNull(sut.UID);
+    }
 
     [Fact]
     public void Should_Read_A_Contract_Unit() {
@@ -111,7 +142,6 @@ namespace Empiria.Tests.Payments.Contracts {
       var sut = _usecases.GetContractUnit();
 
       Assert.NotNull(sut);
-
     }
 
 

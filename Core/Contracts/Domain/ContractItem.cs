@@ -68,22 +68,21 @@ namespace Empiria.Payments.Contracts {
     public ContractUnit UnitMeasure {
       get; private set;
     }
-
-    [DataField("CONTRACT_ITEM_FROM_QUANTITY")]
+    
+    //[DataField("CONTRACT_ITEM_FROM_QTY", ConvertFrom = typeof(decimal))]
     public decimal FromQuantity {
       get; private set;
     }
 
-    [DataField("CONTRACT_ITEM_TO_QUANTITY")]
+    //[DataField("CONTRACT_ITEM_TO_QTY")]
     public decimal ToQuantity {
       get; private set;
     }
 
-    [DataField("CONTRACT_ITEM_UNITPRICE")]
+    //[DataField("CONTRACT_ITEM_UNIT_PRICE")]
     public decimal UnitPrice {
       get; private set;
     }
-
 
     [DataField("CONTRACT_ITEM_PROJECT_ID")]
     public Project Project
@@ -180,7 +179,7 @@ namespace Empiria.Payments.Contracts {
 
     #region Helpers
 
-    private void Load(ContractItemFields fields) {
+    internal void Load(ContractItemFields fields) {
       this.Contract = Contract.Parse(fields.ContractUID);
       this.Product = ContractCucop.Parse(fields.ProductUID);
       this.Description = fields.Description;

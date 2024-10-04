@@ -32,19 +32,51 @@ namespace Empiria.Payments.Contracts.UseCases
 
     #region Use cases
 
-    public ContractItemDto AddContractItem(ContractItemFields fields) {
+    public ContractItemDto AddContractItem(string ContractUID, ContractItemFields fields) {
+      Assertion.Require(ContractUID, nameof(ContractUID));
       Assertion.Require(fields, nameof(fields));
 
       fields.EnsureValid();
 
+      var contract = Contract.Parse(ContractUID);  
+
       var contractItem = new ContractItem(fields);
+
+      contract.AddItem(contractItem);
 
       contractItem.Save();
 
       return ContractItemMapper.Map(contractItem);
     }
 
-    
+
+    public void RemoveContractItem(string ContractUID, string ContractItemUID) {
+      Assertion.Require(ContractUID, nameof(ContractUID));
+      Assertion.Require(ContractItemUID, nameof(ContractItemUID));
+
+      var contract = Contract.Parse(ContractUID);
+      var contractItem = contract.RemoveItem(ContractItemUID);
+
+      contractItem.Save();
+    }
+
+    public ContractItemDto UpdateContractItem(string ContractUID, string ContractItemUID, ContractItemFields fields) {
+      Assertion.Require(ContractUID, nameof(ContractUID));
+      Assertion.Require(ContractItemUID, nameof(ContractItemUID));
+      Assertion.Require(fields, nameof(fields));
+
+      fields.EnsureValid();
+      
+      var contract = Contract.Parse(ContractUID);
+
+      var contractItem = contract.UpdateItem(ContractItemUID, fields);
+
+      contractItem.Save();
+
+      return ContractItemMapper.Map(contractItem);
+    }
+
+
     public ContractItemDto GetContractItem(string contractItemUID) {
       Assertion.Require(contractItemUID, nameof(contractItemUID));
 

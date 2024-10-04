@@ -15,40 +15,34 @@ namespace Empiria.Payments.Contracts.Adapters {
   /// <summary>DTO fields structure used for update contracts information.</summary>
   public class ContractFields {
 
-
-    public string ID {
-      get; set;
-    }
-
-
     public string UID {
       get; set;
-    }
+    } = "Empty";
 
 
     public string ContractTypeUID {
       get; set;
-    }
+    } = "Empty";
 
 
     public string ContractNo {
       get; set;
-    }
+    } = "Empty";
 
 
     public string Name {
       get; set;
-    }
+    } = "Empty";
 
 
     public string Description {
       get; set;
-    }
+    } = "Empty";
 
 
     public string  CurrencyUID { 
       get; set;
-    }
+    } = "Empty";
 
 
     public DateTime FromDate {
@@ -68,37 +62,37 @@ namespace Empiria.Payments.Contracts.Adapters {
 
     public string ManagedByOrgUnitUID {
       get; set;
-    }
+    } 
 
 
     public string BudgetTypeUID {
       get; set;
-    }
+    } = "Empty";
 
 
     public string SupplierUID {
       get; set;
-    }
+    } = "Empty";
 
 
     public string ParentUID {
       get; set;
-    }
+    } = "Empty";
 
 
     public string ExtData {
       get; set;
-    }
+    } = "Empty";
 
 
     public string KeyWords {
       get; set;
-    }
+    } = "Empty";
 
 
     public string PostedByUID {
       get; set;
-    }
+    } = "Empty";
 
 
     public string PostingTime {
@@ -108,12 +102,12 @@ namespace Empiria.Payments.Contracts.Adapters {
 
     public string Status {
       get; set;
-    }
+    } = "P";
 
 
     public decimal Total {
       get; set;
-    }
+    } = 0;
 
 
     internal void EnsureValid() {

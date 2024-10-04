@@ -15,7 +15,9 @@ namespace Empiria.Tests.Payments {
   /// <summary>Provides testing constants for Empiria Payments Management System Core module.</summary>
   static public class TestingConstants {
 
-    static internal string CONTRACT_UID = "52c7e000-50b4-403a-934d-b8f6a52f50ed";
+    static internal string CONTRACT_UID = "692c50b6-fe09-4c23-a0ae-613a36a2f819";
+
+    static internal string CONTRACT_ITEM_UID = "f4f24155-3fa6-4faa-803e-62fe7228cf83";
 
     static internal string CONTRACT_ITEM_PRODUCT_UID = "120a4170-203c-4b54-a29a-72474765211e";
 

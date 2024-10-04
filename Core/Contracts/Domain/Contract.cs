@@ -28,20 +28,19 @@ namespace Empiria.Payments.Contracts {
 
     #region Constructors and parsers
 
-    private Contract() {
+    public Contract() {
       // Required by Empiria Framework.
     }
 
-    public Contract(ContractFields fields) {
-      Assertion.Require(fields, nameof(fields));
-
-      Load(fields);
-    }
+    //public Contract() {
+      //Assertion.Require(fields, nameof(fields));
+      //Load(fields);
+    //}
 
 
     static internal Contract Parse(int contractId) {
       return BaseObject.ParseId<Contract>(contractId);
-    }
+    } 
 
 
     static internal Contract Parse(string contractUID) {
@@ -58,7 +57,7 @@ namespace Empiria.Payments.Contracts {
     [DataField("CONTRACT_TYPE_ID")]
     public ContractType ContractType {
       get; private set;
-    }
+    } 
 
 
     [DataField("CONTRACT_NO")]
@@ -240,7 +239,7 @@ namespace Empiria.Payments.Contracts {
 
     #region Helpers
 
-    private void Load(ContractFields fields) {
+    internal void Load(ContractFields fields) {
       this.ContractType = ContractType.Parse(fields.ContractTypeUID);
       this.ContractNo = fields.ContractNo;
       this.Name = fields.Name;
@@ -253,6 +252,32 @@ namespace Empiria.Payments.Contracts {
       this.Supplier = Party.Parse(fields.SupplierUID);
       this.BudgetType = BudgetType.Parse(fields.BudgetTypeUID);
       ExtData = new JsonObject();
+    }
+
+    internal void AddItem(ContractItem contractItem) {
+      throw new NotImplementedException();
+    }
+
+    internal ContractItem RemoveItem(string contractItemUID) {
+      Assertion.Require("contractItemUID", nameof(contractItemUID));
+       
+      var contractItem = ContractItem.Parse(contractItemUID);
+
+      // ToDo Remove from contract item list.
+      contractItem.Delete();
+
+      return contractItem;
+    }
+
+    internal ContractItem UpdateItem(string contractItemUID, ContractItemFields fields) {
+      Assertion.Require("contractItemUID", nameof(contractItemUID));
+
+      var contractItem = ContractItem.Parse(contractItemUID);
+
+      // ToDo Update from contract item list.
+      contractItem.Load(fields);
+
+      return contractItem;
     }
 
     #endregion Helpers

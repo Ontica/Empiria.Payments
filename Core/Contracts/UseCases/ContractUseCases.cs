@@ -9,7 +9,6 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using Empiria.Services;
-
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.Data;
 
@@ -37,7 +36,9 @@ namespace Empiria.Payments.Contracts.UseCases {
 
       fields.EnsureValid();
 
-      var contract = new Contract(fields);
+      var contract = new Contract();
+
+      contract.Load(fields);
 
       contract.SetDates(fields.SignDate, contract.FromDate, fields.ToDate);
 
