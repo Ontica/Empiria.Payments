@@ -12,10 +12,8 @@ using Xunit;
 
 using Empiria.Payments.Payables.UseCases;
 using Empiria.Payments.Payables.Adapters;
-using Empiria.Products;
 
-
-namespace Empiria.Tests.Payments.Payables {
+namespace Empiria.Tests.Payments.Payables.UseCases {
 
   /// <summary>Test cases for payable objects use cases.</summary>
   public class PayableUseCasesTests {
@@ -144,7 +142,7 @@ namespace Empiria.Tests.Payments.Payables {
       };
 
       var payableUID = "4b0d2fa1-5ce9-453d-ba52-bab230314fc2";
-     
+
       var sut = _usecases.UpdatePayable(payableUID, fields);
 
       Assert.NotNull(sut);
@@ -176,4 +174,4 @@ namespace Empiria.Tests.Payments.Payables {
 
   }  //  class PayableUseCasesTests
 
-}  // namespace Empiria.Tests.Payments.Payables
+}  // namespace Empiria.Tests.Payments.Payables.UseCases
