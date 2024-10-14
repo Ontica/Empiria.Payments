@@ -9,18 +9,17 @@
 ************************* Copyright(c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved. **/
 
 using System;
+using System.Collections.Generic;
 
 using Empiria.Contacts;
 using Empiria.Json;
 using Empiria.Parties;
 using Empiria.StateEnums;
-
 using Empiria.Payments.Contracts.Adapters;
 using Empiria.Payments.Contracts.Data;
 using Empiria.Payments.Orders;
 using Empiria.Financial.Core;
 using Empiria.Budgeting;
-using System.Collections.Generic;
 
 namespace Empiria.Payments.Contracts {
 

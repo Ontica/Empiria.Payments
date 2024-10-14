@@ -110,7 +110,6 @@ namespace Empiria.Tests.Payments.Contracts {
 
     [Fact]
     public void Should_Read_A_Contract_Items() {
-
       FixedList<ContractItemDto> sut = _usecases.GetContractItems(TestingConstants.CONTRACT_UID);
 
       Assert.NotNull(sut);
@@ -118,9 +117,7 @@ namespace Empiria.Tests.Payments.Contracts {
 
     [Fact]
     public void Should_Remove_A_Contract_Item() {
-
       _itemusecases.RemoveContractItem(TestingConstants.CONTRACT_UID, TestingConstants.CONTRACT_ITEM_UID);
-
     }
 
 
@@ -149,9 +146,6 @@ namespace Empiria.Tests.Payments.Contracts {
     }
 
 
-    
-
-
     [Fact]
     public void Should_Read_A_Contract_Unit() {
 
@@ -167,7 +161,6 @@ namespace Empiria.Tests.Payments.Contracts {
       var sut = _usecases.GetContractCucop();
 
       Assert.NotNull(sut);
-
     }
 
 
@@ -181,7 +174,6 @@ namespace Empiria.Tests.Payments.Contracts {
       var sut = _usecases.SearchContracts(query);
 
       Assert.NotNull(sut);
-
     }
 
 
